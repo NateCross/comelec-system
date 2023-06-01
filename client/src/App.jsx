@@ -3,7 +3,14 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+import axios from 'axios';
+
+axios.get(
+  `${import.meta.env.VITE_API_URL}/items`
+).then((result) => { console.log(result.data) });
+
 function App() {
+
   const [count, setCount] = useState(0)
 
   return (
