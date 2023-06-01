@@ -31,3 +31,4 @@ The React was bootstrapped with Vite.js.
 - https://www.twilio.com/blog/build-restful-api-php-laravel-sanctum
 - https://github.com/koole/react-sanctum
 - Auth CORS errors: https://stackoverflow.com/questions/61421547/getting-401-unauthorized-for-laravel-sanctum
+- Preventing 401 error on user after login: https://laracasts.com/discuss/channels/vue/authenticating-a-spa-using-laravel-but-getting-401-unauthenticated-user
