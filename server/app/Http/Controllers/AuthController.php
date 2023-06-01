@@ -26,6 +26,8 @@ class AuthController extends Controller
             ],
         ]);
 
+        // var_dump($validatedData);
+
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
