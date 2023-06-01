@@ -29,6 +29,7 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    // Ensure this is true so that CORS works with Sanctum
+    'supports_credentials' => true,
 
 ];

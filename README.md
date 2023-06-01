@@ -25,3 +25,5 @@ The React was bootstrapped with Vite.js.
 # Notes
 
 - https://www.twilio.com/blog/build-restful-api-php-laravel-sanctum
+- https://github.com/koole/react-sanctum
+- Auth CORS errors: https://stackoverflow.com/questions/61421547/getting-401-unauthorized-for-laravel-sanctum
