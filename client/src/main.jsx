@@ -10,14 +10,15 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Register from './pages/Register.jsx';
+import Login from './pages/Login.jsx';
 
 // Allows useSanctum hook inside App
 const sanctumConfig = {
   apiUrl: import.meta.env.VITE_API_URL,
   csrfCookieRoute: 'sanctum/csrf-cookie',
-  signInRoute: "auth/login",
-  signOutRoute: "auth/logout",
-  userObjectRoute: "user",
+  signInRoute: "api/auth/login",
+  signOutRoute: "api/auth/logout",
+  userObjectRoute: "api/user",
 };
 
 // Set default for axios to allow auth support
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
         //   return null;
         // },
       },
+      {
+        path: 'login',
+        element: <Login />
+      }
     ],
   },
 ]);
