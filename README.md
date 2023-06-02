@@ -23,7 +23,7 @@ The client portion is handled with [Vite](https://vitejs.dev/guide/), but it is 
 - Make sure to have a mysql connection. If you are using a virtualhost, run a mysql server
 - `php artisan migrate`
 - `php artisan serve`
-- the database name is "comelec_database"
+- The database name is **"comelec_database"**
 
 ## Mobile
 
@@ -31,8 +31,17 @@ The mobile portion of this application is handled with [Expo](https://docs.expo.
 
 - Download the [Expo](https://play.google.com/store/apps/details?id=host.exp.exponent) app on your phone
 - Run `npm i`
-- Run `npm run android` to develop
-  - Note: You may want to connect your android device first
+- Run `npm run start` or `npm run android` to develop
+  - Note: You may want to connect your android device first. Try with the QR Code, IP address, or directly connecting through USB and doing `npm run android`.
+
+### In case Expo Go doesn't connect
+
+Try connecting through tunnel instead of LAN. **Note: It may be slower to connect, so it is not recommended to use**. [See this StackOverflow question](https://stackoverflow.com/questions/66766591/expo-error-starting-tunnel-failed-to-install-expo-ngrok2-4-3-globally)
+
+- `npm i @expo/ngrok`
+- **Install ngrok for your system. Good luck.**
+- `ngrok http 3000` (Run this is another terminal window)
+- `npx expo start --tunnel`
 
 # Notes
 
