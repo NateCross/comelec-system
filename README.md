@@ -16,10 +16,6 @@ The client portion is handled with [Vite](https://vitejs.dev/guide/), but it is 
 - Copy the `.env.example` file to `.env` and fill in the required entries
 - Run `npm run dev` to develop
 
-### Defining Routes
-
-
-
 ## Server
 
 - Copy and edit the `.env.example` file to `.env`

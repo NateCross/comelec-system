@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Sanctum } from 'react-sanctum';
 import { RouterProvider } from "react-router-dom";
 
+import { API_URL } from './utils';
 import routes from './routes';
 
 // Allows useSanctum hook inside App
@@ -16,7 +17,7 @@ import routes from './routes';
 // removing the api at the beginning since that's all
 // the Laravel server is going to be used for?
 const sanctumConfig = {
-  apiUrl: import.meta.env.VITE_API_URL,
+  apiUrl: API_URL,
   csrfCookieRoute: 'sanctum/csrf-cookie',
   signInRoute: "api/auth/login",
   signOutRoute: "api/auth/logout",
