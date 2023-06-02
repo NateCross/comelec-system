@@ -20,6 +20,7 @@ The React was bootstrapped with Vite.js.
 
 - Copy and edit the `.env.example` file to `.env`
 - Check and update dependencies by running `composer update`
+- Make sure to have a mysql connection. If you are using a virtualhost, run a mysql server
 - `php artisan migrate`
 - `php artisan serve`
 
