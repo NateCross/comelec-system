@@ -23,6 +23,7 @@ The React was bootstrapped with Vite.js.
 - Make sure to have a mysql connection. If you are using a virtualhost, run a mysql server
 - `php artisan migrate`
 - `php artisan serve`
+- the database name is "comelec_database"
 
 # Notes
 
