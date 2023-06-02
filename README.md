@@ -19,6 +19,7 @@ The React was bootstrapped with Vite.js.
 ## Server
 
 - Copy and edit the `.env.example` file to `.env`
+- Check and update dependencies by running `composer update`
 - `php artisan migrate`
 - `php artisan serve`
 
