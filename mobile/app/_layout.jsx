@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import { Stack } from 'expo-router'
 import axios from 'axios'
@@ -38,7 +38,6 @@ export default function _layout(props) {
     <PaperProvider theme={theme}>
       <Sanctum config={sanctumConfig}>
         <Stack />
-        <Text>Hi</Text> 
       </Sanctum>
     </PaperProvider>
   )
