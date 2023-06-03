@@ -10,12 +10,6 @@ import { API_URL } from './utils';
 import routes from './routes';
 
 // Allows useSanctum hook inside App
-// TODO: Find a way to not have to append api to
-// everything since sanctum/csrf-cookie does not
-// have the api route at the beginning
-// Possible fix: just make everything api, therefore
-// removing the api at the beginning since that's all
-// the Laravel server is going to be used for?
 const sanctumConfig = {
   apiUrl: API_URL,
   csrfCookieRoute: 'sanctum/csrf-cookie',

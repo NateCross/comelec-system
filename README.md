@@ -73,6 +73,15 @@ Try connecting through tunnel instead of LAN. **Note: It may be slower to connec
 - [Expo Router](https://expo.github.io/router/docs)
   - Gives mobile the SPA functionality
 
+- [React Hook Form](https://react-hook-form.com/get-started)
+  - Helper library for making forms in React
+  - Mostly used because React Native does not natively support forms
+  - [Making React Native forms](https://react-hook-form.com/get-started#ReactNative)
+
+- [Material Design Icons](https://materialdesignicons.com)
+  - Icon library used by React Native Paper
+  - Reference this when making icon buttons and the like
+
 ## Misc. Notes
 
 - https://www.twilio.com/blog/build-restful-api-php-laravel-sanctum

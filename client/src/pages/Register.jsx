@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { Form } from 'react-router-dom'
 
+import { API_URL } from '../utils';
+
 export default function Register() {
   const [formData, setFormData] = useState({
     email: '',
@@ -16,7 +18,7 @@ export default function Register() {
     // }
     try {
       await axios.post(
-        'http://localhost:8000/api/auth/register',
+        `${API_URL}/auth/register`,
         formData,
       );
     } catch (exception) {
