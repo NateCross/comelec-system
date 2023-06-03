@@ -3,9 +3,13 @@ import { TextInput, Surface, Text, Button } from 'react-native-paper'
 import React from 'react'
 import { Redirect, useRouter, useFocusEffect } from 'expo-router'
 
+import { API_URL } from 'react-native-dotenv'
+
 import { useForm, Controller } from 'react-hook-form'
 import { Checkbox } from 'react-native-paper';
 import { useSanctum } from 'react-sanctum';
+import axios from 'axios'
+import { deviceName } from 'expo-device'
 
 export default function Login() {
   const { control, handleSubmit, formState: { errors } } = useForm({
@@ -20,6 +24,14 @@ export default function Login() {
 
   async function onSubmit(data) {
     try {
+      const { data: token } = await axios.post(
+        `${API_URL}/auth/token`,
+        { ...data, device_name: deviceName },
+      );
+      console.log(token);
+
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}` 
+
       const res = await signIn(
         data.email,
         data.password,
