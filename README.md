@@ -29,6 +29,8 @@ The client portion is handled with [Vite](https://vitejs.dev/guide/), but it is 
 
 The mobile portion of this application is handled with [Expo](https://docs.expo.dev/).
 
+Source files are located in the `app/` folder. [Expo Router](https://expo.github.io/router/docs/features/routing) is a file-based routing system, so its structure must be followed.
+
 - Download the [Expo](https://play.google.com/store/apps/details?id=host.exp.exponent) app on your phone
 - Run `npm i`
 - Run `npm run start` or `npm run android` to develop
@@ -40,19 +42,25 @@ Try connecting through tunnel instead of LAN. **Note: It may be slower to connec
 
 - `npm i @expo/ngrok`
 - **Install ngrok for your system. Good luck.**
-- `ngrok http 3000` (Run this is another terminal window)
+- `ngrok http 3000` (Run this in another terminal window)
 - `npx expo start --tunnel`
 
 # Notes
 
 - [React Router](https://reactrouter.com/en/main/start/tutorial)
-  - Gives this the SPA functionality
+  - Gives client the SPA functionality
   - Lots of features. Nice to play around with. Give it a try
   - **It is recommended to use the new [data router](https://reactrouter.com/en/main/routers/create-browser-router), so this is what has been used for the project**
     - [A good example of implementation](https://github.com/remix-run/react-router/blob/dev/examples/data-router/src/app.tsx)
 
 - [React Native Paper](https://callstack.github.io/react-native-paper/)
   - Component and theming library for mobile
+  - [Theming](https://callstack.github.io/react-native-paper/docs/guides/theming) has already been setup
+    - Change the theming in `app/_layout.jsx`
+    - To make the themes work, either use the `useTheme()` hook or use the components provided by the library
+
+- [Expo Router](https://expo.github.io/router/docs)
+  - Gives mobile the SPA functionality
 
 ## Misc. Notes
 
