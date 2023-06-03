@@ -3,6 +3,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
+import { API_URL } from 'react-native-dotenv';
+
+fetch(`${API_URL}/items`).then((items) => items.json()).then((items) => console.log(items));
+
 export default function App() {
   return (
     <View style={styles.container}>

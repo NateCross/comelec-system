@@ -13,6 +13,15 @@ module.exports = function(api) {
 
     // Added to support expo-router
     // https://expo.github.io/router/docs
-    plugins: [require.resolve("expo-router/babel")],
+    plugins: [
+      require.resolve("expo-router/babel"),
+      [
+        "module:react-native-dotenv",
+        {
+          moduleName: 'react-native-dotenv',
+          verbose: false,
+        },
+      ],
+    ],
   };
 };

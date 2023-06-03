@@ -19,9 +19,9 @@ import routes from './routes';
 const sanctumConfig = {
   apiUrl: API_URL,
   csrfCookieRoute: 'sanctum/csrf-cookie',
-  signInRoute: "api/auth/login",
-  signOutRoute: "api/auth/logout",
-  userObjectRoute: "api/user",
+  signInRoute: "auth/login",
+  signOutRoute: "auth/logout",
+  userObjectRoute: "user",
 };
 
 // Set default for axios to allow auth support

@@ -20,10 +20,20 @@ The client portion is handled with [Vite](https://vitejs.dev/guide/), but it is 
 
 - Copy and edit the `.env.example` file to `.env`
 - Check and update dependencies by running `composer update`
+- `composer install`
+- `php artisan key:generate`
 - Make sure to have a mysql connection. If you are using a virtualhost, run a mysql server
 - `php artisan migrate`
 - `php artisan serve`
 - The database name is **"comelec_database"**
+
+### Serving over LAN
+
+`php artisan serve --host 0.0.0.0`
+
+On Linux, other ports may not be able to be forwarded, so try this instead
+
+`sudo php artisan serve --host 0.0.0.0 --port=80`
 
 ## Mobile
 
@@ -32,7 +42,8 @@ The mobile portion of this application is handled with [Expo](https://docs.expo.
 Source files are located in the `app/` folder. [Expo Router](https://expo.github.io/router/docs/features/routing) is a file-based routing system, so its structure must be followed.
 
 - Download the [Expo](https://play.google.com/store/apps/details?id=host.exp.exponent) app on your phone
-- Run `npm i`
+- Run `npm i -D`
+  - Dev dependencies needed for accessing `.env`
 - Run `npm run start` or `npm run android` to develop
   - Note: You may want to connect your android device first. Try with the QR Code, IP address, or directly connecting through USB and doing `npm run android`.
 
