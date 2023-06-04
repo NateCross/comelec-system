@@ -40,7 +40,6 @@ export default function Login() {
         `${API_URL}/auth/token`,
         { ...data, device_name: deviceName },
       );
-      console.log(token);
 
       const { data: user } = await axios.get(
         `${API_URL}/user`,
