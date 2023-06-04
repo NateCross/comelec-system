@@ -8,6 +8,12 @@ React and React Native interface with Laravel through APIs. The endpoints are to
 
 # Setup
 
+**Important: Client and Server have the best chance of working if they have the same domain.**
+
+**If the server is hosted, i.e. `php artisan serve --host 0.0.0.0`, then the client must be served with the same IP address as well.**
+
+**As such, the entries `SESSION_DOMAIN` and `SANCTUM_STATEFUL_DOMAINS` in `server/.env` must point to the IP address or domain name of the client.**
+
 ## Client
 
 The client portion is handled with [Vite](https://vitejs.dev/guide/), but it is likely not going to be relevant unless something goes terribly wrong.
