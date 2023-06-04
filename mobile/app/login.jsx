@@ -1,7 +1,7 @@
 import { View } from 'react-native'
 import { TextInput, Surface, Text, Button } from 'react-native-paper'
 import React from 'react'
-import { Redirect, useRouter, useFocusEffect } from 'expo-router'
+import { useRouter } from 'expo-router'
 
 import { API_URL } from 'react-native-dotenv'
 
@@ -16,12 +16,24 @@ export default function Login() {
     defaultValues: {
       email: '',
       password: '',
-      remember: true,
+      remember: false,
     }
   });
-  const { signIn } = useSanctum();
+  const { setUser } = useSanctum();
   const router = useRouter();
 
+  /**
+   * Submits login form to the API.
+   * 
+   * The signIn method provided by the useSanctum() hook
+   * does not seem to work on mobile with the server.
+   * As such, we instead manually get the auth token 
+   * first to authenticate the user and use that in an 
+   * authorization header to get the user itself.
+   * 
+   * Then, we redirect back to the home page.
+   * @param {*} data Form data
+   */
   async function onSubmit(data) {
     try {
       const { data: token } = await axios.post(
@@ -30,21 +42,18 @@ export default function Login() {
       );
       console.log(token);
 
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}` 
+      const { data: user } = await axios.get(
+        `${API_URL}/user`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        }
+      )
 
-      const res = await signIn(
-        data.email,
-        data.password,
-        data.remember,
-      );
-      console.log(res);
+      setUser(user, true);
 
       router.replace("/");
-
-      // await axios.post(
-      //   `${API_URL}/auth/login`,
-      //   data,
-      // );
     } catch (exception) {
       console.log(exception);
     }
