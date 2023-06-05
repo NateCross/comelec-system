@@ -29,7 +29,7 @@ export default function Login() {
       console.log(res);
       window.alert("Signed in!");
     } catch (exception) {
-      console.log(exception);
+      console.log(exception.message);
     }
   }
 
