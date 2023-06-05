@@ -50,6 +50,7 @@ Source files are located in the `app/` folder. [Expo Router](https://expo.github
 - Download the [Expo](https://play.google.com/store/apps/details?id=host.exp.exponent) app on your phone
 - Run `npm i -D`
   - Dev dependencies needed for accessing `.env`
+- Copy and edit the `.env.example` file to `.env`
 - Run `npm run start` or `npm run android` to develop
   - Note: You may want to connect your android device first. Try with the QR Code, IP address, or directly connecting through USB and doing `npm run android`.
 
