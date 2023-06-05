@@ -89,6 +89,14 @@ Try connecting through tunnel instead of LAN. **Note: It may be slower to connec
   - Icon library used by React Native Paper
   - Reference this when making icon buttons and the like
 
+- [Simple QRCode](https://www.simplesoftware.io/#/docs/simple-qrcode)
+  - Laravel library for generating QR codes
+  - Used for generating QRs that input access codes
+
+- [Expo Bar Code Scanner](https://docs.expo.dev/versions/latest/sdk/bar-code-scanner/)
+  - React Native library for scanning QR codes, among other scannable codes
+  - Used to read the QRs for access codes
+
 ## Misc. Notes
 
 - https://www.twilio.com/blog/build-restful-api-php-laravel-sanctum

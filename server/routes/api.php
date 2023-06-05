@@ -20,8 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('items', ItemController::class);
-
 Route::controller(AuthController::class)
     ->prefix('auth')
     ->group(function () {
