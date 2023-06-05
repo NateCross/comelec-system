@@ -97,9 +97,27 @@ Try connecting through tunnel instead of LAN. **Note: It may be slower to connec
   - React Native library for scanning QR codes, among other scannable codes
   - Used to read the QRs for access codes
 
+- [Simple Excel](https://github.com/spatie/simple-excel)
+  - Laravel library to handle csv and xlsx files
+
 ## Misc. Notes
 
 - https://www.twilio.com/blog/build-restful-api-php-laravel-sanctum
 - https://github.com/koole/react-sanctum
 - Auth CORS errors: https://stackoverflow.com/questions/61421547/getting-401-unauthorized-for-laravel-sanctum
 - Preventing 401 error on user after login: https://laracasts.com/discuss/channels/vue/authenticating-a-spa-using-laravel-but-getting-401-unauthenticated-user
+- [Creating helpers in Laravel](https://stackoverflow.com/questions/28290332/how-to-create-custom-helper-functions-in-laravel)
+
+# API
+
+Inputs with a question mark at the end of its name ( ? ) are nullable.
+
+Possible inputs or data types are listed in square brackets ( [] ).
+
+## Masterlist
+
+See [Masterlist.php](server/app/Helpers/Masterlist.php)
+
+| Route               | Method | Inputs                             | Description                                                                                                           |
+| ------------------- | ------ | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `masterlist/upload` | POST   | `overwrite?`: [0, 1] `sheet`: File | Upload the masterlist sheet to be used by the system. If overwrite is true, it will overwrite the sheet if it exists. |

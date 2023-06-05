@@ -12,3 +12,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// This file is empty since no web routes are used;
+// views are defined in the folders 'client/' and 'mobile/'

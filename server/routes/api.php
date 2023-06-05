@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MasterlistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +27,10 @@ Route::controller(AuthController::class)
         Route::post('register', 'register')->name('register');
         Route::post('login', 'login')->name('login');
         Route::post('token', 'getToken')->name('token');
+    });
+
+Route::controller(MasterlistController::class)
+    ->prefix('masterlist')
+    ->group(function () {
+        Route::post('upload', 'upload');
     });
