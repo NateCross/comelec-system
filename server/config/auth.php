@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\ComelecUser;
+use App\Models\StudentAccount;
+
 return [
 
     /*
@@ -40,6 +43,16 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'student_account' => [
+            'driver' => 'session',
+            'provider' => 'student_accounts',
+        ],
+
+        'comelec_user' => [
+            'driver' => 'session',
+            'provider' => 'comelec_users',
+        ],
     ],
 
     /*
@@ -63,6 +76,16 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        'student_account' => [
+            'driver' => 'eloquent',
+            'model' => StudentAccount::class,
+        ],
+
+        'comelec_user' => [
+            'driver' => 'eloquent',
+            'model' => ComelecUser::class,
         ],
 
         // 'users' => [
@@ -93,6 +116,18 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'student_account' => [
+            'provider' => 'student_accounts',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'comelec_user' => [
+            'provider' => 'comelec_users',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
