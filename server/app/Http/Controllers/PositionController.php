@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Candidate;
+use App\Models\Position;
 use Illuminate\Http\Request;
 
-class CandidateController extends Controller
+class PositionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Candidate::with('student')->with('position')->with('records')->get();
+        return Position::with('candidates')->get();
     }
 
     /**
@@ -34,7 +34,7 @@ class CandidateController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Candidate $candidate)
+    public function show(Position $position)
     {
         //
     }
@@ -42,7 +42,7 @@ class CandidateController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Candidate $candidate)
+    public function edit(Position $position)
     {
         //
     }
@@ -50,7 +50,7 @@ class CandidateController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Candidate $candidate)
+    public function update(Request $request, Position $position)
     {
         //
     }
@@ -58,7 +58,7 @@ class CandidateController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Candidate $candidate)
+    public function destroy(Position $position)
     {
         //
     }

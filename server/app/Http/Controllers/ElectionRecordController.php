@@ -12,7 +12,7 @@ class ElectionRecordController extends Controller
      */
     public function index()
     {
-        return ElectionRecord::with('students')->get();
+        return ElectionRecord::with('students')->with('candidates')->get();
     }
 
     /**

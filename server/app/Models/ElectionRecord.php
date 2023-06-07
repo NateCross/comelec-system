@@ -27,4 +27,13 @@ class ElectionRecord extends Model
             'student_id',
         );
     }
+
+    public function candidates() {
+        return $this->belongsToMany(
+            Candidate::class,
+            'record_candidates',
+            'election_id',
+            'candidate_id',
+        );
+    }
 }

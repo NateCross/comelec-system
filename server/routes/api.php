@@ -3,8 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
+use App\Http\Controllers\PositionController;
+use App\Models\Candidate;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +39,7 @@ Route::controller(MasterlistController::class)
     });
 
 Route::resource('record', ElectionRecordController::class);
+
+Route::resource('candidate', CandidateController::class);
+
+Route::resource('position', PositionController::class);
