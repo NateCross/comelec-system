@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('students', function (Blueprint $table) {
-            $table->string('student_id', 20)->primary();
-            $table->string('full_name', 70);
-            $table->string('college', 50);
-            $table->boolean('is_enrolled')->default(false);
+        Schema::create('positions', function (Blueprint $table) {
+            $table->id();
+            $table->string('position_name', 50);
+            $table->string('description', 255)->nullable();
+            $table->boolean('is_for_all');
+            $table->string('college', 50)->nullable();
+            $table->unsignedInteger('num_of_elects');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('student');
+        Schema::dropIfExists('positions');
     }
 };

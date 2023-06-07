@@ -15,4 +15,13 @@ class Student extends Model
         'college',
         'is_enrolled',
     ];
+
+    public function election_records() {
+        return $this->belongsToMany(
+            ElectionRecord::class,
+            'record_students',
+            'student_id',
+            'election_id',
+        );
+    }
 }

@@ -16,4 +16,15 @@ class ElectionRecord extends Model
         'start_time',
         'end_time',
     ];
+
+    public function students() {
+        return $this->belongsToMany(
+            Student::class,
+            'record_students',
+            'election_id',
+            'student_id',
+            null,
+            'student_id',
+        );
+    }
 }

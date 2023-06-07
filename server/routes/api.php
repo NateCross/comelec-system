@@ -2,8 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ItemController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
 
 /*
@@ -34,3 +34,5 @@ Route::controller(MasterlistController::class)
     ->group(function () {
         Route::post('upload', 'upload');
     });
+
+Route::resource('record', ElectionRecordController::class);

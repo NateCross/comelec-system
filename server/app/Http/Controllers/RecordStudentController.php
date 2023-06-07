@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ElectionRecord;
+use App\Models\RecordStudent;
 use Illuminate\Http\Request;
 
-class ElectionRecordController extends Controller
+class RecordStudentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return ElectionRecord::with('students')->get();
+        //
     }
 
     /**
@@ -34,7 +34,7 @@ class ElectionRecordController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ElectionRecord $electionRecord)
+    public function show(RecordStudent $recordStudent)
     {
         //
     }
@@ -42,7 +42,7 @@ class ElectionRecordController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ElectionRecord $electionRecord)
+    public function edit(RecordStudent $recordStudent)
     {
         //
     }
@@ -50,7 +50,7 @@ class ElectionRecordController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ElectionRecord $electionRecord)
+    public function update(Request $request, RecordStudent $recordStudent)
     {
         //
     }
@@ -58,7 +58,7 @@ class ElectionRecordController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ElectionRecord $electionRecord)
+    public function destroy(RecordStudent $recordStudent)
     {
         //
     }
