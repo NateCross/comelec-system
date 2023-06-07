@@ -7,7 +7,6 @@ use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
 use App\Http\Controllers\PositionController;
-use App\Models\Candidate;
 
 /*
 |--------------------------------------------------------------------------

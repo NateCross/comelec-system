@@ -5,7 +5,6 @@ namespace App\Helpers;
 use App\Models\Student;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
 class Masterlist {
@@ -51,9 +50,6 @@ class Masterlist {
 
   public static function getMasterlist() {
     try {
-      // $sheet = Storage::get(
-      //   self::getMasterlistPath()
-      // );
       $sheet = SimpleExcelReader::create(
         public_path()
         . "/../"
