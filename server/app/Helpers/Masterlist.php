@@ -6,13 +6,14 @@ use App\Models\Student;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Spatie\SimpleExcel\SimpleExcelReader;
 
 class Masterlist {
 
   // Change these variables to modify
   // the location and filename of list
-  private $FILENAME = "Masterlist.csv";
-  private $FILEPATH = "";
+  private static $FILENAME = "Masterlist.csv";
+  private static $FILEPATH = "";
 
   public static function getMasterlistPath() {
     return self::$FILEPATH . self::$FILENAME;
@@ -50,11 +51,16 @@ class Masterlist {
 
   public static function getMasterlist() {
     try {
-      $sheet = Storage::get(
-        self::getMasterlistPath()
-      );
+      // $sheet = Storage::get(
+      //   self::getMasterlistPath()
+      // );
+      $sheet = SimpleExcelReader::create(
+        public_path()
+        . "/../"
+        . "/storage/app/"
+        . self::getMasterlistPath()
+      )->getRows();
       return $sheet;
-
     } catch (\Exception $e) {
       echo $e->getMessage();
       return null;
@@ -64,8 +70,22 @@ class Masterlist {
   public static function replaceStudentDataFromMasterlist(
     Student $student,
   ): Student {
-
-
-    return $student;
+    try {
+      if (!$sheet = self::getMasterlist()) return null;
+      if ($row = $sheet->where(
+        'student_id', 
+        $student->student_id
+      )->first()) {
+        $student->full_name = $row['full_name'];
+        $student->college = $row['college'];
+        $student->is_enrolled = true;
+      } else {
+        $student->is_enrolled = false;
+      }
+    } catch (\Exception $e) {
+      echo $e->getMessage();
+    } finally {
+      return $student;
+    }
   }
 }

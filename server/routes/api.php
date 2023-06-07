@@ -36,6 +36,7 @@ Route::controller(MasterlistController::class)
     ->prefix('masterlist')
     ->group(function () {
         Route::post('upload', 'upload');
+        Route::get('test/{student:student_id}', 'testMasterlist');
     });
 
 Route::resource('record', ElectionRecordController::class);

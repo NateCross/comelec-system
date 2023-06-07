@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Masterlist;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class MasterlistController extends Controller
@@ -19,5 +20,12 @@ class MasterlistController extends Controller
             Masterlist::uploadMasterlist(
                 $request->file('sheet', $overwrite)
             );
+    }
+
+    public function testMasterlist(Student $student) {
+        $student = Masterlist::replaceStudentDataFromMasterlist(
+            $student,
+        );
+        $student->save();
     }
 }
