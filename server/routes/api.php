@@ -7,6 +7,7 @@ use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,8 @@ Route::controller(MasterlistController::class)
         Route::post('upload', 'upload');
         Route::get('test/{student:student_id}', 'testMasterlist');
     });
+
+Route::resource('student', StudentController::class);
 
 Route::resource('record', ElectionRecordController::class);
 

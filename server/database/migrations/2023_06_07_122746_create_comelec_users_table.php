@@ -17,6 +17,13 @@ return new class extends Migration
             $table->string('username', 50);
             $table->string('name', 100);
             $table->string('password', 60);
+            $table->enum('role', [
+                'super admin',
+                'admin',
+                'commissioner',
+                'student accounts manager',
+                'poll worker',
+            ]);
             $table->timestamps();
 
             $table->foreign('student_id')

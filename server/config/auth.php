@@ -45,12 +45,12 @@ return [
         ],
 
         'student_account' => [
-            'driver' => 'session',
+            'driver' => 'sanctum',
             'provider' => 'student_accounts',
         ],
 
         'comelec_user' => [
-            'driver' => 'session',
+            'driver' => 'sanctum',
             'provider' => 'comelec_users',
         ],
     ],

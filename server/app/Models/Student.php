@@ -11,6 +11,10 @@ class Student extends Model
 
     protected $primaryKey = 'student_id';
 
+    protected $casts = [
+        'is_enrolled' => 'boolean',
+    ];
+
     protected $fillable = [
         'student_id',
         'full_name',

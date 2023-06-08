@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Masterlist;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,34 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'student_id' => [
+                'max:20',
+                'string',
+                'required',
+            ],
+            'full_name' => [
+                'max:70',
+                'string',
+                'nullable',
+            ],
+            'college' => [
+                'max:50',
+                'string',
+                'nullable',
+            ],
+            'is_enrolled' => [
+                'boolean',
+                'nullable',
+            ],
+        ]);
+
+        $student = Student::create($validated);
+        Masterlist::replaceStudentDataFromMasterlist($student)->save();
+
+        return response()->json([
+            'message' => 'Student successfully created',
+        ]);
     }
 
     /**
