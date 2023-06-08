@@ -45,12 +45,12 @@ return [
         ],
 
         'student_account' => [
-            'driver' => 'sanctum',
+            'driver' => 'session',
             'provider' => 'student_accounts',
         ],
 
         'comelec_user' => [
-            'driver' => 'sanctum',
+            'driver' => 'session',
             'provider' => 'comelec_users',
         ],
     ],
@@ -78,12 +78,12 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        'student_account' => [
+        'student_accounts' => [
             'driver' => 'eloquent',
             'model' => StudentAccount::class,
         ],
 
-        'comelec_user' => [
+        'comelec_users' => [
             'driver' => 'eloquent',
             'model' => ComelecUser::class,
         ],

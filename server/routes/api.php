@@ -7,6 +7,7 @@ use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\StudentAccountController;
 use App\Http\Controllers\StudentController;
 
 /*
@@ -20,7 +21,7 @@ use App\Http\Controllers\StudentController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -40,6 +41,15 @@ Route::controller(MasterlistController::class)
     });
 
 Route::resource('student', StudentController::class);
+
+Route::controller(StudentAccountController::class)
+    ->prefix('auth/student')
+    ->group(function () {
+        Route::post('login', 'login');
+    });
+
+
+Route::resource('auth/student', StudentAccountController::class);
 
 Route::resource('record', ElectionRecordController::class);
 
