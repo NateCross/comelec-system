@@ -52,7 +52,7 @@ class StudentController extends Controller
         ]);
 
         $student = Student::create($validated);
-        Masterlist::replaceStudentDataFromMasterlist($student)->save();
+        Masterlist::replaceStudentDataFromMasterlist($student);
 
         return response()->json([
             'message' => 'Student successfully created',
@@ -64,7 +64,13 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        //
+        try {
+            return $student;
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -80,7 +86,34 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'full_name' => [
+                    'max:70',
+                    'string',
+                    'nullable',
+                ],
+                'college' => [
+                    'max:50',
+                    'string',
+                    'nullable',
+                ],
+                'is_enrolled' => [
+                    'boolean',
+                    'nullable',
+                ],
+            ]);
+
+            $student->updateOrFail($validated);
+
+            return response()->json([
+                'message' => 'Student successfully updated',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -88,6 +121,16 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        //
+        try {
+            $student->delete();
+
+            return response()->json([
+                'message' => 'Student successfully deleted',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

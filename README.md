@@ -121,4 +121,7 @@ See [Masterlist.php](server/app/Helpers/Masterlist.php)
 
 | Route     | Method | Inputs                                                                                                        | Description      |
 | --------- | ------ | ------------------------------------------------------------------------------------------------------------- | ---------------- |
-| `student` | POST   | `student_id`: [string, 20]<br> `full_name`: [string, 70]<br> `college`: [string, 50]<br> `is_enrolled` [0, 1] | Create a Student |
+| `student/{student_id}` | GET | - | Gets a student with that ID number.
+| `student` | POST   | `student_id`: [string, 20]<br> `full_name`: [string, 70]<br> `college`: [string, 50]<br> `is_enrolled` [0, 1] | Create a Student. `full_name` and `college` and overridden by details found in the master list if the `student_id` is present there. This affects the `is_enrolled` attribute. |
+| `student/{student_id}` | PUT \| PATCH | `full_name`: [string, 70]<br> `college`: [string, 50]<br> `is_enrolled` [0, 1] | Update a Student, overrides any master list details
+| `student/{student_id}` | DELETE | - | Deletes a student with that ID number.
