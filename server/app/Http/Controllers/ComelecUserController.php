@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ComelecUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class ComelecUserController extends Controller
@@ -98,6 +99,45 @@ class ComelecUserController extends Controller
     }
 
     public function login(Request $request) {
-        
+        $validated = $request->validate([
+            'username' => [
+                'max:50',
+                'string',
+                'required',
+            ],
+            'password' => [
+                'max:60',
+                'string',
+                'required',
+            ],
+        ]);
+
+        if (!Auth::guard('comelec_user')->attempt($validated)) {
+            return response()->json([
+                'error' => 'Invalid login details',
+            ], 401);
+        }
+
+        $comelecUser = ComelecUser::where(
+            'username',
+            $validated['username'],
+        )->firstOrFail();
+
+        $token = $comelecUser->createToken('ApiToken')
+            ->plainTextToken;
+
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            'user' => $comelecUser,
+        ]);
+    }
+
+    public function logout() {
+        Auth::guard('comelec_user')->logout();
+
+        return response()->json([
+            'message' => 'Successfully logged user out',
+        ]);
     }
 }

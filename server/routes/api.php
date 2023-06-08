@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\ComelecUserController;
 use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
 use App\Http\Controllers\PositionController;
@@ -42,6 +43,8 @@ Route::controller(MasterlistController::class)
 
 Route::resource('student', StudentController::class);
 
+Route::resource('auth/student', StudentAccountController::class);
+
 Route::controller(StudentAccountController::class)
     ->prefix('auth/student')
     ->group(function () {
@@ -49,8 +52,14 @@ Route::controller(StudentAccountController::class)
         Route::post('logout', 'logout');
     });
 
+Route::resource('auth/comelec', ComelecUserController::class);
 
-Route::resource('auth/student', StudentAccountController::class);
+Route::controller(ComelecUserController::class)
+    ->prefix('auth/comelec')
+    ->group(function () {
+        Route::post('login', 'login');
+        Route::post('logout', 'logout');
+    });
 
 Route::resource('record', ElectionRecordController::class);
 
