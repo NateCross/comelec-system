@@ -46,6 +46,7 @@ Route::controller(StudentAccountController::class)
     ->prefix('auth/student')
     ->group(function () {
         Route::post('login', 'login');
+        Route::post('logout', 'logout');
     });
 
 

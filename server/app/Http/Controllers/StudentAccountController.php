@@ -137,4 +137,25 @@ class StudentAccountController extends Controller
             'user' => $studentAccount,
         ]);
     }
+
+    /**
+     * This logout function works by revoking the token
+     * sent by the request. This is in line with the mobile
+     * style of authentication as per the docs. By 
+     * revoking this, we deny access, thereby logging 
+     * the user out.
+     */
+    public function logout() {
+        try {
+            Auth::guard('sanctum')->user()->tokens()->delete();
+
+            return response()->json([
+                'message' => 'Successfully logged user out',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
 }
