@@ -102,6 +102,7 @@ Try connecting through tunnel instead of LAN. **Note: It may be slower to connec
 - Auth CORS errors: <https://stackoverflow.com/questions/61421547/getting-401-unauthorized-for-laravel-sanctum>
 - Preventing 401 error on user after login: <https://laracasts.com/discuss/channels/vue/authenticating-a-spa-using-laravel-but-getting-401-unauthenticated-user>
 - [Creating helpers in Laravel](https://stackoverflow.com/questions/28290332/how-to-create-custom-helper-functions-in-laravel)
+- [Defining additional attributes in a Laravel model](https://stackoverflow.com/questions/50978034/additional-attributes-in-laravel-all-request)
 - Auth for mobile and web will be different. Web is based on SPA style and works just like tutorials. Mobile should use the token and send it to a guard with the `sanctum` provider to login and logout properly. But somehow authentication works just the same either way; this takes some examination to determine what is the correct implementation for this stack.
 
 ## API
