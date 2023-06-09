@@ -7,6 +7,7 @@ use App\Models\RecordStudent;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class RecordStudentController extends Controller
 {
@@ -180,5 +181,53 @@ class RecordStudentController extends Controller
      */
     public function generateAccessCode() {
         return Str::random(6);
+    }
+
+    public function getAccessCodeQr(
+        int $electionId,
+        string $studentId,
+    ) {
+        try {
+            $recordStudent = $this->showByIds(
+                $electionId,
+                $studentId,
+            );
+
+            return QrCode::generate(
+                $recordStudent->access_code,
+            );
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function getAccessCodeQrPost(
+        Request $request
+    ) {
+        try {
+            $validated = $request->validate([
+                'election_id' => [
+                    'integer',
+                    'exists:election_records,id',
+                    'required',
+                ],
+                'student_id' => [
+                    'max:20',
+                    'string',
+                    'exists:students,student_id',
+                    'required',
+                ],
+            ]);
+            return $this->getAccessCodeQr(
+                $validated['election_id'],
+                $validated['student_id'],
+            );
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

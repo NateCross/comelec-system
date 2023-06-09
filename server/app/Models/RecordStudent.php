@@ -32,18 +32,18 @@ class RecordStudent extends Pivot
         'is_invalid' => 'boolean',
     ];
 
-    protected $appends = [
-        'access_code_qr',
-    ];
+    // protected $appends = [
+    //     'access_code_qr',
+    // ];
 
     // public function getAccessCodeQrAttribute() {
         // dd($this->access_code);
         // return QrCode::generate($this->access_code);
     // }
 
-    protected function accessCodeQr(): Attribute {
-        return Attribute::make(
-            get: fn ($value, $attributes) => dd($attributes),
-        );
-    }
+    // protected function accessCodeQr(): Attribute {
+    //     return Attribute::make(
+    //         get: fn ($value, $attributes) => dd($attributes),
+    //     );
+    // }
 }

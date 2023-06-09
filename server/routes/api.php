@@ -72,5 +72,6 @@ Route::controller(RecordStudentController::class)
     ->prefix('vote')
     ->group(function () {
         Route::patch('update', 'updateByIds');
+        Route::post('qr', 'getAccessCodeQrPost');
     });
 Route::resource('vote', RecordStudentController::class);
