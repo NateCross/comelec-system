@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ElectionRecord;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ElectionRecordController extends Controller
 {
@@ -28,7 +29,36 @@ class ElectionRecordController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'status' => [
+                Rule::in(['a', 'c', 'f', 'r']),
+                'required',
+            ],
+            'name' => [
+                'string',
+                'max:100',
+                'required',
+            ],
+            'description' => [
+                'string',
+                'max:255',
+                'nullable',
+            ],
+            'start_time' => [
+                'date',
+                'required',
+            ],
+            'end_time' => [
+                'date',
+                'required',
+            ],
+        ]);
+
+        ElectionRecord::create($validated);
+
+        return response()->json([
+            'message' => 'Election Record successfully created',
+        ]);
     }
 
     /**
@@ -52,7 +82,32 @@ class ElectionRecordController extends Controller
      */
     public function update(Request $request, ElectionRecord $electionRecord)
     {
-        //
+        $validated = $request->validate([
+            'status' => [
+                Rule::in(['a', 'c', 'f', 'r']),
+            ],
+            'name' => [
+                'string',
+                'max:100',
+            ],
+            'description' => [
+                'string',
+                'max:255',
+                'nullable',
+            ],
+            'start_time' => [
+                'date',
+            ],
+            'end_time' => [
+                'date',
+            ],
+        ]);
+
+        $electionRecord->update($validated);
+
+        return response()->json([
+            'message' => 'Election Record successfully updated',
+        ]);
     }
 
     /**

@@ -106,6 +106,8 @@ Try connecting through tunnel instead of LAN. **Note: It may be slower to connec
 
 ## API
 
+**Note: Not finalized yet. Do not refer to this yet. See actual controllers first.**
+
 Inputs with a question mark at the end of its name ( ? ) are nullable.
 
 Possible inputs or data types are listed in square brackets ( [] ).

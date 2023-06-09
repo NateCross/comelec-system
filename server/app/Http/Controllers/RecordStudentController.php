@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ElectionRecord;
 use App\Models\RecordStudent;
+use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class RecordStudentController extends Controller
 {
@@ -28,7 +31,34 @@ class RecordStudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'election_id' => [
+                    'integer',
+                    'exists:election_records,id',
+                    'required',
+                ],
+                'student_id' => [
+                    'max:20',
+                    'string',
+                    'exists:students,student_id',
+                    'required',
+                ],
+            ]);
+
+            $validated['access_code'] = $this->generateAccessCode();
+            $validated['is_invalid'] = false;
+
+            RecordStudent::create($validated);
+
+            return response()->json([
+                'message' => 'Record-Student successfully created',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -36,7 +66,27 @@ class RecordStudentController extends Controller
      */
     public function show(RecordStudent $recordStudent)
     {
-        //
+        return $recordStudent;
+    }
+
+    /**
+     * 
+     */
+    public function showByIds(
+        int $electionId,
+        string $studentId,
+    ): RecordStudent {
+        try {
+            $recordStudent = RecordStudent::where([
+                ['election_id', '=', $electionId],
+                ['student_id', '=', $studentId],
+            ])->firstOrFail();
+            return $recordStudent;
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -52,7 +102,66 @@ class RecordStudentController extends Controller
      */
     public function update(Request $request, RecordStudent $recordStudent)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'vote_code' => [
+                    'integer',
+                ],
+                'vote_timestamp' => [
+                    'date',
+                ],
+                'ac_view_timestamp' => [
+                    'date',
+                ],
+                'is_invalid' => [
+                    'boolean',
+                ],
+            ]);
+
+            $recordStudent->update($validated);
+
+            return response()->json([
+                'message' => 'Record-Student successfully updated',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * Alternate update function that gets the RecordStudent
+     * through the election_id and student_id, instead of
+     * the id itself.
+     */
+    public function updateByIds(Request $request) {
+        try {
+            $validated = $request->validate([
+                'election_id' => [
+                    'integer',
+                    'exists:election_records,id',
+                    'required',
+                ],
+                'student_id' => [
+                    'max:20',
+                    'string',
+                    'exists:students,student_id',
+                    'required',
+                ],
+            ]);
+
+            $recordStudent = $this->showByIds(
+                $validated['election_id'],
+                $validated['student_id'],
+            );
+
+            return $this->update($request, $recordStudent);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -61,5 +170,15 @@ class RecordStudentController extends Controller
     public function destroy(RecordStudent $recordStudent)
     {
         //
+    }
+
+    /**
+     * Helper function.
+     * 
+     * Generates an access code that will be applied to
+     * a particular student for a given election record.
+     */
+    public function generateAccessCode() {
+        return Str::random(6);
     }
 }

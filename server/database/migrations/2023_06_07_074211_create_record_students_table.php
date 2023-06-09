@@ -19,7 +19,7 @@ return new class extends Migration
             $table->dateTime('vote_timestamp')->nullable();
             $table->char('access_code', 6);
             $table->dateTime('ac_view_timestamp')->nullable();
-            $table->boolean('is_invalid');
+            $table->boolean('is_invalid')->default(false);
             $table->timestamps();
 
             $table->foreign('election_id')
