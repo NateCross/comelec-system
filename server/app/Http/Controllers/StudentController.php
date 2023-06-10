@@ -29,34 +29,40 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'student_id' => [
-                'max:20',
-                'string',
-                'required',
-            ],
-            'full_name' => [
-                'max:70',
-                'string',
-                'nullable',
-            ],
-            'college' => [
-                'max:50',
-                'string',
-                'nullable',
-            ],
-            'is_enrolled' => [
-                'boolean',
-                'nullable',
-            ],
-        ]);
+        try {
+            $validated = $request->validate([
+                'student_id' => [
+                    'max:20',
+                    'string',
+                    'required',
+                ],
+                'full_name' => [
+                    'max:70',
+                    'string',
+                    'nullable',
+                ],
+                'college' => [
+                    'max:50',
+                    'string',
+                    'nullable',
+                ],
+                'is_enrolled' => [
+                    'boolean',
+                    'nullable',
+                ],
+            ]);
 
-        $student = Student::create($validated);
-        Masterlist::replaceStudentDataFromMasterlist($student);
+            $student = Student::create($validated);
+            Masterlist::replaceStudentDataFromMasterlist($student);
 
-        return response()->json([
-            'message' => 'Student successfully created',
-        ]);
+            return response()->json([
+                'message' => 'Student successfully created',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**

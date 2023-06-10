@@ -19,7 +19,7 @@ return new class extends Migration
                 ->onUpdate('cascade');
             $table->string('party_name', 50)->nullable();
             $table->string('image_url', 100)->nullable();
-            $table->boolean('is_archived');
+            $table->boolean('is_archived')->default(false);
             $table->timestamps();
 
             $table->foreign('student_id')

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Candidate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CandidateController extends Controller
 {
@@ -28,7 +29,51 @@ class CandidateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'student_id' => [
+                    'max:20',
+                    'string',
+                    'exists:students,student_id',
+                    'required',
+                ],
+                'position_id' => [
+                    'integer',
+                    'exists:positions,id',
+                    'required',
+                ],
+                'party_name' => [
+                    'max:50',
+                    'string',
+                    'nullable',
+                ],
+                'image' => [
+                    'file',
+                    'nullable',
+                ],
+                'is_archived' => [
+                    'boolean',
+                    'nullable',
+                ],
+            ]);
+
+            if (isset($validated['image'])) {
+                $image = $validated['image'];
+                $path = $image->store('public/candidates');
+                $validated['image_url'] = $path;
+                unset($validated['image']);
+            }
+
+            Candidate::create($validated);
+
+            return response()->json([
+                'message' => 'Candidate successfully created',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -36,7 +81,13 @@ class CandidateController extends Controller
      */
     public function show(Candidate $candidate)
     {
-        //
+        try {
+            return $candidate;
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -52,7 +103,44 @@ class CandidateController extends Controller
      */
     public function update(Request $request, Candidate $candidate)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'position_id' => [
+                    'integer',
+                    'exists:positions,id',
+                ],
+                'party_name' => [
+                    'max:50',
+                    'string',
+                ],
+                'image' => [
+                    'file',
+                ],
+                'is_archived' => [
+                    'boolean',
+                ],
+            ]);
+
+            if (isset($validated['image'])) {
+                $image = $validated['image'];
+                if ($originalImagePath = $candidate->image_url) {
+                    Storage::delete($originalImagePath);
+                }
+                $path = $image->store('public/candidates');
+                $validated['image_url'] = $path;
+                unset($validated['image']);
+            }
+
+            $candidate->update($validated);
+
+            return response()->json([
+                'message' => 'Candidate successfully updated',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -60,6 +148,19 @@ class CandidateController extends Controller
      */
     public function destroy(Candidate $candidate)
     {
-        //
+        try {
+            if ($imagePath = $candidate->image_path) {
+                Storage::delete($imagePath);
+            }
+            $candidate->delete();
+
+            return response()->json([
+                'message' => 'Candidate successfully deleted',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

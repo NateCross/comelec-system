@@ -67,7 +67,13 @@ class RecordStudentController extends Controller
      */
     public function show(RecordStudent $recordStudent)
     {
-        return $recordStudent;
+        try {
+            return $recordStudent;
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**

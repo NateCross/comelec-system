@@ -28,7 +28,43 @@ class PositionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'position_name' => [
+                    'max:50',
+                    'string',
+                    'required',
+                ],
+                'description' => [
+                    'max:255',
+                    'string',
+                    'nullable',
+                ],
+                'is_for_all' => [
+                    'boolean',
+                    'nullable',
+                ],
+                'college' => [
+                    'max:50',
+                    'string',
+                    'nullable',
+                ],
+                'num_of_elects' => [
+                    'integer',
+                    'required',
+                ],
+            ]);
+
+            Position::create($validated);
+
+            return response()->json([
+                'message' => 'Position successfully created',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -36,7 +72,13 @@ class PositionController extends Controller
      */
     public function show(Position $position)
     {
-        //
+        try {
+            return $position;
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -52,7 +94,38 @@ class PositionController extends Controller
      */
     public function update(Request $request, Position $position)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'position_name' => [
+                    'max:50',
+                    'string',
+                ],
+                'description' => [
+                    'max:255',
+                    'string',
+                ],
+                'is_for_all' => [
+                    'boolean',
+                ],
+                'college' => [
+                    'max:50',
+                    'string',
+                ],
+                'num_of_elects' => [
+                    'integer',
+                ],
+            ]);
+
+            $position->update($validated);
+
+            return response()->json([
+                'message' => 'Position successfully updated',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -60,6 +133,16 @@ class PositionController extends Controller
      */
     public function destroy(Position $position)
     {
-        //
+        try {
+            $position->delete();
+
+            return response()->json([
+                'message' => 'Position successfully deleted',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

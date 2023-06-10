@@ -45,7 +45,6 @@ Route::controller(MasterlistController::class)
 Route::resource('student', StudentController::class);
 
 Route::resource('auth/student', StudentAccountController::class);
-
 Route::controller(StudentAccountController::class)
     ->prefix('auth/student')
     ->group(function () {
@@ -54,7 +53,6 @@ Route::controller(StudentAccountController::class)
     });
 
 Route::resource('auth/comelec', ComelecUserController::class);
-
 Route::controller(ComelecUserController::class)
     ->prefix('auth/comelec')
     ->group(function () {

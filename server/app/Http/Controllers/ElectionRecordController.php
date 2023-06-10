@@ -29,36 +29,42 @@ class ElectionRecordController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'status' => [
-                Rule::in(['a', 'c', 'f', 'r']),
-                'required',
-            ],
-            'name' => [
-                'string',
-                'max:100',
-                'required',
-            ],
-            'description' => [
-                'string',
-                'max:255',
-                'nullable',
-            ],
-            'start_time' => [
-                'date',
-                'required',
-            ],
-            'end_time' => [
-                'date',
-                'required',
-            ],
-        ]);
+        try {
+            $validated = $request->validate([
+                'status' => [
+                    Rule::in(['a', 'c', 'f', 'r']),
+                    'required',
+                ],
+                'name' => [
+                    'string',
+                    'max:100',
+                    'required',
+                ],
+                'description' => [
+                    'string',
+                    'max:255',
+                    'nullable',
+                ],
+                'start_time' => [
+                    'date',
+                    'required',
+                ],
+                'end_time' => [
+                    'date',
+                    'required',
+                ],
+            ]);
 
-        ElectionRecord::create($validated);
+            ElectionRecord::create($validated);
 
-        return response()->json([
-            'message' => 'Election Record successfully created',
-        ]);
+            return response()->json([
+                'message' => 'Election Record successfully created',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -82,32 +88,38 @@ class ElectionRecordController extends Controller
      */
     public function update(Request $request, ElectionRecord $electionRecord)
     {
-        $validated = $request->validate([
-            'status' => [
-                Rule::in(['a', 'c', 'f', 'r']),
-            ],
-            'name' => [
-                'string',
-                'max:100',
-            ],
-            'description' => [
-                'string',
-                'max:255',
-                'nullable',
-            ],
-            'start_time' => [
-                'date',
-            ],
-            'end_time' => [
-                'date',
-            ],
-        ]);
+        try {
+            $validated = $request->validate([
+                'status' => [
+                    Rule::in(['a', 'c', 'f', 'r']),
+                ],
+                'name' => [
+                    'string',
+                    'max:100',
+                ],
+                'description' => [
+                    'string',
+                    'max:255',
+                    'nullable',
+                ],
+                'start_time' => [
+                    'date',
+                ],
+                'end_time' => [
+                    'date',
+                ],
+            ]);
 
-        $electionRecord->update($validated);
+            $electionRecord->update($validated);
 
-        return response()->json([
-            'message' => 'Election Record successfully updated',
-        ]);
+            return response()->json([
+                'message' => 'Election Record successfully updated',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -115,6 +127,16 @@ class ElectionRecordController extends Controller
      */
     public function destroy(ElectionRecord $electionRecord)
     {
-        //
+        try {
+            $electionRecord->delete();
+
+            return response()->json([
+                'message' => 'Election Record successfully deleted',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

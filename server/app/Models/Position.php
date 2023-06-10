@@ -17,6 +17,10 @@ class Position extends Model
         'num_of_elects',
     ];
 
+    protected $casts = [
+        'is_for_all' => 'boolean',
+    ];
+
     public function candidates() {
         return $this->hasMany(Candidate::class);
     }
