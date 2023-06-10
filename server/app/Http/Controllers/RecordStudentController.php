@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\RecordStudentHelper;
 use App\Models\ElectionRecord;
 use App\Models\RecordStudent;
 use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class RecordStudentController extends Controller
@@ -47,10 +47,10 @@ class RecordStudentController extends Controller
                 ],
             ]);
 
-            $validated['access_code'] = $this->generateAccessCode();
-            $validated['is_invalid'] = false;
-
-            RecordStudent::create($validated);
+            RecordStudentHelper::createRecordStudent(
+                $validated['election_id'],
+                $validated['student_id'],
+            );
 
             return response()->json([
                 'message' => 'Record-Student successfully created',
@@ -189,16 +189,6 @@ class RecordStudentController extends Controller
                 'error' => $e->getMessage(),
             ]);
         }
-    }
-
-    /**
-     * Helper function.
-     * 
-     * Generates an access code that will be applied to
-     * a particular student for a given election record.
-     */
-    public function generateAccessCode() {
-        return Str::random(6);
     }
 
     /**

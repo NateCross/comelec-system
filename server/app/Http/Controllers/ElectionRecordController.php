@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\RecordStudentHelper;
+use App\Models\Candidate;
 use App\Models\ElectionRecord;
+use App\Models\RecordCandidate;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -55,7 +59,26 @@ class ElectionRecordController extends Controller
                 ],
             ]);
 
-            ElectionRecord::create($validated);
+            $electionRecord = ElectionRecord::create($validated);
+            $electionId = $electionRecord->id;
+
+            $students = Student::all();
+            foreach ($students as $student) {
+                RecordStudentHelper::createRecordStudent(
+                    $electionId,
+                    $student->student_id,
+                );
+            }
+
+            $candidates = Candidate::all();
+            $candidates = $candidates->map(fn ($item, $key) => ([
+                'election_id' => $electionId,
+                'candidate_id' => $item->id,
+                'is_elected' => false,
+                'num_of_votes' => 0,
+                'reason' => '',
+            ]))->toArray();
+            RecordCandidate::insert($candidates);
 
             return response()->json([
                 'message' => 'Election Record successfully created',
@@ -72,7 +95,13 @@ class ElectionRecordController extends Controller
      */
     public function show(ElectionRecord $electionRecord)
     {
-        //
+        try {
+            return $electionRecord;
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**

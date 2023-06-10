@@ -166,4 +166,26 @@ class CandidateController extends Controller
             ]);
         }
     }
+
+    public function destroyAll() {
+        try {
+            Candidate::query()->delete();
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function archiveAll() {
+        try {
+            Candidate::query()
+                ->where('is_archived', false)
+                ->update(['is_archived' => true]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
 }
