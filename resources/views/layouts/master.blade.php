@@ -11,7 +11,7 @@
     <title>@yield('title')</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('dist/styles.css') }}">
+    @vite('resources/dist/styles.css')
 
     <!-- Scripts -->
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -23,9 +23,9 @@
   <div class="page">
     <div class="page__header">
 
-      @include('layouts.inc.navbar');
-      @include('components.menus');
-      @include('components.modals');
+      @include('layouts.inc.header');
+      @include('layouts.components.menus');
+      @include('layouts.components.modals');
 
       
     </div>
@@ -36,7 +36,7 @@
     </main>
   </div>
 
-    <script src="{{ asset('assets/js/main.js') }}"></script>
+  @vite('resources/js/main.js')
 </body>
 
 </html>
