@@ -30,40 +30,47 @@ class ComelecUserController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'student_id' => [
-                'max:20',
-                'string',
-                'required',
-            ],
-            'username' => [
-                'max:50',
-                'string',
-                'required',
-            ],
-            'name' => [
-                'max:100',
-                'string',
-                'required',
-            ],
-            'password' => [
-                'max:60',
-                'string',
-                'required',
-            ],
-        ]);
+        try {
+            $validated = $request->validate([
+                'student_id' => [
+                    'max:20',
+                    'string',
+                    'required',
+                    'exists:students,student_id',
+                ],
+                'username' => [
+                    'max:50',
+                    'string',
+                    'required',
+                ],
+                'name' => [
+                    'max:100',
+                    'string',
+                    'required',
+                ],
+                'password' => [
+                    'max:60',
+                    'string',
+                    'required',
+                ],
+            ]);
 
-        $validated['password'] = Hash::make($validated['password']);
+            $validated['password'] = Hash::make($validated['password']);
 
-        $comelecUser = ComelecUser::create($validated);
+            $comelecUser = ComelecUser::create($validated);
 
-        $token = $comelecUser->createToken('ApiToken')
-            ->plainTextToken;
-        
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-        ]);
+            $token = $comelecUser->createToken('ApiToken')
+                ->plainTextToken;
+            
+            return response()->json([
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -71,7 +78,13 @@ class ComelecUserController extends Controller
      */
     public function show(ComelecUser $comelecUser)
     {
-        //
+        try {
+            return $comelecUser;
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -87,7 +100,43 @@ class ComelecUserController extends Controller
      */
     public function update(Request $request, ComelecUser $comelecUser)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'student_id' => [
+                    'max:20',
+                    'string',
+                    'exists:students,student_id',
+                ],
+                'username' => [
+                    'max:50',
+                    'string',
+                ],
+                'name' => [
+                    'max:100',
+                    'string',
+                ],
+                'password' => [
+                    'max:60',
+                    'string',
+                ],
+            ]);
+
+            if (isset($validated['password'])) {
+                $validated['password'] = 
+                    Hash::make($validated['password']);
+            }
+
+            $comelecUser->update($validated);
+
+            // TODO: Regenerate session here
+            return response()->json([
+                'message' => 'Comelec User successfully updated',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -95,49 +144,72 @@ class ComelecUserController extends Controller
      */
     public function destroy(ComelecUser $comelecUser)
     {
-        //
+        try {
+            $comelecUser->delete();
+
+            // Regenerate session here
+            return response()->json([
+                'message' => 'Comelec User successfully deleted',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     public function login(Request $request) {
-        $validated = $request->validate([
-            'username' => [
-                'max:50',
-                'string',
-                'required',
-            ],
-            'password' => [
-                'max:60',
-                'string',
-                'required',
-            ],
-        ]);
+        try {
+            $validated = $request->validate([
+                'username' => [
+                    'max:50',
+                    'string',
+                    'required',
+                ],
+                'password' => [
+                    'max:60',
+                    'string',
+                    'required',
+                ],
+            ]);
 
-        if (!Auth::guard('comelec_user')->attempt($validated)) {
+            if (!Auth::guard('comelec_user')->attempt($validated)) {
+                return response()->json([
+                    'error' => 'Invalid login details',
+                ], 401);
+            }
+
+            $comelecUser = ComelecUser::where(
+                'username',
+                $validated['username'],
+            )->firstOrFail();
+
+            $token = $comelecUser->createToken('ApiToken')
+                ->plainTextToken;
+
             return response()->json([
-                'error' => 'Invalid login details',
-            ], 401);
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'user' => $comelecUser,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
         }
-
-        $comelecUser = ComelecUser::where(
-            'username',
-            $validated['username'],
-        )->firstOrFail();
-
-        $token = $comelecUser->createToken('ApiToken')
-            ->plainTextToken;
-
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-            'user' => $comelecUser,
-        ]);
     }
 
     public function logout() {
-        Auth::guard('comelec_user')->logout();
+        try {
+            Auth::guard('comelec_user')->logout();
 
-        return response()->json([
-            'message' => 'Successfully logged user out',
-        ]);
+            return response()->json([
+                'message' => 'Successfully logged user out',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

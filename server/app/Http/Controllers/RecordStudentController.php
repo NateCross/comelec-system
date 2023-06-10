@@ -77,7 +77,9 @@ class RecordStudentController extends Controller
     }
 
     /**
-     * 
+     * A show function that instead uses the IDs of
+     * the election and student.
+     * Used in conjunction with another request.
      */
     public function showByIds(
         int $electionId,
@@ -176,7 +178,17 @@ class RecordStudentController extends Controller
      */
     public function destroy(RecordStudent $recordStudent)
     {
-        //
+        try {
+            $recordStudent->delete();
+
+            return response()->json([
+                'message' => 'Record-Candidate successfully deleted',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -189,6 +201,10 @@ class RecordStudentController extends Controller
         return Str::random(6);
     }
 
+    /**
+     * Gets the access code of a student through a QR.
+     * One of the required features.
+     */
     public function getAccessCodeQr(
         int $electionId,
         string $studentId,
@@ -209,6 +225,11 @@ class RecordStudentController extends Controller
         }
     }
 
+    /**
+     * A way to access the code through a request, such that
+     * the election and student IDs are in the body and
+     * not in the URL parameters.
+     */
     public function getAccessCodeQrPost(
         Request $request
     ) {

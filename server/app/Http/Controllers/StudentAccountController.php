@@ -6,6 +6,7 @@ use App\Models\StudentAccount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class StudentAccountController extends Controller
 {
@@ -30,45 +31,52 @@ class StudentAccountController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'student_id' => [
-                'max:20',
-                'string',
-                'required',
-            ],
-            'full_name' => [
-                'max:70',
-                'string',
-                'required',
-            ],
-            'email' => [
-                'max:100',
-                'string',
-                'email',
-                'required',
-            ],
-            'password' => [
-                'max:60',
-                'string',
-                'required',
-            ],
-            'status' => [
-                'max:1',
-                'required',
-            ],
-        ]);
+        try {
+            $validated = $request->validate([
+                'student_id' => [
+                    'max:20',
+                    'string',
+                    'required',
+                    'exists:students,student_id',
+                ],
+                'full_name' => [
+                    'max:70',
+                    'string',
+                    'required',
+                ],
+                'email' => [
+                    'max:100',
+                    'string',
+                    'email',
+                    'required',
+                ],
+                'password' => [
+                    'max:60',
+                    'string',
+                    'required',
+                ],
+                'status' => [
+                    Rule::in(['a', 'i', 'v']),
+                    'required',
+                ],
+            ]);
 
-        $validated['password'] = Hash::make($validated['password']);
+            $validated['password'] = Hash::make($validated['password']);
 
-        $studentAccount = StudentAccount::create($validated);
+            $studentAccount = StudentAccount::create($validated);
 
-        $token = $studentAccount->createToken('ApiToken')
-            ->plainTextToken;
-        
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-        ]);
+            $token = $studentAccount->createToken('ApiToken')
+                ->plainTextToken;
+            
+            return response()->json([
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -76,7 +84,13 @@ class StudentAccountController extends Controller
      */
     public function show(StudentAccount $studentAccount)
     {
-        //
+        try {
+            return $studentAccount;
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -92,7 +106,47 @@ class StudentAccountController extends Controller
      */
     public function update(Request $request, StudentAccount $studentAccount)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'student_id' => [
+                    'max:20',
+                    'string',
+                    'exists:students,student_id',
+                ],
+                'full_name' => [
+                    'max:70',
+                    'string',
+                ],
+                'email' => [
+                    'max:100',
+                    'string',
+                    'email',
+                ],
+                'password' => [
+                    'max:60',
+                    'string',
+                ],
+                'status' => [
+                    Rule::in(['a', 'i', 'v']),
+                ],
+            ]);
+
+            if (isset($validated['password'])) {
+                $validated['password'] = 
+                    Hash::make($validated['password']);
+            }
+
+            $studentAccount->update($validated);
+
+            // TODO: Regenerate session here
+            return response()->json([
+                'message' => 'Student Account successfully updated',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -100,42 +154,58 @@ class StudentAccountController extends Controller
      */
     public function destroy(StudentAccount $studentAccount)
     {
-        //
+        try {
+            $studentAccount->delete();
+
+            return response()->json([
+                'message' => 'Election Record successfully deleted',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     public function login(Request $request) {
-        $validated = $request->validate([
-            'student_id' => [
-                'max:20',
-                'string',
-                'required',
-            ],
-            'password' => [
-                'max:60',
-                'string',
-                'required',
-            ],
-        ]);
+        try {
+            $validated = $request->validate([
+                'student_id' => [
+                    'max:20',
+                    'string',
+                    'required',
+                ],
+                'password' => [
+                    'max:60',
+                    'string',
+                    'required',
+                ],
+            ]);
 
-        if (!Auth::guard('student_account')->attempt($validated)) {
+            if (!Auth::guard('student_account')->attempt($validated)) {
+                return response()->json([
+                    'error' => 'Invalid login details. Register if you have not created your account yet. If you forgot your password or any other issue, contact COMELEC.'
+                ], 401);
+            }
+
+            $studentAccount = StudentAccount::where(
+                'student_id',
+                $validated['student_id'],
+            )->firstOrFail();
+
+            $token = $studentAccount->createToken('ApiToken')
+                ->plainTextToken;
+
             return response()->json([
-                'error' => 'Invalid login details. Register if you have not created your account yet. If you forgot your password or any other issue, contact COMELEC.'
-            ], 401);
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'user' => $studentAccount,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ]);
         }
-
-        $studentAccount = StudentAccount::where(
-            'student_id',
-            $validated['student_id'],
-        )->firstOrFail();
-
-        $token = $studentAccount->createToken('ApiToken')
-            ->plainTextToken;
-
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-            'user' => $studentAccount,
-        ]);
     }
 
     /**

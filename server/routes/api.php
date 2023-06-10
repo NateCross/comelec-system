@@ -8,6 +8,7 @@ use App\Http\Controllers\ComelecUserController;
 use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\RecordCandidateController;
 use App\Http\Controllers\RecordStudentController;
 use App\Http\Controllers\StudentAccountController;
 use App\Http\Controllers\StudentController;
@@ -66,10 +67,12 @@ Route::resource('candidate', CandidateController::class);
 
 Route::resource('position', PositionController::class);
 
+Route::resource('recordstudent', RecordStudentController::class);
 Route::controller(RecordStudentController::class)
-    ->prefix('vote')
+    ->prefix('recordstudent')
     ->group(function () {
         Route::patch('update', 'updateByIds');
         Route::post('qr', 'getAccessCodeQrPost');
     });
-Route::resource('vote', RecordStudentController::class);
+
+Route::resource('recordcandidate', RecordCandidateController::class);
