@@ -1,0 +1,165 @@
+.message {
+ margin-bottom: 1em;
+ border: 1px solid var(--border-color);
+ border-left: 4px solid var(--info-color);
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 1em 1.5em;
+ background-color: var(--bg-color);
+ color: var(--black-color);
+
+ .group {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+
+  .fa-solid {
+   font-size: 2rem;
+   color: var(--info-color);
+  }
+
+  .column {
+   display: flex;
+   flex-direction: column;
+   gap: 0.3em;
+
+   .title {
+    font-weight: 700;
+    color: var(--info-color);
+   }
+
+   .description {
+    font-weight: 700;
+   }
+  }
+ }
+}
+
+.message.active {
+ display: none;
+}
+
+.message.info {
+ border-left: 4px solid var(--info-color);
+
+ .group {
+
+  .fa-solid {
+   color: var(--info-color);
+  }
+
+  .column {
+
+   .title {
+    color: var(--info-color);
+   }
+  }
+ }
+
+ button {
+  color: var(--info-color);
+  border: 1px solid var(--info-color);
+ }
+}
+
+.message.success {
+ border-left: 4px solid var(--success-color);
+
+ .group {
+
+  .fa-solid {
+   color: var(--success-color);
+  }
+
+  .column {
+
+   .title {
+    color: var(--success-color);
+   }
+  }
+ }
+
+ button {
+  color: var(--success-color);
+  border: 1px solid var(--success-color);
+ }
+}
+
+.message.error {
+ border-left: 4px solid var(--error-color);
+
+ .group {
+
+  .fa-solid {
+   color: var(--error-color);
+  }
+
+  .column {
+
+   .title {
+    color: var(--error-color);
+   }
+  }
+ }
+
+ button {
+  color: var(--error-color);
+  border: 1px solid var(--error-color);
+ }
+}
+
+.message.warning {
+ border-left: 4px solid var(--warning-color);
+
+ .group {
+
+  .fa-solid {
+   color: var(--warning-color);
+  }
+
+  .column {
+
+   .title {
+    color: var(--warning-color);
+   }
+  }
+ }
+
+ button {
+  color: var(--warning-color);
+  border: 1px solid var(--warning-color);
+ }
+}
+
+.message.short {
+ background-color: var(--error-light-color);
+ border-left: 4px solid var(--error-color);
+ max-width: 22em;
+ min-width: 20em;
+ align-self: center;
+
+ .group {
+
+  .fa-solid {
+   color: var(--error-color);
+  }
+
+  .column {
+
+   .title {
+    display: none;
+   }
+
+   .description {
+    color: var(--error-color);
+   }
+  }
+ }
+
+ button {
+  display: none;
+  color: var(--error-color);
+  border: 1px solid var(--error-color);
+ }
+}

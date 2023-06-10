@@ -1,0 +1,26 @@
+.login {
+ padding: 1em 3%;
+ min-height: 100vh;
+ display: flex;
+ flex-direction: column;
+ justify-content: space-evenly;
+ background-color: var(--body-color);
+
+ .logo {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+
+  span {
+   font-size: 1.3rem;
+   font-weight: 700;
+   color: var(--grey-color);
+  }
+
+  span:first-child {
+   color: var(--black-color);
+  }
+
+ }
+
+}

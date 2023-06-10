@@ -1,0 +1,209 @@
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--border-color);
+  min-width: 25em;
+  border-radius: 2px;
+
+  &__group {
+    padding: 0.5em 0.8em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    color: var(--black-color);
+
+    input {
+      outline: none;
+      border: none;
+    }
+  }
+
+  &__exit {
+    display: none;
+    padding: 0 0.5em;
+    border-left: 1px solid var(--black-color);
+    cursor: pointer;
+  }
+
+  .fa-xmark {
+    display: none;
+    color: var(--black-color);
+  }
+}
+
+.modify.hero {
+  align-self: center;
+  max-width: 22em;
+  min-width: 20em;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  padding: 2em 1em;
+  border: 1px solid var(--black-color);
+  border-radius: 2px;
+  background-color: var(--white-color);
+
+  .login-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    .title {
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin: 0;
+    }
+  }
+
+  .field.button {
+    display: flex;
+    justify-content: right;
+  }
+}
+
+.modify {
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1em;
+    color: var(--primary-color);
+  }
+
+  .introduction {
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin: 0.5em 0 1em;
+    color: var(--primary-color);
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    .title {
+      margin-bottom: none;
+      color: var(--primary-color);
+    }
+
+    .description {
+      color: var(--black-color);
+    }
+  }
+
+  .fields {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    .field {
+      flex: 50%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4em;
+
+      label {
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+
+      input {
+        padding: 0.8em;
+        border: 1px solid var(--grey-color);
+        border-radius: 2px;
+      }
+
+      textarea {
+        min-height: 20em;
+        resize: none;
+        padding: 0.5em;
+        border-radius: 2px;
+      }
+
+      select {
+        padding: 0.8em;
+        border: 1px solid var(--grey-color);
+        border-radius: 2px;
+      }
+    }
+
+    .field.text-gray {
+      color: var(--grey-color);
+    }
+
+    .field.button {
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .field.checkbox {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    .field.full {
+      flex: 100%;
+    }
+
+    .field.single {
+      flex: 49%;
+    }
+
+    .field.half {
+      flex: 25%;
+    }
+
+    .field.readonly {
+
+      input {
+        background-color: var(--bg-color);
+        outline: none;
+      }
+    }
+
+    .group {
+      display: flex;
+      gap: 1em;
+
+      .field.name {
+        flex: 45%;
+      }
+
+      .field.name:last-child {
+        flex: 5%;
+      }
+    }
+  }
+}
+
+.modify.access {
+  padding: 1.5em;
+  border: 1px solid var(--border-color);
+  min-width: 25em;
+  max-width: 28em;
+  max-height: 32em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+
+  .fields {
+    gap: 0.8em;
+  }
+
+  img {
+    max-height: 12em;
+  }
+
+  .title {
+    align-self: center;
+    font-size: 1.5rem;
+    font-weight: 900;
+  }
+}
