@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MasterlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,3 +18,9 @@ use Illuminate\Support\Facades\Route;
 // views are defined in the folders 'client/' and 'mobile/'
 
 Route::get('/', fn () => view('index'));
+
+Route::controller(MasterlistController::class)
+    ->prefix('masterlist')
+    ->group(function () {
+        Route::get('/', 'index');
+    });

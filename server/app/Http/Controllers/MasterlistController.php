@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class MasterlistController extends Controller
 {
+    public function index() {
+        return view('master-list', [
+            'students' => Student::paginate(10),
+        ]);
+    }
+
     public function upload(Request $request) {
         if ($request->validate([
             'overwrite' => ['nullable', 'boolean'],
@@ -28,4 +34,5 @@ class MasterlistController extends Controller
         );
         $student->save();
     }
+
 }

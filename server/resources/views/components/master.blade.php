@@ -7,11 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ $title ?? 'Voting System' }}</title>
   <!-- CSS Link -->
-  @vite([
-    'resources/css/styles.css',
-    'resources/js/script.js',
-    'resources/js/message.js',
-  ])
+  @vite('resources/css/styles.css')
   <!-- Font Awesome Link -->
   <script src="https://kit.fontawesome.com/84e2199ce0.js" crossorigin="anonymous"></script>
 </head>
@@ -32,6 +28,11 @@
 
     </main>
   </div>
+
+  @vite([
+    'resources/js/script.js',
+    'resources/js/message.js',
+  ])
 
 </body>
 

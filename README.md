@@ -18,11 +18,12 @@ React and React Native interface with Laravel through APIs. The endpoints are to
 
 ### Client
 
-The client portion is handled with [Vite](https://vitejs.dev/guide/), but it is likely not going to be relevant unless something goes terribly wrong.
+The client portion is handled in Laravel with [Vite](https://vitejs.dev/guide/), but it is likely not going to be relevant unless something goes terribly wrong.
 
-- Run `npm i`
-- Copy the `.env.example` file to `.env` and fill in the required entries
-- Run `npm run dev` to develop
+- Go to the `server/` folder
+- Run `npm i -D`
+- Setup the server as below.
+- After running `php artisan serve`, go to the link indicated by Laravel.
 
 ### Server
 
