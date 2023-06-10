@@ -60,6 +60,7 @@ class CandidateController extends Controller
             if (isset($validated['image'])) {
                 $image = $validated['image'];
                 $path = $image->store('public/candidates');
+                $path = substr($path, strpos($path, '/') + 1);
                 $validated['image_url'] = $path;
                 unset($validated['image']);
             }
@@ -121,12 +122,14 @@ class CandidateController extends Controller
                 ],
             ]);
 
+
             if (isset($validated['image'])) {
                 $image = $validated['image'];
                 if ($originalImagePath = $candidate->image_url) {
-                    Storage::delete($originalImagePath);
+                    Storage::delete('public/'.$originalImagePath);
                 }
                 $path = $image->store('public/candidates');
+                $path = substr($path, strpos($path, '/') + 1);
                 $validated['image_url'] = $path;
                 unset($validated['image']);
             }
@@ -149,8 +152,8 @@ class CandidateController extends Controller
     public function destroy(Candidate $candidate)
     {
         try {
-            if ($imagePath = $candidate->image_path) {
-                Storage::delete($imagePath);
+            if ($image = $candidate->image_url) {
+                Storage::delete('public/'.$image);
             }
             $candidate->delete();
 
