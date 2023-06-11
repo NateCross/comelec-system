@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class MasterlistController extends Controller
 {
     public function index() {
-        return view('master-list', [
+        return view('frontend.master-list.index', [
             'students' => Student::paginate(10),
         ]);
     }

@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Route;
 // This file is empty since no web routes are used;
 // views are defined in the folders 'client/' and 'mobile/'
 
-Route::get('/', fn () => view('index'));
+Route::get('/', fn () => view('auth.login'));
 
 Route::controller(MasterlistController::class)
-    ->prefix('masterlist')
+    ->prefix('master-list')
     ->group(function () {
         Route::get('/', 'index');
     });

@@ -6,9 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <!-- CSS Link -->
-  <link rel="stylesheet" href="dist/styles.css" type="text/css">
-    <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('dist/styles.css') }}">
+  @vite('resources/dist/styles.css')
+  <script src="https://kit.fontawesome.com/84e2199ce0.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <div class="login">
@@ -19,7 +18,7 @@
     <div class="group">
 
     </div>
-    <?php include('layouts.components.messages.short.short') ?>
+    @include('layouts.components.messages.short.short')
     <form action="" method="" class="modify hero">
       <div class="login-details">
         <span class="title">Sign in</span>
@@ -39,7 +38,7 @@
         <button class="primary">Sign in</button>
       </div>
     </form>
-    @include('inc/footer.php');
+    @include('layouts.inc.footer')
     </div>
   </div>
 </body>
