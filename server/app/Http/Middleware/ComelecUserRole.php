@@ -20,13 +20,13 @@ class ComelecUserRole
         ...$roles,
     ): Response
     {
-        $user = Auth::user();
+        $user = Auth::guard('comelec_user')->user();
 
         foreach($roles as $role) {
             if ($user->role === $role)
                 return $next($request);
         }
         
-        return redirect('/');
+        return redirect()->back();
     }
 }

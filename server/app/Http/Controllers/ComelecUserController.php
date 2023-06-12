@@ -187,19 +187,35 @@ class ComelecUserController extends Controller
                 ], 401);
             }
 
+            // $request->session()->regenerate();
+            // $request->session()->regenerate();
+            // dd("Hello World");
+
+            // $user = Auth::user();
+            // dd($user);
+            // dd(Auth::user());
+
             $comelecUser = ComelecUser::where(
                 'username',
                 $validated['username'],
             )->firstOrFail();
 
-            $token = $comelecUser->createToken('ApiToken')
-                ->plainTextToken;
+            return redirect()->intended([
+                's' => 'master-list',
+                'a' => 'election.index',
+                'c' => 'candidates.index',
+                'm' => 'students.index',
+                'p' => 'access.index',
+            ][$comelecUser->role]);
 
-            return response()->json([
-                'access_token' => $token,
-                'token_type' => 'Bearer',
-                'user' => $comelecUser,
-            ]);
+            // $token = $comelecUser->createToken('ApiToken')
+            //     ->plainTextToken;
+
+            // return response()->json([
+            //     'access_token' => $token,
+            //     'token_type' => 'Bearer',
+            //     'user' => $comelecUser,
+            // ]);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),

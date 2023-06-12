@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ComelecUserController;
 use App\Http\Controllers\MasterlistController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,9 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', fn () => view('auth.login'));
+Route::get('/', fn () => view('auth.login'))
+    ->name('login');
 
-Route::middleware('auth')->group(function () {
+Route::prefix('user')
+    ->group(function () {
+        Route::post('login', [ComelecUserController::class, 'login']);
+    });
+
+Route::middleware('auth:comelec_user')->group(function () {
     Route::middleware('roles:s,a,m,c')
         ->resource('master-list', MasterlistController::class);
     // Route::resources([
