@@ -62,7 +62,9 @@ class ElectionRecordController extends Controller
             $electionRecord = ElectionRecord::create($validated);
             $electionId = $electionRecord->id;
 
-            $students = Student::all();
+            $students = Student::query()
+                ->whereKeyNot('0000')
+                ->get();
             foreach ($students as $student) {
                 RecordStudentHelper::createRecordStudent(
                     $electionId,

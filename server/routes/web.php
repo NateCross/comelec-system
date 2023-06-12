@@ -14,10 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// This file is empty since no web routes are used;
-// views are defined in the folders 'client/' and 'mobile/'
-
 Route::get('/', fn () => view('auth.login'));
+
+// Route::middleware();
 
 Route::controller(MasterlistController::class)
     ->prefix('master-list')

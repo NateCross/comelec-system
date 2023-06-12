@@ -23,7 +23,7 @@ return new class extends Migration
                 ->onUpdate('cascade');
             $table->boolean('is_elected');
             $table->unsignedBigInteger('num_of_votes');
-            $table->string('reason', 50);
+            $table->string('reason', 50)->nullable();
         });
     }
 

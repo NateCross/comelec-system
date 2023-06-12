@@ -6,6 +6,7 @@ use App\Models\ComelecUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class ComelecUserController extends Controller
 {
@@ -51,6 +52,10 @@ class ComelecUserController extends Controller
                 'password' => [
                     'max:60',
                     'string',
+                    'required',
+                ],
+                'role' => [
+                    Rule::in(['s', 'a', 'c', 'm', 'p']),
                     'required',
                 ],
             ]);
@@ -118,6 +123,9 @@ class ComelecUserController extends Controller
                 'password' => [
                     'max:60',
                     'string',
+                ],
+                'role' => [
+                    Rule::in(['s', 'a', 'c', 'm', 'p']),
                 ],
             ]);
 

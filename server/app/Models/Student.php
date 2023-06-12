@@ -12,6 +12,7 @@ class Student extends Model
     protected $primaryKey = 'student_id';
 
     protected $casts = [
+        'student_id' => 'string',
         'is_enrolled' => 'boolean',
     ];
 

@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -17,13 +19,14 @@ return new class extends Migration
             $table->string('username', 50);
             $table->string('name', 100);
             $table->string('password', 60);
-            // $table->enum('role', [
-            //     'super admin',
-            //     'admin',
-            //     'commissioner',
-            //     'student accounts manager',
-            //     'poll worker',
-            // ]);
+            
+            // 's' -> Super Admin
+            // 'a' -> Admin
+            // 'c' -> Commissioner
+            // 'm' -> Student Accounts Manager
+            // 'p' -> Poll Worker
+            $table->char('role', 1);
+
             $table->timestamps();
 
             $table->foreign('student_id')
@@ -32,6 +35,16 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
         });
+
+        // Insert a super admin. Used to first access
+        // the system.
+        DB::table('comelec_users')->insert([
+            'student_id' => '0000',
+            'username' => 'admin',
+            'name' => 'admin',
+            'password' => Hash::make('admin123'),
+            'role' => 's',
+        ]);
     }
 
     /**

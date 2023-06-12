@@ -13,7 +13,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        return Student::query()->whereKeyNot('0000')->get();
     }
 
     /**

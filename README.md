@@ -98,6 +98,7 @@ Try connecting through tunnel instead of LAN. **Note: It may be slower to connec
 - Maybe: [NetInfo](https://github.com/react-native-netinfo/react-native-netinfo) for [Expo](https://docs.expo.dev/versions/latest/sdk/netinfo/)
   - Could be used to get some connection details
   - Another possible library: [Expo Network](https://docs.expo.dev/versions/latest/sdk/network/#networkgetmacaddressasyncinterfacename)
+- [Handle multiple roles in Laravel's middleware](https://stackoverflow.com/questions/43901719/laravel-middleware-with-multiple-roles)
 
 ## Misc. Notes
 
