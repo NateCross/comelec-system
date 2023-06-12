@@ -5,7 +5,7 @@
 @section('content')
 
   <div class="container">
-    @include('layouts.components.messages.info.info');
+    {{-- @include('layouts.components.messages.info.info'); --}}
     <div class="page__header">
       <div class="group">
         <span class="group__title">Election Records List</span>
@@ -15,24 +15,26 @@
     <div class="content">
       <div class="content__row">
         <div class="actions">
-          <div class="actions__btn">
-            <a href="election-manager-create.php">
-              <button class="primary">
-                <i class="fa-solid fa-file-import"></i>
-                <span class="name">Create Record</span>
-              </button>
-            </a>
-          </div>
+          @unless (Auth::user()->role === 'c') 
+            <div class="actions__btn">
+              <a href="{{ route('election.create') }}">
+                <button class="primary">
+                  <i class="fa-solid fa-file-import"></i>
+                  <span class="name">Create Record</span>
+                </button>
+              </a>
+            </div>
+          @endunless
           <select class="filter" name="status">
             <option value="0">Select Status</option>
             <option value="1">Archived</option>
             <option value="2">Final</option>
             <option value="2">Cancelled</option>
           </select>
-          <form class="search">
+          <form class="search" action="{{ route('election.search') }}">
             <div class="search__group">
               <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" placeholder="Search...">
+              <input type="text" name="query" placeholder="Search...">
             </div>
             <i class="fa-solid fa-xmark search__exit"></i>
           </form>
@@ -49,22 +51,31 @@
             </tr>
           </thead>
           <tbody class="wide">
-              <?php for ($i = 0; $i < 10; $i++) { ?>
+              @foreach ($elections as $election)
                 <tr>
-                  <td class="col1">Name Placeholder</td>
-                  <td class="col2">RR101</td>
-                  <td class="col3">Ut lorem libero, interdum sed faucibus sed, pretium sed felis.</td>
-                  <td class="col4">Archived</td>
-                  <td class="col4">1/01/2001 12:00:00 AM</td>
-                  <td class="col5">1/01/2001 12:00:00 AM</td>
+                  <td class="col1">{{ $election->name }}</td>
+                  <td class="col2">{{ $election->id }}</td>
+                  <td class="col3">{{ $election->description }}</td>
+                  <td class="col4">{{
+                    [
+                      'a' => 'Active',
+                      'c' => 'Canceled',
+                      'f' => 'Final',
+                      'r' => 'Archived',
+                    ][$election->status]
+                  }}</td>
+                  <td class="col4">{{ $election->start_time }}</td>
+                  <td class="col5">{{ $election->end_time }}</td>
                 </tr>
-              <?php } ?>
+              @endforeach
           </tbody>
         </table>
       </div>
     </div>
     <div class="pagination">
-      <a href="#" class="group">
+      {{ $elections->links() }}
+
+      {{-- <a href="#" class="group">
         <i class="fa-solid fa-angle-left"></i>
         <span class="name">PREVIOUS</span>
       </a>
@@ -76,7 +87,8 @@
       <a href="#" class="group">
         <span class="name">NEXT</span>
         <i class="fa-solid fa-angle-right"></i>
-      </a>
+      </a> --}}
+
     </div>
   </div>
 

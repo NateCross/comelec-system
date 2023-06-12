@@ -17,7 +17,13 @@ class ElectionRecordController extends Controller
      */
     public function index()
     {
-        return ElectionRecord::with('students')->with('candidates')->get();
+        return view(
+            'frontend.election-manager.index',
+            [
+                'elections' =>
+                ElectionRecord::query()->paginate(10),
+            ],
+        );
     }
 
     /**
@@ -25,7 +31,7 @@ class ElectionRecordController extends Controller
      */
     public function create()
     {
-        //
+        return view('frontend.election-manager.create');
     }
 
     /**
@@ -36,7 +42,7 @@ class ElectionRecordController extends Controller
         try {
             $validated = $request->validate([
                 'status' => [
-                    Rule::in(['a', 'c', 'f', 'r']),
+                    Rule::in(['Active', 'Canceled', 'Final', 'Archived']),
                     'required',
                 ],
                 'name' => [
@@ -47,7 +53,6 @@ class ElectionRecordController extends Controller
                 'description' => [
                     'string',
                     'max:255',
-                    'nullable',
                 ],
                 'start_time' => [
                     'date',
@@ -58,6 +63,12 @@ class ElectionRecordController extends Controller
                     'required',
                 ],
             ]);
+            $validated['status'] = [
+                'Active' => 'a',
+                'Canceled' => 'c',
+                'Final' => 'f',
+                'Archived' => 'r',
+            ][$validated['status']];
 
             $electionRecord = ElectionRecord::create($validated);
             $electionId = $electionRecord->id;
@@ -65,26 +76,30 @@ class ElectionRecordController extends Controller
             $students = Student::query()
                 ->whereKeyNot('0000')
                 ->get();
-            foreach ($students as $student) {
-                RecordStudentHelper::createRecordStudent(
-                    $electionId,
-                    $student->student_id,
-                );
+            if (isset($students)) {
+                foreach ($students as $student) {
+                    RecordStudentHelper::createRecordStudent(
+                        $electionId,
+                        $student->student_id,
+                    );
+                }
             }
 
-            $candidates = Candidate::all();
-            $candidates = $candidates->map(fn ($item, $key) => ([
-                'election_id' => $electionId,
-                'candidate_id' => $item->id,
-                'is_elected' => false,
-                'num_of_votes' => 0,
-                'reason' => '',
-            ]))->toArray();
-            RecordCandidate::insert($candidates);
+            $candidates = Candidate::query()
+                ->where('is_archived', false)
+                ->get();
+            if (isset($candidates)) {
+                $candidates = $candidates->map(fn ($item, $key) => ([
+                    'election_id' => $electionId,
+                    'candidate_id' => $item->id,
+                    'is_elected' => false,
+                    'num_of_votes' => 0,
+                    'reason' => '',
+                ]))->toArray();
+                RecordCandidate::insert($candidates);
+            }
 
-            return response()->json([
-                'message' => 'Election Record successfully created',
-            ]);
+            return redirect()->intended('election');
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
@@ -168,6 +183,29 @@ class ElectionRecordController extends Controller
             return response()->json([
                 'error' => $e->getMessage(),
             ]);
+        }
+    }
+
+    public function search(Request $request) {
+        try {
+            $validated = $request->validate([
+                'query' => [
+                    'string',
+                    'required',
+                ],
+            ]);
+            $query = $validated['query'];
+            return view(
+                'frontend.election-manager.index',
+                [
+                    'elections' =>
+                    ElectionRecord::query()
+                        ->where('name', 'LIKE', "%$query%")
+                        ->paginate(10),
+                ],
+            );
+        } catch (\Exception $e) {
+            return redirect()->route('election.index');
         }
     }
 }

@@ -5,11 +5,11 @@
 @section('content')
 
   <div class="container short">
-    @include('layouts.components.messages.info.info');
+    {{-- @include('layouts.components.messages.info.info'); --}}
     <div class="page__header">
       <div class="group">
         <span class="group__title">Create Election Record</span>
-        <a href="election-manager.php">
+        <a href="{{ route('election.index') }}">
           <button class="primary bold">
             <i class="fa-solid fa-arrow-left-long"></i>
             Go Back
@@ -20,25 +20,30 @@
     </div>
     <div class="content">
       <div class="content__row">
-        <form class="modify" action="" method="">
+        <form 
+          class="modify" 
+          action="{{ route('election.store') }}" 
+          method="POST"
+        >
+          @csrf
           <span class="title">BASIC INFORMATION</span>
           <div class="fields">
             <div class="field single">
-              <label for="election_name">Election Record Name</label>
-              <input id="election_name" type="text" name="election_name" required autocomplete="election_name" autofocus>
+              <label for="name">Election Record Name</label>
+              <input id="name" type="text" name="name" required autocomplete="election_name" autofocus>
             </div>
             <div class="group">
               <div class="field">
-                <label for="start_date">Election Start Date</label>
-                <input id="start_date" type="date" name="start_date" required autocomplete="start_date">
+                <label for="start_time">Election Start Date</label>
+                <input id="start_time" type="date" name="start_time" required autocomplete="start_time">
               </div>
               <div class="field">
-                <label for="end_date">Election End Date</label>
-                <input id="end_date" type="date" name="end_date" required autocomplete="end_date">
+                <label for="end_time">Election End Date</label>
+                <input id="end_time" type="date" name="end_time" required autocomplete="end_time">
               </div>
               <div class="field readonly">
                 <label for="status">Status</label>
-                <input id="status" type="text" name="status" required autocomplete="status" readonly>
+                <input id="status" type="text" name="status" required autocomplete="status" readonly value="Active">
               </div>
             </div>
           </div>

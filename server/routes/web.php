@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ComelecUserController;
+use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,14 +26,21 @@ Route::prefix('user')
 
 Route::middleware('auth:comelec_user')->group(function () {
     Route::middleware('roles:s,a,m,c')
-        ->resource('master-list', MasterlistController::class);
-    // Route::resources([
-    //     'masterlist' => MasterlistController::class,
-    // ]);
+        ->resource(
+            'master-list', 
+            MasterlistController::class,
+        );
+    Route::middleware('roles:s,a,c')
+        ->resource(
+            'election',
+            ElectionRecordController::class,
+        )->except(['create', 'show']);
+    Route::middleware('roles:s,a')
+        ->controller(ElectionRecordController::class)
+        ->prefix('election')
+        ->group(function () {
+            Route::get('create', 'create')->name('election.create');
+            Route::get('search', 'search')
+                ->name('election.search');
+        });
 });
-
-// Route::controller(MasterlistController::class)
-//     ->prefix('master-list')
-//     ->group(function () {
-//         Route::get('/', 'index');
-//     });
