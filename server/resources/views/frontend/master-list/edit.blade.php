@@ -5,11 +5,11 @@
 @section('content')
 
   <div class="container short">
-    @include('layouts.components.messages.info.info');
+    {{-- @include('layouts.components.messages.info.info'); --}}
     <div class="page__header">
       <div class="group">
         <span class="group__title">Edit Student</span>
-        <a href="master-list.php">
+        <a href="{{ route('master-list.index') }}">
           <button class="primary bold">
             <i class="fa-solid fa-arrow-left-long"></i>
             Go Back
@@ -20,7 +20,13 @@
     </div>
     <div class="content">
       <div class="content__row">
-        <form class="modify" action="" method="">
+        <form 
+          class="modify" 
+          action="{{ route('student.update', $student->student_id) }}" 
+          method="POST"
+        >
+          @csrf
+          @method('PUT')
           <span class="title">BASIC INFORMATION</span>
           <div class="fields">
             <div class="group">
@@ -44,7 +50,7 @@
               </div>
               <div class="field input">
                 <label for="college">College</label>
-                <input id="college" type="text" name="college" required autocomplete="college">
+                <input id="college" type="text" name="college" required autocomplete="college" value="{{ $student->college }}">
               </div>
             </div>
           </div>

@@ -5,7 +5,7 @@
 @section('content')
 
   <div class="container">
-    @include('layouts.components.messages.info.info');
+    {{-- @include('layouts.components.messages.info.info'); --}}
     <div class="page__header">
       <div class="group">
         <span class="group__title">Student Master List</span>
@@ -16,16 +16,22 @@
       <div class="content__row">
         <div class="actions">
           <div class="actions__btn">
-            <a href="master-list-create.php">
+            <a href="{{ route('master-list.create') }}">
               <button class="primary">
                 <i class="fa-regular fa-square-plus"></i>
                 <span class="name">Add Student</span>
               </button>
             </a>
-            <button class="secondary">
+            <label for="file-upload" class="secondary">
               <i class="fa-solid fa-file-import"></i>
               <span class="name">Import CSV</span>
-            </button>
+            </label>
+            <input 
+              id="file-upload" 
+              name="file-upload"
+              type="file"
+              style="display: none;"
+            >
             <button class="secondary">
               <i class="fa-solid fa-file-export"></i>
               <span class="name">Export CSV</span>
@@ -55,21 +61,26 @@
             </tr>
           </thead>
           <tbody>
-              <?php for ($i = 0; $i < 10; $i++) { ?>
-                <tr>
-                  <td class="col1">Name Placeholder</td>
-                  <td class="col2">CS101</td>
-                  <td class="col3">Bachelor of Science in Computer Science</td>
-                  <td class="col4">Not Enrolled</td>
+            @foreach ($students as $student)
+               <tr>
+                  <td class="col1">{{ $student->full_name }}</td>
+                  <td class="col2">{{ $student->student_id }}</td>
+                  <td class="col3">{{ $student->college }}</td>
+                  <td class="col4">
+                    {{
+                      $student->is_enrolled ?
+                        'Enrolled' : 'Not Enrolled'
+                    }}
+                  </td>
                   <td class="col5">
-                    <a href="master-list-edit.php">
+                    <a href="{{ route('master-list.edit', $student->student_id) }}">
                       <button class="secondary">
                         <i class="fa-solid fa-pen-to-square"></i>
                       </button>
                     </a>
                   </td>
-                </tr>
-              <?php } ?>
+              </tr> 
+            @endforeach
           </tbody>
         </table>
       </div>
@@ -90,5 +101,26 @@
       </a>
     </div>
   </div>
+
+  <script>
+    const file_upload = document.getElementById('file-upload');
+
+    file_upload?.addEventListener('change', async (e) => {
+      e.preventDefault();
+      const file = e.target.files[0];
+      const formData = new FormData();
+      formData.append('sheet', file);
+      const result = await axios.post(
+        "{{ route('master-list.upload') }}",
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+        },
+      );
+      if (result?.data) window.location.reload();
+    });
+  </script>
 
 @endsection

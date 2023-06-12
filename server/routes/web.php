@@ -26,10 +26,18 @@ Route::prefix('user')
 
 Route::middleware('auth:comelec_user')->group(function () {
     Route::middleware('roles:s,a,m,c')
-        ->resource(
-            'master-list', 
-            MasterlistController::class,
-        );
+        ->controller(MasterlistController::class)
+        ->prefix('master-list')
+        ->group(function () {
+            Route::get('/', 'index')
+                ->name('master-list.index');
+            Route::get('create', 'create')
+                ->name('master-list.create');
+            Route::get('edit/{student:student_id}', 'edit')
+                ->name('master-list.edit');
+            Route::post('upload', 'upload')
+                ->name('master-list.upload');
+        });
     Route::middleware('roles:s,a,c')
         ->resource(
             'election',
