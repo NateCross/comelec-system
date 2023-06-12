@@ -1,0 +1,121 @@
+@use '../abstract/' as util;
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  padding: 0.2em min(100% - 1.5em, 1.5em);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--primary-color);
+
+  &__left {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--white-color);
+      text-decoration: none;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5em;
+      margin-left: -1em;
+
+      li {
+        list-style: none;
+        color: var(--white-color);
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        gap: 0.5em;
+
+        a {
+          color: var(--white-color);
+          text-decoration: none;
+        }
+
+        span:hover {
+          color: var(--hover-color);
+        }
+      }
+
+      li:hover a {
+        color: var(--hover-color);
+      }
+
+      li:hover {
+        color: var(--hover-color);
+      }
+
+      #see-more-btn {
+        display: none;
+      }
+
+      @media(max-width:1440px) {
+        #see-more-btn {
+          display: flex;
+        }
+
+        li:nth-last-child(-n+3) {
+          display: none;
+        }
+      }
+    }
+
+    @media(max-width:1440px) {
+      .see-more {
+        display: flex;
+      }
+    }
+  }
+
+  &__separator {
+    width: 1px;
+    height: 3em;
+    border: 1px solid var(--secondary-color);
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    border-radius: 2px;
+    padding: 0.5em;
+    gap: 1em;
+    cursor: pointer;
+    color: var(--white-color);
+
+    .details {
+      display: flex;
+      flex-direction: column;
+      text-align: right;
+
+      &__role {
+        color: var(--secondary-color);
+      }
+    }
+
+    .group {
+      display: flex;
+      align-items: center;
+      gap: 0.4em;
+
+      &__icon:first-child {
+        font-size: 2rem;
+      }
+
+      &__icon:last-child {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}

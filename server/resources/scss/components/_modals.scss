@@ -1,0 +1,100 @@
+.modal {
+ position: fixed;
+ top: 0;
+ left: 0;
+ right: 0;
+ z-index: 2;
+ display: none;
+ justify-content: center;
+ align-items: center;
+ background-color: rgba(0, 0, 0, 0.5);
+ min-height: 100vh;
+
+ .wrapper {
+  padding: 2em 1.5em;
+  max-width: 25em;
+  background-color: var(--white-color);
+  color: var(--dark-color);
+  border: 1px solid var(--grey-color);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  display: flex;
+
+  .exit {
+   display: flex;
+   justify-content: right;
+  }
+
+  img {
+   max-height: 9em;
+  }
+
+  .group {
+   display: flex;
+   flex-direction: column;
+   text-align: center;
+   gap: 1em;
+
+   .title {
+    font-size: 1.2rem;
+    font-weight: 700;
+   }
+
+   .description {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--grey-color);
+   }
+  }
+
+  .actions {
+   margin-top: 2em;
+   display: flex;
+   justify-content: right;
+   gap: 1em;
+  }
+ }
+}
+
+.deny {
+
+ form {
+
+  .wrapper {
+   gap: 0em;
+   min-width: 30em;
+   max-width: none;
+
+   .group {
+    text-align: left;
+   }
+
+   .fields {
+    margin: 0;
+   }
+  }
+ }
+}
+
+.modal,
+.delete,
+.verify,
+.deny,
+.account {
+ opacity: 0;
+ pointer-events: none;
+ transition: opacity 0.3s ease;
+ display: none;
+}
+
+.modal.active,
+.delete.active,
+.verify.active,
+.deny.active,
+.account.active {
+ opacity: 1;
+ pointer-events: auto;
+ display: flex;
+}
