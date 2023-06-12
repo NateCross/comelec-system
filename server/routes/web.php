@@ -16,10 +16,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => view('auth.login'));
 
-// Route::middleware();
+Route::middleware('auth')->group(function () {
+    Route::middleware('roles:s,a,m,c')
+        ->resource('master-list', MasterlistController::class);
+    // Route::resources([
+    //     'masterlist' => MasterlistController::class,
+    // ]);
+});
 
-Route::controller(MasterlistController::class)
-    ->prefix('master-list')
-    ->group(function () {
-        Route::get('/', 'index');
-    });
+// Route::controller(MasterlistController::class)
+//     ->prefix('master-list')
+//     ->group(function () {
+//         Route::get('/', 'index');
+//     });
