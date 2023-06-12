@@ -182,18 +182,10 @@ class ComelecUserController extends Controller
             ]);
 
             if (!Auth::guard('comelec_user')->attempt($validated)) {
-                return response()->json([
-                    'error' => 'Invalid login details',
-                ], 401);
+                return back()->withErrors([
+                    'username' => 'Invalid login details',
+                ])->onlyInput('username');
             }
-
-            // $request->session()->regenerate();
-            // $request->session()->regenerate();
-            // dd("Hello World");
-
-            // $user = Auth::user();
-            // dd($user);
-            // dd(Auth::user());
 
             $comelecUser = ComelecUser::where(
                 'username',
@@ -201,21 +193,12 @@ class ComelecUserController extends Controller
             )->firstOrFail();
 
             return redirect()->intended([
-                's' => 'master-list',
-                'a' => 'election.index',
-                'c' => 'candidates.index',
-                'm' => 'students.index',
-                'p' => 'access.index',
+                's' => 'election',
+                'a' => 'election',
+                'c' => 'candidates',
+                'm' => 'students',
+                'p' => 'access',
             ][$comelecUser->role]);
-
-            // $token = $comelecUser->createToken('ApiToken')
-            //     ->plainTextToken;
-
-            // return response()->json([
-            //     'access_token' => $token,
-            //     'token_type' => 'Bearer',
-            //     'user' => $comelecUser,
-            // ]);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),

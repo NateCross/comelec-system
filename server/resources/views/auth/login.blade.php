@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <!-- CSS Link -->
-    @vite('resources/dist/styles.css')
+    @vite('resources/scss/styles.scss')
     <script src="https://kit.fontawesome.com/84e2199ce0.js" crossorigin="anonymous"></script>
 </head>
 
@@ -17,7 +17,9 @@
             <span>Title</span>
             <span>/Logo</span>
         </div>
-        @include('layouts.components.messages.short.short')
+        @error('username')
+            @include('layouts.components.messages.short.short')
+        @enderror
         <form action="/user/login" method="POST" class="modify hero">
             @csrf
             <div class="login-details">
