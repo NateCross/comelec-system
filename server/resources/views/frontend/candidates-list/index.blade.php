@@ -5,7 +5,6 @@
 @section('content')
 
   <div class="container">
-    @include('layouts.components.messages.info.info');
     <div class="page__header">
       <div class="group">
         <span class="group__title">Candidates List</span>
@@ -16,7 +15,7 @@
       <div class="content__row">
         <div class="actions">
           <div class="actions__btn">
-            <a href="candidates-list-create.php">
+            <a href="{{ route('candidates.create') }}">
               <button class="primary">
                 <i class="fa-regular fa-square-plus"></i>
                 <span class="name">Add Candidate</span>

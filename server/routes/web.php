@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ComelecUserController;
 use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
+use App\Http\Controllers\PositionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +40,7 @@ Route::middleware('auth:comelec_user')->group(function () {
             Route::post('upload', 'upload')
                 ->name('master-list.upload');
         });
+
     Route::middleware('roles:s,a,c')
         ->resource(
             'election',
@@ -50,5 +53,24 @@ Route::middleware('auth:comelec_user')->group(function () {
             Route::get('create', 'create')->name('election.create');
             Route::get('search', 'search')
                 ->name('election.search');
+        });
+
+    Route::middleware('roles:s,a,c')
+        ->resource(
+            'candidates',
+            CandidateController::class,
+        );
+    
+    Route::middleware('roles:s,a')
+        ->resource(
+            'positions',
+            PositionController::class,
+        )->except(['show']);
+    Route::middleware('roles:s,a')
+        ->controller(PositionController::class)
+        ->prefix('positions')
+        ->group(function () {
+            Route::get('search', 'search')
+                ->name('positions.search');
         });
 });

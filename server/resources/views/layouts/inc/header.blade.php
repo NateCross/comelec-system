@@ -9,7 +9,7 @@
         <a href="student-accounts.php">Students Accounts</a>
       </li>
       <li>
-        <a href="candidates-list.php">Candidates List</a>
+        <a href="{{ route('candidates.index') }}">Candidates List</a>
       </li>
       <li>
         <a href="{{ route('election.index') }}">Election Manager</a>
@@ -25,7 +25,7 @@
         <a href="message-editor.php">Message Editor</a>
       </li>
       <li>
-        <a href="positions-list.php">Positions List</a>
+        <a href="{{ route('positions.index') }}">Positions List</a>
       </li>
     </ul>
     <ul class="menu see-more">

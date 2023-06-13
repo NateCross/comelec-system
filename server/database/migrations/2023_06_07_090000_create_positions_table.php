@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('position_name', 50);
             $table->string('description', 255)->nullable();
-            $table->boolean('is_for_all');
+            $table->boolean('is_for_all')->default(false);
             $table->string('college', 50)->nullable();
             $table->unsignedInteger('num_of_elects');
             $table->timestamps();

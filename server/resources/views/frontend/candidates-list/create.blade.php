@@ -5,11 +5,11 @@
 @section('content')
 
   <div class="container short">
-    @include('layouts.components.messages.info.info');
+    {{-- @include('layouts.components.messages.info.info'); --}}
     <div class="page__header">
       <div class="group">
         <span class="group__title">Add Candidate</span>
-        <a href="candidates-list.php">
+        <a href="{{ route('candidates.index') }}">
           <button class="primary bold">
             <i class="fa-solid fa-arrow-left-long"></i>
             Go Back

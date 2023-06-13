@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate;
+use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,7 +14,14 @@ class CandidateController extends Controller
      */
     public function index()
     {
-        return Candidate::with('student')->with('position')->with('records')->get();
+        // return Candidate::with('student')->with('position')->with('records')->get();
+        return view(
+            'frontend.candidates-list.index',
+            [
+                'candidates' => 
+                Candidate::query()->paginate(10),
+            ]
+        );
     }
 
     /**
@@ -21,7 +29,13 @@ class CandidateController extends Controller
      */
     public function create()
     {
-        //
+        return view(
+            'frontend.candidates-list.create',
+            [
+                'positions' =>
+                Position::all(),
+            ],
+        );
     }
 
     /**
@@ -45,15 +59,12 @@ class CandidateController extends Controller
                 'party_name' => [
                     'max:50',
                     'string',
-                    'nullable',
                 ],
                 'image' => [
                     'file',
-                    'nullable',
                 ],
                 'is_archived' => [
                     'boolean',
-                    'nullable',
                 ],
             ]);
 

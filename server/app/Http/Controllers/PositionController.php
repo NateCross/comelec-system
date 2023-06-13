@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Position;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+
+use function PHPUnit\Framework\isNull;
 
 class PositionController extends Controller
 {
@@ -12,7 +15,14 @@ class PositionController extends Controller
      */
     public function index()
     {
-        return Position::with('candidates')->get();
+        // return Position::with('candidates')->get();
+        return view(
+            'frontend.positions-list.index',
+            [
+                'positions' =>
+                Position::query()->paginate(10),
+            ],
+        );
     }
 
     /**
@@ -20,7 +30,7 @@ class PositionController extends Controller
      */
     public function create()
     {
-        //
+        return view('frontend.positions-list.create');
     }
 
     /**
@@ -28,43 +38,36 @@ class PositionController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $validated = $request->validate([
-                'position_name' => [
-                    'max:50',
-                    'string',
-                    'required',
-                ],
-                'description' => [
-                    'max:255',
-                    'string',
-                    'nullable',
-                ],
-                'is_for_all' => [
-                    'boolean',
-                    'nullable',
-                ],
-                'college' => [
-                    'max:50',
-                    'string',
-                    'nullable',
-                ],
-                'num_of_elects' => [
-                    'integer',
-                    'required',
-                ],
-            ]);
+        $validated = $request->validate([
+            'position_name' => [
+                'max:50',
+                'string',
+                'required',
+            ],
+            'description' => [
+                'max:255',
+                'string',
+                'nullable',
+            ],
+            'is_for_all' => [
+                Rule::in('on'),
+            ],
+            'college' => [
+                'max:50',
+                'string',
+                'nullable',
+            ],
+            'num_of_elects' => [
+                'integer',
+                'required',
+            ],
+        ]);
+        if (isset($validated['is_for_all']))
+            $validated['is_for_all'] = true;
 
-            Position::create($validated);
+        Position::create($validated);
 
-            return response()->json([
-                'message' => 'Position successfully created',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ]);
-        }
+        return redirect()->route('positions.index');
     }
 
     /**
@@ -86,7 +89,12 @@ class PositionController extends Controller
      */
     public function edit(Position $position)
     {
-        //
+        return view(
+            'frontend.positions-list.edit',
+            [
+                'position' => $position,
+            ]
+        );
     }
 
     /**
@@ -94,38 +102,32 @@ class PositionController extends Controller
      */
     public function update(Request $request, Position $position)
     {
-        try {
-            $validated = $request->validate([
-                'position_name' => [
-                    'max:50',
-                    'string',
-                ],
-                'description' => [
-                    'max:255',
-                    'string',
-                ],
-                'is_for_all' => [
-                    'boolean',
-                ],
-                'college' => [
-                    'max:50',
-                    'string',
-                ],
-                'num_of_elects' => [
-                    'integer',
-                ],
-            ]);
+        $validated = $request->validate([
+            'position_name' => [
+                'max:50',
+                'string',
+            ],
+            'description' => [
+                'max:255',
+                'string',
+                'nullable',
+            ],
+            'is_for_all' => [
+                'boolean',
+            ],
+            'college' => [
+                'max:50',
+                'string',
+                'nullable',
+            ],
+            'num_of_elects' => [
+                'integer',
+            ],
+        ]);
 
-            $position->update($validated);
+        $position->update($validated);
 
-            return response()->json([
-                'message' => 'Position successfully updated',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ]);
-        }
+        return redirect()->route('positions.index');
     }
 
     /**
@@ -144,5 +146,27 @@ class PositionController extends Controller
                 'error' => $e->getMessage(),
             ]);
         }
+    }
+
+    public function search(request $request)
+    {
+        $validated = $request->validate([
+            'query' => [
+                'string',
+                'nullable',
+            ],
+        ]);
+        $query = $validated['query'];
+        if (!$query) 
+            return redirect()->route('positions.index');
+        return view(
+            'frontend.positions-list.index',
+            [
+                'positions' =>
+                Position::query()
+                    ->where('position_name', 'LIKE', "%$query%")
+                    ->paginate(10),
+            ],
+        );
     }
 }
