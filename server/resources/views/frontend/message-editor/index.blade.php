@@ -29,11 +29,11 @@
           <div class="fields">
             <div class="field full">
               <label for="unverified_account">Unverified Account</label>
-              {{-- <input id="unverified_account" type="text" name="unverified_account" required autocomplete="unverified_account" value="{{ $messages->find('unverified_account')->value }}"> --}}
+              <input id="unverified_account" type="text" name="unverified_account" required autocomplete="unverified_account" value="{{ $messages->find('unverified_account')->value }}">
             </div>
             <div class="field full">
               <label for="inactive">Inactive Account</label>
-              {{-- <input id="inactive" type="text" name="inactive_account" required autocomplete="inactive" value="{{ $messages->find('inactive_account')->value }}"> --}}
+              <input id="inactive" type="text" name="inactive_account" required autocomplete="inactive" value="{{ $messages->find('inactive_account')->value }}">
             </div>
           </div>
         </div>
@@ -49,11 +49,11 @@
             </div>
             <div class="field full">
               <label for="id_exist">Student ID exists but belongs to another account during register</label>
-              <input id="id_exist" type="text" name="student_id_exists" required autocomplete="id_exist" value="Student ID belongs to another account. Contact COMELEC if there is an issue.">
+              <input id="id_exist" type="text" name="student_id_exists" required autocomplete="id_exist" value="{{ $messages->find('student_id_exists')->value }}">
             </div>
             <div class="field full">
               <label for="password_match">Unmatched Student ID and Password. Student ID exists.</label>
-              <input id="password_match" type="text" name="student_wrong_password" required autocomplete="password_match" value="Wrong password. Contact COMELEC if there is an issue.">
+              <input id="password_match" type="text" name="student_wrong_password" required autocomplete="password_match" value="{{ $messages->find('student_wrong_password')->value }}">
             </div>
           </div>
         </div>
@@ -65,23 +65,23 @@
           <div class="fields">
             <div class="field full">
               <label for="end_voting">End of voting</label>
-              <input id="end_voting" type="text" name="end_of_voting" required autocomplete="end_voting" value="Thank you for voting with us!">
+              <input id="end_voting" type="text" name="end_of_voting" required autocomplete="end_voting" value="{{ $messages->find('end_of_voting')->value }}">
             </div>
             <div class="field full">
               <label for="voting_before_election">Before election period</label>
-              <input id="voting_before_election" type="text" name="before_election_period" required autocomplete="voting_before_election" value="The election period has not started.">
+              <input id="voting_before_election" type="text" name="before_election_period" required autocomplete="voting_before_election" value="{{ $messages->find('before_election_period')->value }}">
             </div>
             <div class="field full">
               <label for="voting_after_election">After election period. Election is not yet archived</label>
-              <input id="voting_after_election" type="text" name="after_election_period" required autocomplete="voting_after_election" value="Election has ended. See results on the Results page">
+              <input id="voting_after_election" type="text" name="after_election_period" required autocomplete="voting_after_election" value="{{ $messages->find('after_election_period')->value }}">
             </div>
             <div class="field full">
               <label for="voting_no_election">No active election</label>
-              <input id="voting_no_election" type="text" name="voting_no_election" required autocomplete="voting_no_election" value="There is no incoming election yet.">
+              <input id="voting_no_election" type="text" name="voting_no_election" required autocomplete="voting_no_election" value="{{ $messages->find('voting_no_election')->value }}">
             </div>
             <div class="field full">
               <label for="voting_inactive_account">Inactive account</label>
-              <input id="voting_inactive_account" type="text" name="voting_inactive_account" required autocomplete="voting_inactive_account" value="Your account is inactive. Contact COMELEC for further details.">
+              <input id="voting_inactive_account" type="text" name="voting_inactive_account" required autocomplete="voting_inactive_account" value="{{ $messages->find('voting_inactive_account')->value }}">
             </div>
           </div>
         </div>
@@ -93,15 +93,15 @@
           <div class="fields">
             <div class="field full">
               <label for="results_before_election">Before election period</label>
-              <input id="results_before_election" type="text" name="results_before_election" required autocomplete="results_before_election" value="The election period has not started.">
+              <input id="results_before_election" type="text" name="results_before_election" required autocomplete="results_before_election" value="{{ $messages->find('results_before_election')->value }}">
             </div>
             <div class="field full">
               <label for="results_during_election">During election period</label>
-              <input id="results_during_election" type="text" name="results_during_election" required autocomplete="results_during_election" value="Results will show after the election period. Vote through Voting page.">
+              <input id="results_during_election" type="text" name="results_during_election" required autocomplete="results_during_election" value="{{ $messages->find('results_during_election')->value }}">
             </div>
             <div class="field full">
                 <label for="results_no_election">No active election</label>
-                <input id="results_no_election" type="text" name="results_no_election" required autocomplete="results_no_election" value="There is no incoming election yet.">
+                <input id="results_no_election" type="text" name="results_no_election" required autocomplete="results_no_election" value="{{ $messages->find('results_no_election')->value }}">
             </div>
           </div>
         </div>
@@ -113,11 +113,11 @@
           <div class="fields">
             <div class="field full">
               <label for="default_win">Default candidate win reason</label>
-              <input id="default_win" type="text" name="default_candidate_win" required autocomplete="default_win" value="Win by majority.">
+              <input id="default_win" type="text" name="default_candidate_win" required autocomplete="default_win" value="{{ $messages->find('default_candidate_win')->value }}">
             </div>
             <div class="field full">
               <label for="default_party_name">Default candidate party name</label>
-              <input id="default_party_name" type="text" name="default_candidate_party" required autocomplete="default_party_name" value="Independent party">
+              <input id="default_party_name" type="text" name="default_candidate_party" required autocomplete="default_party_name" value="{{ $messages->find('default_candidate_party')->value }}">
             </div>
           </div>
         </div>
