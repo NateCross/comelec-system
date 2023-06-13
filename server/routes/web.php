@@ -3,9 +3,11 @@
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ComelecUserController;
+use App\Http\Controllers\DefaultMessageController;
 use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
 use App\Http\Controllers\PositionController;
+use App\Models\DefaultMessage;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -93,4 +95,17 @@ Route::middleware('auth:comelec_user')->group(function () {
             'announcements',
             AnnouncementController::class,
         )->only(['index', 'update']);
+    
+    Route::middleware(('roles:s,a,c'))
+        ->resource(
+            'message-editor',
+            DefaultMessageController::class,
+        )->only(['index']);
+    Route::middleware('roles:s,a,c')
+        ->controller(DefaultMessageController::class)
+        ->prefix('message-editor')
+        ->group(function () {
+            Route::post('update', 'update')
+                ->name('message-editor.update');
+        });
 });

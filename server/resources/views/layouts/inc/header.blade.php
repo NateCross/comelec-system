@@ -22,7 +22,7 @@
         <a href="{{ route('announcements.index') }}">Announcement Editor</a>
       </li>
       <li>
-        <a href="message-editor.php">Message Editor</a>
+        <a href="{{ route('message-editor.index') }}">Message Editor</a>
       </li>
       <li>
         <a href="{{ route('positions.index') }}">Positions List</a>
@@ -30,13 +30,13 @@
     </ul>
     <ul class="menu see-more">
       <li>
-        <a href="announcement-editor.php">Announcement Editor</a>
+        <a href="{{ route('announcements.index') }}">Announcement Editor</a>
       </li>
       <li>
-        <a href="message-editor.php">Message Editor</a>
+        <a href="{{ route('message-editor.index') }}">Message Editor</a>
       </li>
       <li>
-        <a href="positions-list.php">Positions List</a>
+        <a href="{{ route('positions.index') }}">Positions List</a>
       </li>
     </ul>
   </div>

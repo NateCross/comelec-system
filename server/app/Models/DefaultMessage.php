@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class DefaultMessage extends Model
 {
     use HasFactory;
+
+    public $primaryKey = 'key';
+
+    protected $fillable = [
+        'key',
+        'value',
+    ];
+
+    protected $casts = [
+        'key' => 'string',
+        'value' => 'string',
+    ];
 }
