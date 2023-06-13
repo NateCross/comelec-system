@@ -22,7 +22,7 @@
       <div class="content__row">
         <form 
           class="modify" 
-          action="{{ route('student.update', $student->student_id) }}" 
+          action="{{ route('students.update', $student->student_id) }}" 
           method="POST"
         >
           @csrf
@@ -31,12 +31,12 @@
           <div class="fields">
             <div class="field full">
               <label for="full_name">Full Name</label>
-              <input id="full_name" type="text" name="full_name" required autocomplete="full_name">
+              <input id="full_name" type="text" name="full_name" required autocomplete="full_name" value="{{ $student->full_name }}">
             </div>
             <div class="group">
               <div class="field input">
                 <label for="student_id">Student ID</label>
-                <input id="student_id" type="text" name="student_id" required autocomplete="student_id">
+                <input id="student_id" type="text" name="student_id" required autocomplete="student_id" readonly value="{{ $student->student_id }}">
               </div>
               <div class="field input">
                 <label for="college">College</label>

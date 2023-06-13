@@ -32,7 +32,10 @@
               type="file"
               style="display: none;"
             >
-            <button class="secondary">
+            <button 
+              class="secondary"
+              onclick="exportCsv()"
+            >
               <i class="fa-solid fa-file-export"></i>
               <span class="name">Export CSV</span>
             </button>
@@ -42,10 +45,13 @@
             <option value="1">Not Enrolled</option>
             <option value="2">Enrolled</option>
           </select>
-          <form class="search">
+          <form 
+            class="search"
+            action="{{ route('master-list.search') }}"
+          >
             <div class="search__group">
               <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" placeholder="Search...">
+              <input type="text" name="query" placeholder="Search...">
             </div>
             <i class="fa-solid fa-xmark search__exit"></i>
           </form>
@@ -121,6 +127,25 @@
       );
       if (result?.data) window.location.reload();
     });
+
+    function exportCsv() {
+      axios.get(
+        route('master-list.export'),
+        {
+          responseType: 'blob'
+        }
+      ).then((response) => {
+        // See https://stackoverflow.com/questions/41938718/how-to-download-files-using-axios
+        const href = URL.createObjectURL(response.data);
+        const link = document.createElement('a');
+        link.href = href;
+        link.setAttribute('download', 'export-master-list.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(href);
+      });
+    }
   </script>
 
 @endsection

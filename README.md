@@ -99,6 +99,7 @@ Try connecting through tunnel instead of LAN. **Note: It may be slower to connec
   - Could be used to get some connection details
   - Another possible library: [Expo Network](https://docs.expo.dev/versions/latest/sdk/network/#networkgetmacaddressasyncinterfacename)
 - [Handle multiple roles in Laravel's middleware](https://stackoverflow.com/questions/43901719/laravel-middleware-with-multiple-roles)
+- [Download files with Axios](https://stackoverflow.com/questions/41938718/how-to-download-files-using-axios)
 
 ## Misc. Notes
 

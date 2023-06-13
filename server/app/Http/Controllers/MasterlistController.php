@@ -6,6 +6,7 @@ use App\Helpers\Masterlist;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Spatie\SimpleExcel\SimpleExcelReader;
+use Spatie\SimpleExcel\SimpleExcelWriter;
 
 class MasterlistController extends Controller
 {
@@ -73,4 +74,39 @@ class MasterlistController extends Controller
         $student->save();
     }
 
+    public function search(Request $request) {
+        $validated = $request->validate([
+            'query' => [
+                'string',
+                'nullable',
+            ],
+        ]);
+        $query = $validated['query'];
+        if (!$query) 
+            return redirect()->route('master-list.index');
+        return view(
+            'frontend.master-list.index',
+            [
+                'students' =>
+                Student::query()
+                    ->where('full_name', 'LIKE', "%$query%")
+                    ->paginate(10),
+            ],
+        );
+    }
+
+    public function exportCsv() {
+        $students = Student::query()
+            ->whereKeyNot('0000')
+            ->get()
+            ->toArray();
+        
+        $writer = SimpleExcelWriter::create(
+            'master-list-export.csv',
+        )->addRows($students);
+
+        return response()->download(
+            public_path() . '/master-list-export.csv',
+        );
+    }
 }

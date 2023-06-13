@@ -29,40 +29,31 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $validated = $request->validate([
-                'student_id' => [
-                    'max:20',
-                    'string',
-                    'required',
-                ],
-                'full_name' => [
-                    'max:70',
-                    'string',
-                    'nullable',
-                ],
-                'college' => [
-                    'max:50',
-                    'string',
-                    'nullable',
-                ],
-                'is_enrolled' => [
-                    'boolean',
-                    'nullable',
-                ],
-            ]);
+        $validated = $request->validate([
+            'student_id' => [
+                'max:20',
+                'string',
+                'required',
+            ],
+            'full_name' => [
+                'max:70',
+                'string',
+                'nullable',
+            ],
+            'college' => [
+                'max:50',
+                'string',
+                'nullable',
+            ],
+            'is_enrolled' => [
+                'boolean',
+                'nullable',
+            ],
+        ]);
 
-            $student = Student::create($validated);
-            Masterlist::replaceStudentDataFromMasterlist($student);
+        Student::create($validated);
 
-            return response()->json([
-                'message' => 'Student successfully created',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ]);
-        }
+        return redirect()->route('master-list.index');
     }
 
     /**
@@ -92,7 +83,6 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        try {
             $validated = $request->validate([
                 'full_name' => [
                     'max:70',
@@ -112,14 +102,7 @@ class StudentController extends Controller
 
             $student->updateOrFail($validated);
 
-            return response()->json([
-                'message' => 'Student successfully updated',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ]);
-        }
+            return redirect()->route('master-list.index');
     }
 
     /**
@@ -139,4 +122,5 @@ class StudentController extends Controller
             ]);
         }
     }
+
 }

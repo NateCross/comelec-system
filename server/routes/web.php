@@ -8,7 +8,9 @@ use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\StudentAccountController;
+use App\Http\Controllers\StudentController;
 use App\Models\DefaultMessage;
+use App\Models\Student;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,7 +45,16 @@ Route::middleware('auth:comelec_user')->group(function () {
                 ->name('master-list.edit');
             Route::post('upload', 'upload')
                 ->name('master-list.upload');
+            Route::get('search', 'search')
+                ->name('master-list.search');
+            Route::get('export', 'exportCsv')
+                ->name('master-list.export');
         });
+    Route::middleware('roles:s,a,m,c')
+        ->resource(
+            'students',
+            StudentController::class
+        )->only(['store', 'update']);
 
     Route::middleware('roles:s,a,c')
         ->resource(

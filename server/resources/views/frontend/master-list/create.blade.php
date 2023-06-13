@@ -5,7 +5,7 @@
 @section('content')
 
   <div class="container short">
-    @include('layouts.components.messages.info.info');
+    {{-- @include('layouts.components.messages.info.info'); --}}
     <div class="page__header">
       <div class="group">
         <span class="group__title">Add Student</span>
@@ -20,7 +20,12 @@
     </div>
     <div class="content">
       <div class="content__row">
-        <form class="modify" action="" method="">
+        <form 
+          class="modify" 
+          action="{{ route('students.store')}}" 
+          method="POST"
+        >
+          @csrf
           <span class="title">BASIC INFORMATION</span>
           <div class="fields">
             <div class="field full">
