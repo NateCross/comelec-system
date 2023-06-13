@@ -23,19 +23,9 @@
         <form class="modify" action="" method="">
           <span class="title">BASIC INFORMATION</span>
           <div class="fields">
-            <div class="group">
-              <div class="field name">
-                <label for="first_name">First Name</label>
-                <input id="first_name" type="text" name="first_name" required autocomplete="first_name" autofocus>
-              </div>
-              <div class="field name">
-                <label for="last_name">Last Name</label>
-                <input id="last_name" type="text" name="last_name" required autocomplete="last_name">
-              </div>
-              <div class="field name">
-                <label for="middle_initial">M.I.</label>
-                <input id="middle_initial" type="text" name="middle_initial" required autocomplete="middle_initial">
-              </div>
+            <div class="field full">
+              <label for="full_name">Full Name</label>
+              <input id="full_name" type="text" name="full_name" required autocomplete="full_name" autofocus>
             </div>
             <div class="group">
               <div class="field input">
