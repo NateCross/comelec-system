@@ -5,7 +5,7 @@
 @section('content')
 
   <div class="container">
-    @include('layouts.components.messages.info.info');
+    {{-- @include('layouts.components.messages.info.info'); --}}
     <div class="page__header">
       <div class="group">
         <span class="group__title">Student Accounts List</span>
@@ -20,10 +20,13 @@
             <option value="1">Not Verified</option>
             <option value="2">Verified</option>
           </select>
-          <form class="search">
+          <form 
+            class="search"
+            action="{{ route('student-accounts.search') }}"
+          >
             <div class="search__group">
               <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" placeholder="Search...">
+              <input type="text" name="query" placeholder="Search...">
             </div>
             <i class="fa-solid fa-xmark search__exit"></i>
           </form>
@@ -40,7 +43,51 @@
             </tr>
           </thead>
           <tbody>
-              <?php for ($i = 0; $i < 10; $i++) { ?>
+            @foreach ($accounts as $account)
+              <tr>
+                <td class="col1">
+                  {{ $account->full_name }}
+                </td>
+                <td class="col2">
+                  {{ $account->student_id }}
+                </td>
+                <td class="col3">###########################</td>
+                <td class="col4">
+                  {{
+                    [
+                      'v' => 'Awaiting Verification',
+                      'a' => 'Active',
+                      'i' => 'Inactive',
+                    ][$account->status]
+                  }}
+                </td>
+                <td class="col4">
+                  {{ $account->created_at }}
+                </td>
+                <td class="col5">
+                  <button 
+                    class="secondary" 
+                    id="verify-btn"
+                    onclick="verify({{ $account->id }})"
+                  >
+                    <i class="fa-solid fa-check"></i>
+                  </button>
+                  <a href="{{ route('student-accounts.edit', $account->id) }}">
+                    <button class="secondary">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                  </a>
+                  <button 
+                    class="secondary" 
+                    id="delete-btn"
+                    onclick="deleteAccount({{ $account->id }})"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            @endforeach
+              {{-- <?php for ($i = 0; $i < 10; $i++) { ?>
                 <tr>
                   <td class="col1">Name Placeholder</td>
                   <td class="col2">CS101</td>
@@ -61,7 +108,7 @@
                     </button>
                   </td>
                 </tr>
-              <?php } ?>
+              <?php } ?> --}}
           </tbody>
         </table>
       </div>
@@ -83,9 +130,22 @@
     </div>
   </div>
 
+  <script>
+    function verify(id) {
+      axios.post(
+        route('student-accounts.verify', id)
+      ).then(() => window.location.reload());
+    }
+
+    function deleteAccount(id) {
+      axios.delete(
+        route('student-accounts.destroy', id)
+      ).then(() => window.location.reload());
+    }
+  </script>
   <!-- JS Link -->
-  <script src="js/delete.js" type="text/javascript"></script>
-  <script src="js/verify.js" type="text/javascript"></script>
+  {{-- <script src="js/delete.js" type="text/javascript"></script>
+  <script src="js/verify.js" type="text/javascript"></script> --}}
 
 @endsection
 

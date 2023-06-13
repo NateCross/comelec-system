@@ -6,7 +6,7 @@
         <a href="{{ route('master-list.index') }}">Student Master List</a>
       </li>
       <li>
-        <a href="student-accounts.php">Students Accounts</a>
+        <a href="{{ route('student-accounts.index') }}">Students Accounts</a>
       </li>
       <li>
         <a href="{{ route('candidates.index') }}">Candidates List</a>

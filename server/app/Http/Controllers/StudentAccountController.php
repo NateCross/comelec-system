@@ -15,7 +15,14 @@ class StudentAccountController extends Controller
      */
     public function index()
     {
-        //
+        return view(
+            'frontend.student-accounts.index',
+            [
+                'accounts' =>
+                StudentAccount::query()
+                    ->paginate(10),
+            ]
+        );
     }
 
     /**
@@ -98,7 +105,12 @@ class StudentAccountController extends Controller
      */
     public function edit(StudentAccount $studentAccount)
     {
-        //
+        return view(
+            'frontend.student-accounts.edit',
+            [
+                'account' => $studentAccount,
+            ]
+        );
     }
 
     /**
@@ -106,47 +118,47 @@ class StudentAccountController extends Controller
      */
     public function update(Request $request, StudentAccount $studentAccount)
     {
-        try {
-            $validated = $request->validate([
-                'student_id' => [
-                    'max:20',
-                    'string',
-                    'exists:students,student_id',
-                ],
-                'full_name' => [
-                    'max:70',
-                    'string',
-                ],
-                'email' => [
-                    'max:100',
-                    'string',
-                    'email',
-                ],
-                'password' => [
-                    'max:60',
-                    'string',
-                ],
-                'status' => [
-                    Rule::in(['a', 'i', 'v']),
-                ],
-            ]);
+        $validated = $request->validate([
+            'student_id' => [
+                'max:20',
+                'string',
+                'exists:students,student_id',
+            ],
+            'full_name' => [
+                'max:70',
+                'string',
+                'nullable',
+            ],
+            'email' => [
+                'max:100',
+                'string',
+                'email',
+            ],
+            'password' => [
+                'max:60',
+                'string',
+                'nullable',
+            ],
+            'status' => [
+                Rule::in(['a', 'i', 'v']),
+                'nullable',
+            ],
+        ]);
 
-            if (isset($validated['password'])) {
-                $validated['password'] = 
-                    Hash::make($validated['password']);
-            }
-
-            $studentAccount->update($validated);
-
-            // TODO: Regenerate session here
-            return response()->json([
-                'message' => 'Student Account successfully updated',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ]);
+        if (isset($validated['password'])) {
+            $validated['password'] = 
+                Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
         }
+
+        if (!isset($validated['status'])) {
+            unset($validated['status']);
+        }
+
+        $studentAccount->update($validated);
+
+        return redirect()->route('student-accounts.index');
     }
 
     /**
@@ -227,5 +239,32 @@ class StudentAccountController extends Controller
                 'error' => $e->getMessage(),
             ]);
         }
+    }
+
+    public function verify(StudentAccount $studentAccount) {
+        $studentAccount->status = 'a';
+        $studentAccount->save();
+        return redirect()->route('student-accounts.index');
+    }
+
+    public function search(Request $request) {
+        $validated = $request->validate([
+            'query' => [
+                'string',
+                'nullable',
+            ],
+        ]);
+        $query = $validated['query'];
+        if (!$query) 
+            return redirect()->route('student-accounts.index');
+        return view(
+            'frontend.student-accounts.index',
+            [
+                'accounts' =>
+                StudentAccount::query()
+                    ->where('full_name', 'LIKE', "%$query%")
+                    ->paginate(10),
+            ],
+        );
     }
 }

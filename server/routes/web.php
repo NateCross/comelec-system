@@ -7,6 +7,7 @@ use App\Http\Controllers\DefaultMessageController;
 use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\StudentAccountController;
 use App\Models\DefaultMessage;
 use Illuminate\Support\Facades\Route;
 
@@ -90,13 +91,13 @@ Route::middleware('auth:comelec_user')->group(function () {
                 ->name('positions.search');
         });
 
-    Route::middleware(('roles:s,a,c'))
+    Route::middleware('roles:s,a,c')
         ->resource(
             'announcements',
             AnnouncementController::class,
         )->only(['index', 'update']);
     
-    Route::middleware(('roles:s,a,c'))
+    Route::middleware('roles:s,a,c')
         ->resource(
             'message-editor',
             DefaultMessageController::class,
@@ -107,5 +108,20 @@ Route::middleware('auth:comelec_user')->group(function () {
         ->group(function () {
             Route::post('update', 'update')
                 ->name('message-editor.update');
+        });
+
+    Route::middleware('roles:s,a,m')
+        ->resource(
+            'student-accounts',
+            StudentAccountController::class,
+        )->except(['show']);
+    Route::middleware('roles:s,a,m')
+        ->controller(StudentAccountController::class)
+        ->prefix('student-accounts')
+        ->group(function () {
+            Route::post('verify/{student_account}', 'verify')
+                ->name('student-accounts.verify');
+            Route::get('search', 'search')
+                ->name('student-accounts.search');
         });
 });

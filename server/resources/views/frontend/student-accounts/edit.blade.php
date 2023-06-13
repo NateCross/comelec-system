@@ -5,11 +5,11 @@
 @section('content')
 
   <div class="container short">
-    @include('layouts.components.messages.info.info');
+    {{-- @include('layouts.components.messages.info.info'); --}}
     <div class="page__header">
       <div class="group">
         <span class="group__title">Edit Student Account</span>
-        <a href="student-accounts.php">
+        <a href="{{ route('student-accounts.index') }}">
           <button class="primary bold">
             <i class="fa-solid fa-arrow-left-long"></i>
             Go Back
@@ -20,25 +20,31 @@
     </div>
     <div class="content">
       <div class="content__row">
-        <form class="modify" action="" method="">
+        <form 
+          class="modify" 
+          action="{{ route('student-accounts.update', $account->id) }}" 
+          method="POST"
+        >
+          @csrf
+          @method('PUT')
           <span class="title">ACCOUNT CREDENTIALS</span>
           <div class="fields">
             <div class="group">
               <div class="field">
                 <label for="name">Name</label>
-                <input id="name" type="text" name="name" required autocomplete="name" autofocus>
+                <input id="name" type="text" name="full_name" required autocomplete="name" value="{{ $account->full_name }}" autofocus>
               </div>
               <div class="field">
                 <label for="password">Password</label>
-                <input id="password" type="password" name="password" required autocomplete="password">
+                <input id="password" type="password" name="password" autocomplete="password">
               </div>
             </div>
             <div class="field input single">
               <label for="student_id">Status</label>
               <select name="status">
-                <option value="0">Select Status</option>
-                <option value="1">Active</option>
-                <option value="2">Inactive</option>
+                <option value="">Select Status</option>
+                <option value="a">Active</option>
+                <option value="i">Inactive</option>
               </select>
             </div>
           </div>
