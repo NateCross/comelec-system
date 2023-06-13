@@ -12,7 +12,13 @@ class AnnouncementController extends Controller
      */
     public function index()
     {
-        //
+        return view(
+            'frontend.announcement-editor.index',
+            [
+                'announcement' => 
+                Announcement::query()->whereKey(1)->first(),
+            ]
+        );
     }
 
     /**
@@ -52,7 +58,16 @@ class AnnouncementController extends Controller
      */
     public function update(Request $request, Announcement $announcement)
     {
-        //
+        $validated = $request->validate([
+            'text' => [
+                'string',
+                'required',
+            ],
+        ]);
+
+        $announcement->update($validated);
+
+        return redirect()->route('announcements.index');
     }
 
     /**

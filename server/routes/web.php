@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ComelecUserController;
 use App\Http\Controllers\ElectionRecordController;
@@ -86,4 +87,10 @@ Route::middleware('auth:comelec_user')->group(function () {
             Route::get('search', 'search')
                 ->name('positions.search');
         });
+
+    Route::middleware(('roles:s,a,c'))
+        ->resource(
+            'announcements',
+            AnnouncementController::class,
+        )->only(['index', 'update']);
 });

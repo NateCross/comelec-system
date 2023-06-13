@@ -19,7 +19,7 @@
         <i class="fa-solid fa-angle-up" id="see-more-angle"></i>
       </li>
       <li>
-        <a href="announcement-editor.php">Announcement Editor</a>
+        <a href="{{ route('announcements.index') }}">Announcement Editor</a>
       </li>
       <li>
         <a href="message-editor.php">Message Editor</a>
