@@ -70,6 +70,8 @@ Route::middleware('auth:comelec_user')->group(function () {
                 ->name('candidates.archive');
             Route::get('search', 'search')
                 ->name('candidates.search');
+            Route::get('archive/search', 'searchArchive')
+                ->name('candidates.search-archive');
         });
     
     Route::middleware('roles:s,a')

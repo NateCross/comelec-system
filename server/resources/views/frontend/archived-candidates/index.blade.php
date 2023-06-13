@@ -20,10 +20,13 @@
     <div class="content">
       <div class="content__row">
         <div class="actions">
-          <form class="search">
+          <form 
+            class="search"
+            action="{{ route('candidates.search-archive') }}"
+          >
             <div class="search__group">
               <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" placeholder="Search...">
+              <input type="text" name="query" placeholder="Search...">
             </div>
             <i class="fa-solid fa-xmark search__exit"></i>
           </form>

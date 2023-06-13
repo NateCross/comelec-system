@@ -238,7 +238,6 @@ class CandidateController extends Controller
     }
 
     public function search(Request $request) {
-
         $validated = $request->validate([
             'query' => [
                 'string',
@@ -257,6 +256,31 @@ class CandidateController extends Controller
                     ->with('position')
                     ->whereRelation('student', 'full_name', 'LIKE', "%$query%")
                     ->where('is_archived', false)
+                    ->get(),
+            ],
+        );
+    }
+
+    public function searchArchive(Request $request) {
+        $validated = $request->validate([
+            'query' => [
+                'string',
+                'nullable',
+            ],
+        ]);
+        $query = $validated['query'];
+        if (!$query) 
+            return redirect()->route('candidates.archive');
+        return view(
+            'frontend.archived-candidates.index',
+            [
+                'candidates' =>
+                Candidate::query()
+                    ->with('student')
+                    ->with('position')
+                    ->with('records')
+                    ->whereRelation('student', 'full_name', 'LIKE', "%$query%")
+                    ->where('is_archived', true)
                     ->get(),
             ],
         );
