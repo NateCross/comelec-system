@@ -1,5 +1,5 @@
 button {
-  padding: 0.6em 0.8em;
+  padding: 0.6em 1.5em;
   color: var(--text-color);
   border: 1px solid var(--primary-color);
   background-color: none;
@@ -45,10 +45,6 @@ button.tertiary:hover {
 
 button.no-border {
   border: none;
-}
-
-button.wide {
-  padding: 0.6em 2em;
 }
 
 button.bold {

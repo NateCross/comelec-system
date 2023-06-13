@@ -4,90 +4,55 @@
 
 @section('content')
 
-  <div class="container">
+  <div class="container short">
     @include('layouts.components.messages.info.info');
     <div class="page__header">
       <div class="group">
-        <span class="group__title">Student Master List</span>
+        <span class="group__title">Add Student</span>
+        <a href="master-list.php">
+          <button class="primary bold">
+            <i class="fa-solid fa-arrow-left-long"></i>
+            Go Back
+          </button>
+        </a>
       </div>
       <span class="description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
     </div>
     <div class="content">
       <div class="content__row">
-        <div class="actions">
-          <div class="actions__btn">
-            <a href="master-list-create.php">
-              <button class="primary">
-                <i class="fa-regular fa-square-plus"></i>
-                <span class="name">Add Student</span>
-              </button>
-            </a>
-            <button class="secondary">
-              <i class="fa-solid fa-file-import"></i>
-              <span class="name">Import CSV</span>
-            </button>
-            <button class="secondary">
-              <i class="fa-solid fa-file-export"></i>
-              <span class="name">Export CSV</span>
-            </button>
-          </div>
-          <select class="filter" name="status">
-            <option value="0">Select Status</option>
-            <option value="1">Not Enrolled</option>
-            <option value="2">Enrolled</option>
-          </select>
-          <form class="search">
-            <div class="search__group">
-              <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" placeholder="Search...">
+        <form class="modify" action="" method="">
+          <span class="title">BASIC INFORMATION</span>
+          <div class="fields">
+            <div class="group">
+              <div class="field name">
+                <label for="first_name">First Name</label>
+                <input id="first_name" type="text" name="first_name" required autocomplete="first_name" autofocus>
+              </div>
+              <div class="field name">
+                <label for="last_name">Last Name</label>
+                <input id="last_name" type="text" name="last_name" required autocomplete="last_name">
+              </div>
+              <div class="field name">
+                <label for="middle_initial">M.I.</label>
+                <input id="middle_initial" type="text" name="middle_initial" required autocomplete="middle_initial">
+              </div>
             </div>
-            <i class="fa-solid fa-xmark search__exit"></i>
-          </form>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th class="col1">Name</th>
-              <th class="col2">ID</th>
-              <th class="col3">College</th>
-              <th class="col4">Role</th>
-              <th class="col5">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-              <?php for ($i = 0; $i < 10; $i++) { ?>
-                <tr>
-                  <td class="col1">Name Placeholder</td>
-                  <td class="col2">CS101</td>
-                  <td class="col3">Bachelor of Science in Computer Science</td>
-                  <td class="col4">Not Enrolled</td>
-                  <td class="col5">
-                    <a href="master-list-edit.php">
-                      <button class="secondary">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                      </button>
-                    </a>
-                  </td>
-                </tr>
-              <?php } ?>
-          </tbody>
-        </table>
+            <div class="group">
+              <div class="field input">
+                <label for="student_id">Student ID</label>
+                <input id="student_id" type="text" name="student_id" required autocomplete="student_id">
+              </div>
+              <div class="field input">
+                <label for="college">College</label>
+                <input id="college" type="text" name="college" required autocomplete="college">
+              </div>
+            </div>
+          </div>
+          <div class="page__actions">
+            <button type="submit" class="tertiary wide">Add Student</button>
+          </div>
+        </form>
       </div>
-    </div>
-    <div class="pagination">
-      <a href="#" class="group">
-        <i class="fa-solid fa-angle-left"></i>
-        <span class="name">PREVIOUS</span>
-      </a>
-      <a href="#">1</a>
-      <a href="#">2</a>
-      <a href="#">3</a>
-      <span class="ellipsis">...</span>
-      <a href="#">101</a>
-      <a href="#" class="group">
-        <span class="name">NEXT</span>
-        <i class="fa-solid fa-angle-right"></i>
-      </a>
     </div>
   </div>
 

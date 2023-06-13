@@ -22,11 +22,11 @@
                             <textarea id="article" type="text" name="article" required autocomplete="article"></textarea>
                         </div>
                     </div>
+                    <div class="page__actions">
+                        <button type="submit" class="tertiary wide">Update Announcement</button>
+                    </div>
                 </form>
             </div>
-        </div>
-        <div class="page__actions">
-            <button type="submit" class="tertiary wide">Update Announcement</button>
         </div>
     </div>
 
