@@ -14,12 +14,15 @@ class CandidateController extends Controller
      */
     public function index()
     {
-        // return Candidate::with('student')->with('position')->with('records')->get();
         return view(
             'frontend.candidates-list.index',
             [
                 'candidates' => 
-                Candidate::query()->paginate(10),
+                Candidate::query()
+                    ->whereNot('is_archived', true)
+                    ->with('student')
+                    ->with('position')
+                    ->paginate(10),
             ]
         );
     }
@@ -43,49 +46,42 @@ class CandidateController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $validated = $request->validate([
-                'student_id' => [
-                    'max:20',
-                    'string',
-                    'exists:students,student_id',
-                    'required',
-                ],
-                'position_id' => [
-                    'integer',
-                    'exists:positions,id',
-                    'required',
-                ],
-                'party_name' => [
-                    'max:50',
-                    'string',
-                ],
-                'image' => [
-                    'file',
-                ],
-                'is_archived' => [
-                    'boolean',
-                ],
-            ]);
+        $validated = $request->validate([
+            'student_id' => [
+                'max:20',
+                'string',
+                'exists:students,student_id',
+                'required',
+            ],
+            'position_id' => [
+                'integer',
+                'exists:positions,id',
+                'required',
+            ],
+            'party_name' => [
+                'max:50',
+                'string',
+                'nullable',
+            ],
+            'image' => [
+                'file',
+            ],
+            'is_archived' => [
+                'boolean',
+            ],
+        ]);
 
-            if (isset($validated['image'])) {
-                $image = $validated['image'];
-                $path = $image->store('public/candidates');
-                $path = substr($path, strpos($path, '/') + 1);
-                $validated['image_url'] = $path;
-                unset($validated['image']);
-            }
-
-            Candidate::create($validated);
-
-            return response()->json([
-                'message' => 'Candidate successfully created',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ]);
+        if (isset($validated['image'])) {
+            $image = $validated['image'];
+            $path = $image->store('public/candidates');
+            $path = substr($path, strpos($path, '/') + 1);
+            $validated['image_url'] = $path;
+            unset($validated['image']);
         }
+
+        Candidate::create($validated);
+
+        return redirect()->route('candidates.index');
     }
 
     /**
@@ -107,7 +103,17 @@ class CandidateController extends Controller
      */
     public function edit(Candidate $candidate)
     {
-        //
+        return view(
+            'frontend.candidates-list.edit',
+            [
+                'candidate' => $candidate
+                    ->with('student')
+                    ->with('position')
+                    ->first(),
+                'positions' =>
+                Position::all(),
+            ],
+        );
     }
 
     /**
@@ -115,40 +121,52 @@ class CandidateController extends Controller
      */
     public function update(Request $request, Candidate $candidate)
     {
-        try {
-            $validated = $request->validate([
-                'position_id' => [
-                    'integer',
-                    'exists:positions,id',
-                ],
-                'party_name' => [
-                    'max:50',
-                    'string',
-                ],
-                'image' => [
-                    'file',
-                ],
-                'is_archived' => [
-                    'boolean',
-                ],
-            ]);
+        $validated = $request->validate([
+            'position_id' => [
+                'integer',
+                'exists:positions,id',
+            ],
+            'party_name' => [
+                'max:50',
+                'string',
+                'nullable',
+            ],
+            'image' => [
+                'file',
+            ],
+            'is_archived' => [
+                'boolean',
+            ],
+        ]);
 
 
-            if (isset($validated['image'])) {
-                $image = $validated['image'];
-                if ($originalImagePath = $candidate->image_url) {
-                    Storage::delete('public/'.$originalImagePath);
-                }
-                $path = $image->store('public/candidates');
-                $path = substr($path, strpos($path, '/') + 1);
-                $validated['image_url'] = $path;
-                unset($validated['image']);
+        if (isset($validated['image'])) {
+            $image = $validated['image'];
+            if ($originalImagePath = $candidate->image_url) {
+                Storage::delete('public/'.$originalImagePath);
             }
+            $path = $image->store('public/candidates');
+            $path = substr($path, strpos($path, '/') + 1);
+            $validated['image_url'] = $path;
+            unset($validated['image']);
+        }
 
-            $candidate->update($validated);
+        $candidate->update($validated);
+
+        return redirect()->route('candidates.index');
+    }
+
+    /**
+     * Archives the given candidate
+     */
+    public function destroy(Candidate $candidate)
+    {
+        try {
+            $candidate->is_archived = !$candidate->is_archived;
+            $candidate->save();
 
             return response()->json([
-                'message' => 'Candidate successfully updated',
+                'message' => 'Candidate successfully deleted',
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -158,14 +176,15 @@ class CandidateController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * This function actually deletes. The other
      */
-    public function destroy(Candidate $candidate)
+    public function delete(Candidate $candidate)
     {
         try {
             if ($image = $candidate->image_url) {
                 Storage::delete('public/'.$image);
             }
+
             $candidate->delete();
 
             return response()->json([
@@ -193,10 +212,53 @@ class CandidateController extends Controller
             Candidate::query()
                 ->where('is_archived', false)
                 ->update(['is_archived' => true]);
+            return response()->json([
+                'message' => 'Archived all',
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
             ]);
         }
+    }
+
+    public function archive() {
+        return view(
+            'frontend.archived-candidates.index',
+            [
+                'candidates' =>
+                Candidate::query()
+                    ->where('is_archived', true)
+                    ->with('student')
+                    ->with('position')
+                    ->with('records')
+                    ->get(),
+            ],
+        );
+    }
+
+    public function search(Request $request) {
+
+        $validated = $request->validate([
+            'query' => [
+                'string',
+                'nullable',
+            ],
+        ]);
+        $query = $validated['query'];
+        if (!$query) 
+            return redirect()->route('candidates.index');
+        return view(
+            'frontend.candidates-list.index',
+            [
+                'candidates' =>
+                Candidate::query()
+                    ->with('student')
+                    ->with('position')
+                    ->whereRelation('student', 'full_name', 'LIKE', "%$query%")
+                    ->where('is_archived', false)
+                    ->get(),
+            ],
+        );
     }
 }

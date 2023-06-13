@@ -59,7 +59,18 @@ Route::middleware('auth:comelec_user')->group(function () {
         ->resource(
             'candidates',
             CandidateController::class,
-        );
+        )->except(['show']);
+    Route::middleware('roles:s,a,c')
+        ->controller(CandidateController::class)
+        ->prefix('candidates')
+        ->group(function () {
+            Route::post('destroy-all', 'archiveAll')
+                ->name('candidates.destroy-all');
+            Route::get('archive', 'archive')
+                ->name('candidates.archive');
+            Route::get('search', 'search')
+                ->name('candidates.search');
+        });
     
     Route::middleware('roles:s,a')
         ->resource(

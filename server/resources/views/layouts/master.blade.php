@@ -34,7 +34,8 @@
 
     </main>
   </div>
-
+  {{-- @routes is for ziggy, which exposes the Laravel routes in JS --}}
+  @routes
   @vite(['resources/js/app.js'])
 </body>
 

@@ -8,7 +8,7 @@
     <div class="page__header">
       <div class="group">
         <span class="group__title">Archived Candidates List</span>
-        <a href="candidates-list.php">
+        <a href="{{ route('candidates.index') }}">
           <button class="primary bold">
             <i class="fa-solid fa-angle-left"></i>
             Go Back
@@ -40,16 +40,32 @@
             </tr>
           </thead>
           <tbody class="wide">
-              <?php for ($i = 0; $i < 10; $i++) { ?>
-                <tr>
-                  <td class="col1">Name Placeholder</td>
-                  <td class="col2">CS101</td>
-                  <td class="col3">Party People</td>
-                  <td class="col4">President</td>
-                  <td class="col4">01/01/2001 12:00:00 AM</td>
-                  <td class="col4">Election 2023-2024</td>
-                </tr>
-              <?php } ?>
+            @foreach ($candidates as $candidate)
+              <tr>
+                <td class="col1">
+                  {{ $candidate->student->full_name }}
+                </td>
+                <td class="col2">
+                  {{ $candidate->student->student_id }}
+                </td>
+                <td class="col3">
+                  {{ $candidate->party_name }}
+                </td>
+                <td class="col4">
+                  {{ $candidate->position->position_name }}
+                </td>
+                <td class="col4">
+                  {{ $candidate->created_at }}
+                </td>
+                <td class="col4">
+                  {{ 
+                    count($candidate->records)
+                    ? $candidate->records[0]->name
+                    : null
+                  }}
+                </td>
+              </tr>
+            @endforeach
             </form>
           </tbody>
         </table>

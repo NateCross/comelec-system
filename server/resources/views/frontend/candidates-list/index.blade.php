@@ -21,21 +21,27 @@
                 <span class="name">Add Candidate</span>
               </button>
             </a>
-            <button class="secondary">
+            <button 
+              class="secondary"
+              onclick="deleteAll()"
+            >
               <i class="fa-solid fa-trash"></i>
               <span class="name">Delete All Candidates</span>
             </button>
           </div>
-          <a href="archived-candidates.php">
+          <a href="{{ route('candidates.archive') }}">
             <button class="secondary">
               <i class="fa-solid fa-eye"></i>
               <span class="name">View Archived Candidates</span>
             </button>
           </a>
-          <form class="search">
+          <form 
+            class="search"
+            action="{{ route('candidates.search') }}"
+          >
             <div class="search__group">
               <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" placeholder="Search...">
+              <input type="text" name="query" placeholder="Search...">
             </div>
             <i class="fa-solid fa-xmark search__exit"></i>
           </form>
@@ -52,25 +58,39 @@
             </tr>
           </thead>
           <tbody>
-              <?php for ($i = 0; $i < 10; $i++) { ?>
-                <tr>
-                  <td class="col1">Name Placeholder</td>
-                  <td class="col2">CS101</td>
-                  <td class="col3">Party People</td>
-                  <td class="col4">President</td>
-                  <td class="col4">01/01/2001 12:00:00 AM</td>
-                  <td class="col5">
-                    <a href="candidates-list-edit.php">
-                      <button class="secondary">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                      </button>
-                    </a>
-                    <button class="secondary" id="delete-btn">
-                      <i class="fa-solid fa-trash"></i>
+            @foreach ($candidates as $candidate)
+              <tr>
+                <td class="col1">
+                  {{ $candidate->student->full_name }}
+                </td>
+                <td class="col2">
+                  {{ $candidate->student->student_id }}
+                </td>
+                <td class="col3">
+                  {{ $candidate->party_name }}
+                </td>
+                <td class="col4">
+                  {{ $candidate->position->position_name }}
+                </td>
+                <td class="col4">
+                  {{ $candidate->created_at }}
+                </td>
+                <td class="col5">
+                  <a href="{{ route('candidates.edit', $candidate->id) }}">
+                    <button class="secondary">
+                      <i class="fa-solid fa-pen-to-square"></i>
                     </button>
-                  </td>
-                </tr>
-              <?php } ?>
+                  </a>
+                  <button 
+                    class="secondary" 
+                    id="delete-btn"
+                    onclick="deleteCandidate({{ $candidate->id }})"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            @endforeach
           </tbody>
         </table>
       </div>
@@ -92,8 +112,18 @@
     </div>
   </div>
 
-  <!-- JS Link -->
-  <script src="js/delete.js" type="text/javascript"></script>
+  <script>
+    function deleteCandidate(id) {
+      axios.delete(
+        route('candidates.destroy', id)
+      ).then(() => window.location.reload());
+    }
 
+    function deleteAll() {
+      axios.post(
+        route('candidates.destroy-all')
+      ).then(() => window.location.reload());
+    }
+  </script>
 @endsection
 
