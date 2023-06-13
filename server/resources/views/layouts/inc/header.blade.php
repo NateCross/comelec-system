@@ -1,9 +1,9 @@
 <div class="header">
   <div class="header__left">
-    <a href="master-list.php" class="logo">COMELEC</a>
+    <a href="{{ route('master-list.index') }}" class="logo">COMELEC</a>
     <ul class="nav">
       <li>
-        <a href="master-list.php">Student Master List</a>
+        <a href="{{ route('master-list.index') }}">Student Master List</a>
       </li>
       <li>
         <a href="student-accounts.php">Students Accounts</a>
@@ -12,7 +12,7 @@
         <a href="candidates-list.php">Candidates List</a>
       </li>
       <li>
-        <a href="election-manager.php">Election Manager</a>
+        <a href="{{ route('election.index') }}">Election Manager</a>
       </li>
       <li id="see-more-btn">
         <span class="name">See More</span>
@@ -43,8 +43,20 @@
   <div class="header__right" id="user-btn">
     <div class="header__separator"></div>
     <div class="details">
-      <span class="details__name">Name Placeholder</span>
-      <span class="details__role">Super Admin</span>
+      <span class="details__name">
+        {{ Auth::user()->username }}
+      </span>
+      <span class="details__role">
+        {{
+          [
+            's' => 'Super Admin',
+            'a' => 'Admin',
+            'm' => 'Student Accounts Manager',
+            'c' => 'Commissioner',
+            'p' => 'Poll Worker',
+          ][Auth::user()->role]
+        }}
+      </span>
     </div>
     <div class="group">
       <i class="fa-solid fa-circle-user group__icon"></i>

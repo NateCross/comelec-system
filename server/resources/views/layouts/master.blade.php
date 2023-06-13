@@ -26,7 +26,6 @@
       @include('layouts.inc.header');
       @include('layouts.components.menus');
       @include('layouts.components.modals');
-
       
     </div>
     <main class="page__content">
