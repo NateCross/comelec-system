@@ -224,7 +224,7 @@ class ComelecUserController extends Controller
                 'users' =>
                 ComelecUser::query()
                     ->with('student')
-                    ->paginate('10'),
+                    ->paginate(10),
             ],
         );
     }

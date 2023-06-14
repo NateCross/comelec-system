@@ -96,6 +96,11 @@ Route::middleware('auth:comelec_user')->group(function () {
             'record-candidate',
             RecordCandidateController::class
         )->only(['update']);
+    Route::middleware('roles:s,a')
+        ->resource(
+            'record-student',
+            RecordStudentController::class
+        )->only(['update']);
 
 
     Route::middleware('roles:s,a,c')

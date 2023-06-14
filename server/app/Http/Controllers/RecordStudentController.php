@@ -6,6 +6,7 @@ use App\Helpers\RecordStudentHelper;
 use App\Models\ElectionRecord;
 use App\Models\RecordStudent;
 use App\Models\Student;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -310,6 +311,9 @@ class RecordStudentController extends Controller
             $activeElection->id,
             $validated['student_id'],
         );
+
+        $recordStudent->ac_view_timestamp = Carbon::now()->toDateTimeString();
+        $recordStudent->save();
 
         return view(
             'frontend.access-code.index',

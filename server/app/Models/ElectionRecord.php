@@ -25,7 +25,18 @@ class ElectionRecord extends Model
             'student_id',
             null,
             'student_id',
-        );
+        )->withPivot(['id', 'vote_timestamp', 'ac_view_timestamp', 'is_invalid']);
+    }
+
+    public function validStudents() {
+        return $this->belongsToMany(
+            Student::class,
+            'record_students',
+            'election_id',
+            'student_id',
+            null,
+            'student_id',
+        )->withPivot(['id', 'vote_timestamp', 'ac_view_timestamp', 'is_invalid'])->wherePivot('is_invalid', false);
     }
 
     public function candidates() {

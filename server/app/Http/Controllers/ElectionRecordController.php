@@ -215,8 +215,9 @@ class ElectionRecordController extends Controller
         return view(
             'frontend.election-voters.index',
             [
-                'election' => $electionRecord
-                    ->with('students')
+                'election' => ElectionRecord::query()
+                    ->whereKey($electionRecord->id)
+                    ->with('validStudents')
                     ->first(),
             ]
         );
