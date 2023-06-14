@@ -95,38 +95,30 @@ class RecordCandidateController extends Controller
      */
     public function update(Request $request, RecordCandidate $recordCandidate)
     {
-        try {
-            $validated = $request->validate([
-                'election_id' => [
-                    'integer',
-                    'exists:election_records,id',
-                ],
-                'candidate_id' => [
-                    'integer',
-                    'exists:candidates,id',
-                ],
-                'is_elected' => [
-                    'boolean',
-                ],
-                'num_of_votes' => [
-                    'integer',
-                ],
-                'reason' => [
-                    'max:50',
-                    'string',
-                ],
-            ]);
+        $validated = $request->validate([
+            'election_id' => [
+                'integer',
+                'exists:election_records,id',
+            ],
+            'candidate_id' => [
+                'integer',
+                'exists:candidates,id',
+            ],
+            'is_elected' => [
+                'boolean',
+            ],
+            'num_of_votes' => [
+                'integer',
+            ],
+            'reason' => [
+                'max:50',
+                'string',
+            ],
+        ]);
 
-            $recordCandidate->update($validated);
+        $recordCandidate->update($validated);
 
-            return response()->json([
-                'message' => 'Record-Candidate successfully updated',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ]);
-        }
+        return redirect()->route('election.candidates', $recordCandidate->election_id);
     }
 
     /**

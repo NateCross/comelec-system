@@ -5,7 +5,7 @@
 @section('content')
 
   <div class="container short">
-    @include('layouts.components.messages.info.info');
+    {{-- @include('layouts.components.messages.info.info'); --}}
     <div class="page__header">
       <div class="group">
         <span class="group__title">Override Candidate Result</span>
@@ -20,16 +20,22 @@
     </div>
     <div class="content">
       <div class="content__row">
-        <form class="modify" action="" method="">
+        <form 
+          class="modify" 
+          action="{{ route('record-candidate.update', $record_candidate->id) }}" 
+          method="POST"
+        >
+          @csrf
+          @method('PUT')
           <span class="title">OVERRIDE DETAILS</span>
           <div class="fields">
             <div class="field input">
               <label for="reason">Reason</label>
-              <textarea id="reason" type="text" name="reason" required autocomplete="reason" autofocus></textarea>
+              <textarea id="reason" type="text" name="reason" autocomplete="reason" autofocus>{{ $record_candidate->reason }}</textarea>
             </div>
             <div class="field half">
               <label for="result">Result</label>
-              <input id="result" type="text" name="result" required autocomplete="result">
+              <input id="result" type="text" name="is_elected" required autocomplete="result" value="{{ $record_candidate->is_elected }}">
             </div>
           </div>
           <div class="page__actions">

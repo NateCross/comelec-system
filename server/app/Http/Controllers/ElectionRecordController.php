@@ -234,4 +234,20 @@ class ElectionRecordController extends Controller
             ]
         );
     }
+
+    public function candidatesEdit(ElectionRecord $electionRecord, Candidate $candidate) {
+        if ($electionRecord->status !== 'a')
+            return redirect()->back();
+        
+        $recordCandidate = RecordCandidate::query()
+            ->where('election_id', $electionRecord->id)
+            ->where('candidate_id', $candidate->id)
+            ->first();
+        return view(
+            'frontend.election-candidates.edit',
+            [
+                'record_candidate' => $recordCandidate,
+            ]
+        );
+    }
 }

@@ -88,12 +88,14 @@ Route::middleware('auth:comelec_user')->group(function () {
                 ->name('election.voters');
             Route::get('{election_record}/candidates', 'candidates')
                 ->name('election.candidates');
+            Route::get('{election_record}/candidates/{candidate}/edit', 'candidatesEdit')
+                ->name('election.candidates.edit');
         });
-    // Route::middleware('roles:s,a')
-    //     ->resource(
-    //         'record-candidate',
-    //         RecordCandidateController::class
-    //     )->only(['update']);
+    Route::middleware('roles:s,a')
+        ->resource(
+            'record-candidate',
+            RecordCandidateController::class
+        )->only(['update']);
 
 
     Route::middleware('roles:s,a,c')

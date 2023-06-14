@@ -65,11 +65,13 @@
                   {{ $candidate->pivot->reason }}
                 </td>
                 <td class="col6">
-                  <a href="election-candidates-edit.php">
-                    <button class="secondary">
-                      <i class="fa-solid fa-pen-to-square"></i>
-                    </button>
-                  </a>
+                  @if($election->status === 'a')
+                    <a href="{{ route('election.candidates.edit', ['election_record' => $election->id, 'candidate' => $candidate->id]) }}">
+                      <button class="secondary">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      </button>
+                    </a>
+                  @endif
                 </td>
               </tr>
             @endforeach
