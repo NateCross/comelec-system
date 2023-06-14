@@ -86,8 +86,12 @@ Route::middleware('auth:comelec_user')->group(function () {
                 ->name('election.search');
             Route::get('{election_record}/voters', 'voters')
                 ->name('election.voters');
+            Route::get('{election_record}/voters/search', 'votersSearch')
+                ->name('election.voters.search');
             Route::get('{election_record}/candidates', 'candidates')
                 ->name('election.candidates');
+            Route::get('{election_record}/candidates/search', 'candidatesSearch')
+                ->name('election.candidates.search');
             Route::get('{election_record}/candidates/{candidate}/edit', 'candidatesEdit')
                 ->name('election.candidates.edit');
         });

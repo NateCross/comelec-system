@@ -24,10 +24,13 @@
       <div class="content__row">
         <div class="actions spaced">
          <span class="title">Candidates</span>
-          <form class="search">
+          <form 
+            class="search"
+            action="{{ route('election.candidates.search', $election->id) }}"
+          >
             <div class="search__group">
               <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" placeholder="Search...">
+              <input type="text" name="query" placeholder="Search...">
             </div>
             <i class="fa-solid fa-xmark search__exit"></i>
           </form>
@@ -54,12 +57,7 @@
                   {{ $candidate->student_id }}
                 </td>
                 <td class="col4">
-                  {{-- <button
-                    onclick="toggleElected({{$candidate->pivot->id}}, {{$candidate->pivot->is_elected}})"
-                    class="primary"
-                  > --}}
-                    {{ $candidate->pivot->is_elected ? 'Win' : 'Loss'}}
-                  {{-- </button> --}}
+                  {{ $candidate->pivot->is_elected ? 'Win' : 'Loss'}}
                 </td>
                 <td class="col5">
                   {{ $candidate->pivot->reason }}

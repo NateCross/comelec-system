@@ -223,6 +223,37 @@ class ElectionRecordController extends Controller
         );
     }
 
+    public function votersSearch(Request $request, ElectionRecord $electionRecord) {
+        $validated = $request->validate([
+            'query' => [
+                'string',
+                'nullable',
+            ],
+        ]);
+        $query = $validated['query'];
+        if (!$query)
+            return redirect()->route('election.voters', $electionRecord->id);
+
+        $results = ElectionRecord::query()
+            ->whereKey($electionRecord->id)
+            ->with('validStudents')
+            ->first();
+
+        $resultsCandidate = $results->validStudents
+            ->toQuery()
+            ->where('full_name', 'LIKE', "%$query%")
+            ->get();
+
+        $results->validStudents = $results->validStudents->intersect($resultsCandidate);
+
+        return view(
+            'frontend.election-voters.index',
+            [
+                'election' => $results,
+            ],
+        );
+    }
+
     public function candidates(ElectionRecord $electionRecord) {
         return view (
             'frontend.election-candidates.index',
@@ -249,6 +280,39 @@ class ElectionRecordController extends Controller
             [
                 'record_candidate' => $recordCandidate,
             ]
+        );
+    }
+
+    public function candidatesSearch(Request $request, ElectionRecord $electionRecord) {
+        $validated = $request->validate([
+            'query' => [
+                'string',
+                'nullable',
+            ],
+        ]);
+        $query = $validated['query'];
+        if (!$query)
+            return redirect()->route('election.candidates', $electionRecord->id);
+
+        $results = ElectionRecord::query()
+            ->whereKey($electionRecord->id)
+            ->with('candidates')
+            ->with('candidates.student')
+            ->first();
+
+        $resultsCandidate = $results->candidates
+            ->toQuery()
+            ->with('student')
+            ->whereRelation('student', 'full_name', 'LIKE', "%$query%")
+            ->get();
+        
+        $results->candidates = $results->candidates->intersect($resultsCandidate);
+
+        return view(
+            'frontend.election-candidates.index',
+            [
+                'election' => $results,
+            ],
         );
     }
 }

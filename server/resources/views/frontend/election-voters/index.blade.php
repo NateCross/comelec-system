@@ -24,10 +24,13 @@
       <div class="content__row">
         <div class="actions spaced">
           <span class="title">Voters</span>
-          <form class="search">
+          <form class="search"
+            class="search"
+            action="{{ route('election.voters.search', $election->id) }}"
+          >
             <div class="search__group">
               <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" placeholder="Search...">
+              <input type="text" name="query" placeholder="Search...">
             </div>
             <i class="fa-solid fa-xmark search__exit"></i>
           </form>
