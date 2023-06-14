@@ -5,17 +5,17 @@
 @section('content')
 
   <div class="container wide">
-    @include('layouts.components.messages.info.info');
+    {{-- @include('layouts.components.messages.info.info'); --}}
     <div class="page__header">
       <div class="group">
         <span class="group__title">Election Manager</span>
         <span class="group__description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
       </div>
       <div class="tab">
-        <a href="election-candidates.php">
+        <a href="{{ route('election.candidates') }}">
           <span class="selector">Candidates</span>
         </a>
-        <a href="election-voters.php">
+        <a href="{{ route('election.voters') }}">
           <span class="selector active">Voters</span>
         </a>
       </div>

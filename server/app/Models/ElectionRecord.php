@@ -34,6 +34,6 @@ class ElectionRecord extends Model
             'record_candidates',
             'election_id',
             'candidate_id',
-        );
+        )->withPivot(['id', 'num_of_votes', 'is_elected', 'reason']);
     }
 }

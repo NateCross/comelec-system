@@ -52,7 +52,10 @@
           </thead>
           <tbody class="wide">
               @foreach ($elections as $election)
-                <tr>
+                <tr
+                  onclick="electionManager({{ $election->id }})"
+                  style="cursor: pointer;"
+                >
                   <td class="col1">{{ $election->name }}</td>
                   <td class="col2">{{ $election->id }}</td>
                   <td class="col3">{{ $election->description }}</td>
@@ -91,6 +94,12 @@
 
     </div>
   </div>
+
+  <script>
+    function electionManager(id) {
+      window.location.href = route('election.candidates', id);
+    }
+  </script>
 
 @endsection
 

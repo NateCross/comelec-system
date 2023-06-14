@@ -211,4 +211,27 @@ class ElectionRecordController extends Controller
         }
     }
 
+    public function voters(ElectionRecord $electionRecord) {
+        return view(
+            'frontend.election-voters.index',
+            [
+                'election' => $electionRecord
+                    ->with('students')
+                    ->first(),
+            ]
+        );
+    }
+
+    public function candidates(ElectionRecord $electionRecord) {
+        return view (
+            'frontend.election-candidates.index',
+            [
+                'election' => ElectionRecord::query()
+                    ->whereKey($electionRecord->id)
+                    ->with('candidates')
+                    ->with('candidates.student')
+                    ->first(),
+            ]
+        );
+    }
 }

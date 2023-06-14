@@ -7,10 +7,12 @@ use App\Http\Controllers\DefaultMessageController;
 use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\RecordCandidateController;
 use App\Http\Controllers\RecordStudentController;
 use App\Http\Controllers\StudentAccountController;
 use App\Http\Controllers\StudentController;
 use App\Models\DefaultMessage;
+use App\Models\RecordCandidate;
 use App\Models\Student;
 use Illuminate\Support\Facades\Route;
 
@@ -57,11 +59,24 @@ Route::middleware('auth:comelec_user')->group(function () {
             StudentController::class
         )->only(['store', 'update']);
 
+    // Route::middleware('roles:s,a,c')
+    //     ->resource(
+    //         'election',
+    //         ElectionRecordController::class,
+    //     )->except(['create', 'show']);
     Route::middleware('roles:s,a,c')
-        ->resource(
-            'election',
-            ElectionRecordController::class,
-        )->except(['create', 'show']);
+        ->controller(ElectionRecordController::class)
+        ->prefix('election')
+        ->group(function () {
+            Route::get('/', 'index')
+                ->name('election.index');
+            Route::get('create', 'create')
+                ->name('election.create');
+            Route::post('/', 'store')
+                ->name('election.store');
+            Route::match(['PUT', 'PATCH'], '{election_record}', 'update')
+                ->name('election.update');
+        });
     Route::middleware('roles:s,a')
         ->controller(ElectionRecordController::class)
         ->prefix('election')
@@ -69,7 +84,17 @@ Route::middleware('auth:comelec_user')->group(function () {
             Route::get('create', 'create')->name('election.create');
             Route::get('search', 'search')
                 ->name('election.search');
+            Route::get('{election_record}/voters', 'voters')
+                ->name('election.voters');
+            Route::get('{election_record}/candidates', 'candidates')
+                ->name('election.candidates');
         });
+    // Route::middleware('roles:s,a')
+    //     ->resource(
+    //         'record-candidate',
+    //         RecordCandidateController::class
+    //     )->only(['update']);
+
 
     Route::middleware('roles:s,a,c')
         ->resource(
