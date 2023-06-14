@@ -36,6 +36,8 @@ Route::prefix('user')
     });
 
 Route::middleware('auth:comelec_user')->group(function () {
+    Route::post('logout', [ComelecUserController::class, 'logout']);
+
     Route::middleware('roles:s,a,m,c')
         ->controller(MasterlistController::class)
         ->prefix('master-list')
@@ -59,11 +61,6 @@ Route::middleware('auth:comelec_user')->group(function () {
             StudentController::class
         )->only(['store', 'update']);
 
-    // Route::middleware('roles:s,a,c')
-    //     ->resource(
-    //         'election',
-    //         ElectionRecordController::class,
-    //     )->except(['create', 'show']);
     Route::middleware('roles:s,a,c')
         ->controller(ElectionRecordController::class)
         ->prefix('election')

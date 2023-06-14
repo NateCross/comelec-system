@@ -197,8 +197,8 @@ class ComelecUserController extends Controller
                 's' => 'election',
                 'a' => 'election',
                 'c' => 'candidates',
-                'm' => 'students',
-                'p' => 'access',
+                'm' => 'students-accounts',
+                'p' => 'access-code',
             ][$comelecUser->role]);
         } catch (\Exception $e) {
             return response()->json([
