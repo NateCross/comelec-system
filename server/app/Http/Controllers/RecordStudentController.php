@@ -7,6 +7,7 @@ use App\Models\ElectionRecord;
 use App\Models\RecordStudent;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class RecordStudentController extends Controller
@@ -16,7 +17,9 @@ class RecordStudentController extends Controller
      */
     public function index()
     {
-        //
+        return view(
+            'frontend.access-code.index',
+        );
     }
 
     /**
@@ -195,7 +198,7 @@ class RecordStudentController extends Controller
      * Gets the access code of a student through a QR.
      * One of the required features.
      */
-    public function getAccessCodeQr(
+    public function getQrCode(
         int $electionId,
         string $studentId,
     ) {
@@ -205,13 +208,10 @@ class RecordStudentController extends Controller
                 $studentId,
             );
 
-            return QrCode::generate(
-                $recordStudent->access_code,
-            );
+            return QrCode::size(200)
+                ->generate($recordStudent->access_code);
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ]);
+            return null;
         }
     }
 
@@ -237,7 +237,7 @@ class RecordStudentController extends Controller
                     'required',
                 ],
             ]);
-            return $this->getAccessCodeQr(
+            return $this->getQrCode(
                 $validated['election_id'],
                 $validated['student_id'],
             );
@@ -246,5 +246,77 @@ class RecordStudentController extends Controller
                 'error' => $e->getMessage(),
             ]);
         }
+    }
+
+    /**
+     * Helper. 
+     * Gets the latest election record with the
+     * 'a' status.
+     */
+    private function getCurrentlyActiveElection() {
+        try {
+            return ElectionRecord::query()
+                ->where('status', 'a')
+                ->latest()
+                ->firstOrFail();
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function getAccessCode(Request $request) {
+        $validated = $request->validate([
+            'student_id' => [
+                'max:20',
+                'string',
+                'required',
+                'exists:students,student_id',
+            ],
+            'password' => [
+                'max:60',
+                'string',
+                'required',
+            ]
+        ]);
+
+        // Confirm password
+        if (!Hash::check(
+            $validated['password'], 
+            $request->user()->password,
+        )) {
+            return redirect()
+                ->back()
+                ->withErrors([
+                    'password' => 'Incorrect password',
+                ]);
+        }
+
+        $activeElection = $this->getCurrentlyActiveElection();
+
+        if (!isset($activeElection)) {
+            return redirect()
+                ->back()
+                ->withErrors([
+                    'election' => 'No active election',
+                ]);
+        }
+
+        $code = $this->getQrCode(
+            $activeElection->id,
+            $validated['student_id'],
+        );
+
+        $recordStudent = $this->showByIds(
+            $activeElection->id,
+            $validated['student_id'],
+        );
+
+        return view(
+            'frontend.access-code.index',
+            [
+                'qr' => $code,
+                'code' => $recordStudent->access_code,
+            ]
+        );
     }
 }

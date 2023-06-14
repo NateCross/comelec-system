@@ -8,6 +8,7 @@ use App\Models\ElectionRecord;
 use App\Models\RecordCandidate;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class ElectionRecordController extends Controller
@@ -75,6 +76,7 @@ class ElectionRecordController extends Controller
 
             $students = Student::query()
                 ->whereKeyNot('0000')
+                ->where('is_enrolled', true)
                 ->get();
             if (isset($students)) {
                 foreach ($students as $student) {
@@ -208,4 +210,5 @@ class ElectionRecordController extends Controller
             return redirect()->route('election.index');
         }
     }
+
 }

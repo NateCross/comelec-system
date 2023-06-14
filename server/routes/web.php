@@ -7,6 +7,7 @@ use App\Http\Controllers\DefaultMessageController;
 use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\RecordStudentController;
 use App\Http\Controllers\StudentAccountController;
 use App\Http\Controllers\StudentController;
 use App\Models\DefaultMessage;
@@ -134,5 +135,15 @@ Route::middleware('auth:comelec_user')->group(function () {
                 ->name('student-accounts.verify');
             Route::get('search', 'search')
                 ->name('student-accounts.search');
+        });
+
+    Route::middleware('roles:p,s')
+        ->controller(RecordStudentController::class)
+        ->prefix('access-code')
+        ->group(function () {
+            Route::get('/', 'index')
+                ->name('access-code.index');
+            Route::post('/', 'getAccessCode')
+                ->name('access-code.code');
         });
 });
