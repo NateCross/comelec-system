@@ -5,11 +5,11 @@
 @section('content')
 
   <div class="container short">
-    @include('layouts.components.messages.info.info');
+    {{-- @include('layouts.components.messages.info.info'); --}}
     <div class="page__header">
       <div class="group">
         <span class="group__title">Add Account</span>
-        <a href="accounts-admin.php">
+        <a href="{{ route('account.admin.index') }}">
           <button class="primary bold">
             <i class="fa-solid fa-arrow-left-long"></i>
             Go Back
@@ -20,7 +20,12 @@
     </div>
     <div class="content">
       <div class="content__row">
-        <form class="modify" action="" method="">
+        <form 
+          class="modify" 
+          action="{{ route('account.admin.store') }}" 
+          method="POST"
+        >
+          @csrf
           <span class="title">BASIC INFORMATION</span>
           <div class="fields">
             <div class="group">
@@ -29,8 +34,8 @@
                 <input id="student_id" type="text" name="student_id" required autocomplete="student_id" autofocus>
               </div>
               <div class="field input">
-                <label for="last_name">Password</label>
-                <input id="last_name" type="text" name="last_name" required autocomplete="last_name">
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password" required autocomplete="password">
               </div>
             </div>
             <div class="group">
@@ -40,13 +45,13 @@
               </div>
               <div class="field short">
                 <label for="user_role">User Role</label>
-                <select name="user_role">
+                <select name="role" id="user_role">
                   <option value="0">Select Role</option>
-                  <option value="1">Super Admin</option>
-                  <option value="2">Admin</option>
-                  <option value="3">Student Accounts Manager</option>
-                  <option value="4">Commissioner</option>
-                  <option value="5">Poll Workers</option>
+                  <option value="s">Super Admin</option>
+                  <option value="a">Admin</option>
+                  <option value="m">Student Accounts Manager</option>
+                  <option value="c">Commissioner</option>
+                  <option value="p">Poll Workers</option>
                 </select>
               </div>
             </div>

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('student_id', 20);
             $table->string('username', 50);
-            $table->string('name', 100);
+            $table->string('name', 100)->nullable();
             $table->string('password', 60);
             
             // 's' -> Super Admin

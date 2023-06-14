@@ -4,10 +4,8 @@
 
 @section('content')
 
-{{-- {{ dd($messages->find('candidate_win')) }} --}}
-
   <div class="container">
-    @include('layouts.components.messages.info.info');
+    {{-- @include('layouts.components.messages.info.info'); --}}
     <div class="page__header wide">
       <div class="group">
         <span class="group__title">Message Editor</span>

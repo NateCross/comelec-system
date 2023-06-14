@@ -18,6 +18,7 @@ class ComelecUser extends Authenticatable
         'username',
         'name',
         'password',
+        'role',
     ];
 
     protected $hidden = [
@@ -27,4 +28,12 @@ class ComelecUser extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public function student() {
+        return $this->belongsTo(
+            Student::class,
+            'student_id',
+            'student_id',
+        );
+    }
 }

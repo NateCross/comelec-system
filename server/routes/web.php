@@ -146,4 +146,31 @@ Route::middleware('auth:comelec_user')->group(function () {
             Route::post('/', 'getAccessCode')
                 ->name('access-code.code');
         });
+
+    Route::middleware('roles:p,m,c,s,a')
+        ->controller(ComelecUserController::class)
+        ->prefix('account')
+        ->group(function () {
+            Route::get('/', 'viewProfile')
+                ->name('account.profile');
+            Route::match(['PUT', 'PATCH'], '/', 'update')
+                ->name('account.update');
+            Route::delete('/', 'destroy')
+                ->name('account.destroy');
+        });
+    Route::middleware('roles:s,a')
+        ->controller(ComelecUserController::class)
+        ->prefix('account/admin')
+        ->group(function () {
+            Route::get('/', 'viewAdmin')
+                ->name('account.admin.index');
+            Route::get('create', 'create')
+                ->name('account.admin.create');
+            Route::post('store', 'store')
+                ->name('account.admin.store');
+            Route::get('{comelec_user}/edit', 'edit')
+                ->name('account.admin.edit');
+            Route::match(['PUT', 'PATCH'], '{comelec_user}', 'update')
+                ->name('account.admin.update');
+        });
 });

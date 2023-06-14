@@ -23,7 +23,7 @@ class ComelecUserController extends Controller
      */
     public function create()
     {
-        //
+        return view('frontend.accounts-admin.create');
     }
 
     /**
@@ -31,51 +31,38 @@ class ComelecUserController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $validated = $request->validate([
-                'student_id' => [
-                    'max:20',
-                    'string',
-                    'required',
-                    'exists:students,student_id',
-                ],
-                'username' => [
-                    'max:50',
-                    'string',
-                    'required',
-                ],
-                'name' => [
-                    'max:100',
-                    'string',
-                    'required',
-                ],
-                'password' => [
-                    'max:60',
-                    'string',
-                    'required',
-                ],
-                'role' => [
-                    Rule::in(['s', 'a', 'c', 'm', 'p']),
-                    'required',
-                ],
-            ]);
+        $validated = $request->validate([
+            'student_id' => [
+                'max:20',
+                'string',
+                'required',
+                'exists:students,student_id',
+            ],
+            'username' => [
+                'max:50',
+                'string',
+                'required',
+            ],
+            'name' => [
+                'max:100',
+                'string',
+            ],
+            'password' => [
+                'max:60',
+                'string',
+                'required',
+            ],
+            'role' => [
+                Rule::in(['s', 'a', 'c', 'm', 'p']),
+                'required',
+            ],
+        ]);
 
-            $validated['password'] = Hash::make($validated['password']);
+        $validated['password'] = Hash::make($validated['password']);
 
-            $comelecUser = ComelecUser::create($validated);
+        ComelecUser::create($validated);
 
-            $token = $comelecUser->createToken('ApiToken')
-                ->plainTextToken;
-            
-            return response()->json([
-                'access_token' => $token,
-                'token_type' => 'Bearer',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ]);
-        }
+        return redirect()->back();
     }
 
     /**
@@ -97,7 +84,12 @@ class ComelecUserController extends Controller
      */
     public function edit(ComelecUser $comelecUser)
     {
-        //
+        return view(
+            'frontend.accounts-admin.edit',
+            [
+                'user' => $comelecUser,
+            ]
+        );
     }
 
     /**
@@ -105,65 +97,74 @@ class ComelecUserController extends Controller
      */
     public function update(Request $request, ComelecUser $comelecUser)
     {
-        try {
-            $validated = $request->validate([
-                'student_id' => [
-                    'max:20',
-                    'string',
-                    'exists:students,student_id',
-                ],
-                'username' => [
-                    'max:50',
-                    'string',
-                ],
-                'name' => [
-                    'max:100',
-                    'string',
-                ],
-                'password' => [
-                    'max:60',
-                    'string',
-                ],
-                'role' => [
-                    Rule::in(['s', 'a', 'c', 'm', 'p']),
-                ],
-            ]);
+        $validated = $request->validate([
+            'student_id' => [
+                'max:20',
+                'string',
+                'exists:students,student_id',
+            ],
+            'username' => [
+                'max:50',
+                'string',
+            ],
+            'name' => [
+                'max:100',
+                'string',
+            ],
+            'password' => [
+                'max:60',
+                'string',
+                'nullable',
+            ],
+            'password_confirm' => [
+                'max:60',
+                'string',
+            ],
+            'role' => [
+                Rule::in(['s', 'a', 'c', 'm', 'p']),
+            ],
+        ]);
 
-            if (isset($validated['password'])) {
-                $validated['password'] = 
-                    Hash::make($validated['password']);
-            }
-
-            $comelecUser->update($validated);
-
-            // TODO: Regenerate session here
-            return response()->json([
-                'message' => 'Comelec User successfully updated',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ]);
+        if (isset($validated['password'])) {
+            if (!isset($validated['password_confirm']))
+                return back()->withErrors([
+                    'password' => 'Password not confirmed'
+                ]);
+            if ($validated['password'] !== $validated['password_confirm'])
+                return back()->withErrors([
+                    'confirm' => 'Passwords do not match'
+                ]);
+            
+            unset($validated['password_confirm']);
+            $validated['password'] = 
+                Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
         }
+
+        if (isset($comelecUser['id']))
+            $comelecUser->update($validated);
+        else
+            $request->user()->update($validated);
+
+        if (!isset($comelecUser['id']))
+            return redirect()->back();
+        else
+            return redirect()->route('account.admin.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ComelecUser $comelecUser)
+    public function destroy(Request $request)
     {
-        try {
-            $comelecUser->delete();
+        $user = Auth::user();
+        Auth::logout();
+        $user->delete();
 
-            // Regenerate session here
-            return response()->json([
-                'message' => 'Comelec User successfully deleted',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ]);
-        }
+        return [
+            'message' => 'Successfully deleted user',
+        ];
     }
 
     public function login(Request $request) {
@@ -206,17 +207,25 @@ class ComelecUserController extends Controller
         }
     }
 
-    public function logout() {
-        try {
-            Auth::guard('comelec_user')->logout();
+    public function logout(Request $request) {
+        $request->user()->logout();
 
-            return response()->json([
-                'message' => 'Successfully logged user out',
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ]);
-        }
+        return redirect()->route('login');
+    }
+
+    public function viewProfile() {
+        return view('frontend.accounts-profile.index');
+    }
+
+    public function viewAdmin() {
+        return view(
+            'frontend.accounts-admin.index',
+            [
+                'users' =>
+                ComelecUser::query()
+                    ->with('student')
+                    ->paginate('10'),
+            ],
+        );
     }
 }
