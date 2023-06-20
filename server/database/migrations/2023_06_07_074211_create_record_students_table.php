@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('election_id');
             $table->string('student_id', 20);
-            $table->unsignedInteger('vote_code')->nullable();
+            $table->unsignedBigInteger('vote_code')->nullable();
             $table->dateTime('vote_timestamp')->nullable();
             $table->char('access_code', 6);
             $table->dateTime('ac_view_timestamp')->nullable();

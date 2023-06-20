@@ -64,14 +64,16 @@
                 <td class="col4">
                   {{ $account->created_at }}
                 </td>
-                <td class="col5">
-                  <button 
-                    class="secondary" 
-                    id="verify-btn"
-                    onclick="verify({{ $account->id }})"
-                  >
-                    <i class="fa-solid fa-check"></i>
-                  </button>
+                <td class="col5 flex-end">
+                  @unless ($account->status === 'a')
+                    <button 
+                      class="secondary" 
+                      id="verify-btn"
+                      onclick="verify({{ $account->id }})"
+                    >
+                      <i class="fa-solid fa-check"></i>
+                    </button>
+                  @endunless
                   <a href="{{ route('student-accounts.edit', $account->id) }}">
                     <button class="secondary">
                       <i class="fa-solid fa-pen-to-square"></i>

@@ -152,16 +152,25 @@
           color: var(--black-color);
         }
 
+        th.col6 {
+          text-align: center;
+        }
+
         tbody {
           tr {
             border: 1px solid var(--border-color);
             background-color: var(--body-color);
+
 
             td {}
 
             td.col5 {
               display: flex;
               gap: 0.5em;
+            }
+
+            td.flex-end {
+              justify-content: flex-end;
             }
 
           }
@@ -335,5 +344,4 @@
       flex: 50%;
     }
   }
-
 }

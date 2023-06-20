@@ -142,15 +142,15 @@ class ComelecUserController extends Controller
             unset($validated['password']);
         }
 
-        if (isset($comelecUser['id']))
+        if (isset($comelecUser['id'])) {
+            // Handles updating other users
             $comelecUser->update($validated);
-        else
-            $request->user()->update($validated);
-
-        if (!isset($comelecUser['id']))
-            return redirect()->back();
-        else
             return redirect()->route('account.admin.index');
+        } else {
+            // Handles self-update from profile
+            $request->user()->update($validated);
+            return redirect()->back();
+        }
     }
 
     /**
@@ -207,8 +207,8 @@ class ComelecUserController extends Controller
         }
     }
 
-    public function logout(Request $request) {
-        $request->user()->logout();
+    public function logout() {
+        Auth::guard('comelec_user')->logout();
 
         return redirect()->route('login');
     }

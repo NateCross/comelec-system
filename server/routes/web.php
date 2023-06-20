@@ -36,7 +36,7 @@ Route::prefix('user')
     });
 
 Route::middleware('auth:comelec_user')->group(function () {
-    Route::post('logout', [ComelecUserController::class, 'logout']);
+    Route::post('logout', [ComelecUserController::class, 'logout'])->name('logout');
 
     Route::middleware('roles:s,a,m,c')
         ->controller(MasterlistController::class)
