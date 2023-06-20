@@ -22,7 +22,9 @@ class ElectionRecordController extends Controller
             'frontend.election-manager.index',
             [
                 'elections' =>
-                ElectionRecord::query()->paginate(10),
+                ElectionRecord::query()
+                    ->orderBy('start_time', 'desc')
+                    ->paginate(10),
             ],
         );
     }

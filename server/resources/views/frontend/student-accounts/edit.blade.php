@@ -35,7 +35,7 @@
                 <input id="name" type="text" name="full_name" required autocomplete="name" value="{{ $account->full_name }}" autofocus>
               </div>
               <div class="field">
-                <label for="password">Password</label>
+                <label for="password">New Password</label>
                 <input id="password" type="password" name="password" autocomplete="password">
               </div>
             </div>
@@ -43,8 +43,22 @@
               <label for="student_id">Status</label>
               <select name="status">
                 <option value="">Select Status</option>
-                <option value="a">Active</option>
-                <option value="i">Inactive</option>
+                <option 
+                  value="a"
+                  @if ($account->status === 'a')
+                    selected
+                  @endif
+                >
+                  Active
+                </option>
+                <option 
+                  value="i"
+                  @if ($account->status === 'i')
+                    selected
+                  @endif
+                >
+                  Inactive
+                </option>
               </select>
             </div>
           </div>

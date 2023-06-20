@@ -9,7 +9,7 @@
     <div class="page__header">
       <div class="group">
         <span class="group__title">Add Student</span>
-        <a href="master-list.php">
+        <a href="{{ route('master-list.index') }}">
           <button class="primary bold">
             <i class="fa-solid fa-arrow-left-long"></i>
             Go Back

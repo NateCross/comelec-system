@@ -39,13 +39,27 @@
                 <input id="candidate_elect_num" type="text" class="form-control" name="num_of_elects" required autocomplete="candidate_elect_num" value="{{ $position->num_of_elects }}">
               </div>
             </div>
-            <div class="field single">
-              <label for="all_colleges">Colleges</label>
-              <input id="all_colleges" type="text" name="college" autocomplete="all_colleges" value="{{ $position->college }}">
+            <div class="group">
+              <div class="field input">
+                <label for="all_colleges">All Colleges</label>
+                <input 
+                  id="all_colleges" 
+                  type="checkbox" 
+                  name="is_for_all" 
+                  autocomplete="all_colleges"
+                  @if ($position->is_for_all)
+                    checked
+                  @endif
+                >
+              </div>
+              <div class="field input">
+                <label for="college">College</label>
+                <input id="college" type="text" name="college" autocomplete="college" value="{{ $position->college }}">
+              </div>
             </div>
             <div class="field input">
-              <label for="college">Description</label>
-              <textarea id="college" type="text" name="college" autocomplete="college" value="{{ $position->description }}"></textarea>
+              <label for="description">Description</label>
+              <textarea id="description" type="text" name="description" autocomplete="description" value="{{ $position->description }}"></textarea>
             </div>
           </div>
           <div class="page__actions">

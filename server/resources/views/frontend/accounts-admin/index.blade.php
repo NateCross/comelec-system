@@ -44,7 +44,7 @@
             <tr>
               <th class="col1">Name</th>
               <th class="col2">ID</th>
-              <th class="col3">Password</th>
+              {{-- <th class="col3">Password</th> --}}
               <th class="col4">Role</th>
               <th class="col5">Actions</th>
             </tr>
@@ -54,7 +54,7 @@
               <tr>
                 <td class="col1">{{ $user->username }}</td>
                 <td class="col2">{{ $user->student_id }}</td>
-                <td class="col3">###########################</td>
+                {{-- <td class="col3">###########################</td> --}}
                 <td class="col4">
                   {{
                     [
@@ -79,7 +79,7 @@
         </table>
       </div>
     </div>
-    <div class="pagination">
+    {{-- <div class="pagination">
       <a href="#" class="group">
         <i class="fa-solid fa-angle-left"></i>
         <span class="name">PREVIOUS</span>
@@ -93,7 +93,7 @@
         <span class="name">NEXT</span>
         <i class="fa-solid fa-angle-right"></i>
       </a>
-    </div>
+    </div> --}}
   </div>
 
 @endsection

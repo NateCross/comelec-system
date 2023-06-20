@@ -74,7 +74,7 @@
         </table>
       </div>
     </div>
-    <div class="pagination">
+    {{-- <div class="pagination">
       <a href="#" class="group">
         <i class="fa-solid fa-angle-left"></i>
         <span class="name">PREVIOUS</span>
@@ -88,7 +88,7 @@
         <span class="name">NEXT</span>
         <i class="fa-solid fa-angle-right"></i>
       </a>
-    </div>
+    </div> --}}
   </div>
 
 @endsection

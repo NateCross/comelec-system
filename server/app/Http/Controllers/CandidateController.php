@@ -106,7 +106,8 @@ class CandidateController extends Controller
         return view(
             'frontend.candidates-list.edit',
             [
-                'candidate' => $candidate
+                'candidate' => Candidate::query()
+                    ->whereKey($candidate->id)
                     ->with('student')
                     ->with('position')
                     ->first(),

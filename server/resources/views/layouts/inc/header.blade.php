@@ -2,7 +2,10 @@
 
 <div class="header">
   <div class="header__left">
-    <a href="{{ route('master-list.index') }}" class="logo">COMELEC</a>
+    <div class="logo">
+      COMELEC
+    </div>
+    {{-- <a href="{{ route('master-list.index') }}" class="logo">COMELEC</a> --}}
     @if ($role === 'p')
       <ul class="nav">
         <li>

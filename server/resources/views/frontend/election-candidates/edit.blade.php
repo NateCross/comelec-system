@@ -33,13 +33,38 @@
               <label for="reason">Reason</label>
               <textarea id="reason" type="text" name="reason" autocomplete="reason" autofocus>{{ $record_candidate->reason }}</textarea>
             </div>
-            <div class="field half">
-              <label for="result">Result</label>
-              <input id="result" type="text" name="is_elected" required autocomplete="result" value="{{ $record_candidate->is_elected }}">
+            <div class="field">
+              <legend>Result</legend>
+              <div class="radio">
+                <div>
+                  <label for="result_win">Win</label>
+                  <input 
+                    type="radio" 
+                    name="is_elected" 
+                    id="result_win" 
+                    value="1"
+                    @if ($record_candidate->is_elected)
+                      checked
+                    @endif
+                  >
+                </div>
+                <div>
+                  <label for="result_lose">Loss</label>
+                  <input 
+                    type="radio" 
+                    name="is_elected" 
+                    id="result_lose" 
+                    value="0"
+                    @if (!$record_candidate->is_elected)
+                      checked
+                    @endif
+                  >
+                </div>
+              </div>
             </div>
           </div>
           <div class="page__actions">
-            <button type="submit" class="tertiary wide">Override Candidate</button>
+            <button type="submit" class="tertiary wide">Override Result</button>
           </div>
         </form>
       </div>

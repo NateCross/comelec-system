@@ -107,7 +107,7 @@
       flex-direction: column;
       gap: 0.4em;
 
-      label {
+      label, legend {
         font-weight: 700;
         color: var(--primary-color);
       }
@@ -129,6 +129,12 @@
         padding: 0.8em;
         border: 1px solid var(--grey-color);
         border-radius: 2px;
+      }
+
+      .radio {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
       }
     }
 

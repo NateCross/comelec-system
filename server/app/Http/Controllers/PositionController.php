@@ -113,7 +113,7 @@ class PositionController extends Controller
                 'nullable',
             ],
             'is_for_all' => [
-                'boolean',
+                Rule::in('on'),
             ],
             'college' => [
                 'max:50',
@@ -125,6 +125,11 @@ class PositionController extends Controller
             ],
         ]);
 
+        if (isset($validated['is_for_all']))
+            $validated['is_for_all'] = true;
+        else
+            $validated['is_for_all'] = false;
+        
         $position->update($validated);
 
         return redirect()->route('positions.index');

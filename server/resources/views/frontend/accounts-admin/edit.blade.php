@@ -8,7 +8,7 @@
     {{-- @include('layouts.components.messages.info.info'); --}}
     <div class="page__header">
       <div class="group">
-        <span class="group__title">Add Account</span>
+        <span class="group__title">Edit Account</span>
         <a href="{{ route('account.admin.index') }}">
           <button class="primary bold">
             <i class="fa-solid fa-arrow-left-long"></i>
@@ -35,7 +35,7 @@
                 <input id="student_id" type="text" name="student_id" required autocomplete="student_id" autofocus value="{{ $user->student_id }}">
               </div>
               <div class="field input">
-                <label for="password">Password</label>
+                <label for="password">New Password</label>
                 <input id="password" type="text" name="password" autocomplete="password">
               </div>
             </div>

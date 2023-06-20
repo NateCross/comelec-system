@@ -46,7 +46,10 @@
                   @foreach ($positions as $position)
                     <option 
                       value="{{ $position->id }}"
-                      selected="{{ $position->id === $candidate->position_id ? 1 : 0 }}"
+                      @if ($position->id === $candidate->position_id)
+                        selected
+                      @endif
+                      {{-- selected="{{ $position->id === $candidate->position_id ? 1 : 0 }}" --}}
                     >
                       {{ $position->position_name }}
                     </option>

@@ -76,7 +76,7 @@
       </div>
     </div>
     <div class="pagination">
-      {{ $elections->links() }}
+      {{-- {{ $elections->links() }} --}}
 
       {{-- <a href="#" class="group">
         <i class="fa-solid fa-angle-left"></i>

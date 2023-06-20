@@ -35,11 +35,11 @@
             <div class="group">
               <div class="field">
                 <label for="start_time">Election Start Date</label>
-                <input id="start_time" type="date" name="start_time" required autocomplete="start_time">
+                <input id="start_time" type="datetime-local" name="start_time" required autocomplete="start_time">
               </div>
               <div class="field">
                 <label for="end_time">Election End Date</label>
-                <input id="end_time" type="date" name="end_time" required autocomplete="end_time">
+                <input id="end_time" type="datetime-local" name="end_time" required autocomplete="end_time">
               </div>
               <div class="field readonly">
                 <label for="status">Status</label>

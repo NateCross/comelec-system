@@ -23,14 +23,14 @@
   <div class="page">
     <div class="page__header">
 
-      @include('layouts.inc.header');
-      @include('layouts.components.menus');
-      @include('layouts.components.modals');
+      @include('layouts.inc.header')
+      @include('layouts.components.menus')
+      @include('layouts.components.modals')
       
     </div>
     <main class="page__content">
       
-      @yield('content');
+      @yield('content')
 
     </main>
   </div>
