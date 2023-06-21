@@ -253,17 +253,29 @@ class StudentAccountController extends Controller
                 'string',
                 'nullable',
             ],
+            'filter' => [
+                Rule::in(['a', 'v']),
+                'nullable',
+            ],
         ]);
-        $query = $validated['query'];
-        if (!$query) 
-            return redirect()->route('student-accounts.index');
+        $query = $validated['query'] ?? null;
+        $filter = $validated['filter'] ?? null;
+
+        $builder = StudentAccount::query();
+
+        if (isset($query)) {
+            $builder->where('full_name', 'LIKE', "%$query%");
+        } 
+        if (isset($filter)) {
+            $builder->where('status', '=', $filter);
+        }
+
+        $result = $builder->paginate(10);
+
         return view(
             'frontend.student-accounts.index',
             [
-                'accounts' =>
-                StudentAccount::query()
-                    ->where('full_name', 'LIKE', "%$query%")
-                    ->paginate(10),
+                'accounts' => $result,
             ],
         );
     }

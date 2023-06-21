@@ -15,10 +15,31 @@
     <div class="content">
       <div class="content__row">
         <div class="actions">
-          <select class="filter" name="status">
-            <option value="0">Select Status</option>
-            <option value="1">Not Verified</option>
-            <option value="2">Verified</option>
+          <select class="filter" name="filter" onchange="filter(this.value)">
+            <option 
+              value=""
+              @if (!request('filter'))
+                selected
+              @endif
+            >
+              Select Status
+            </option>
+            <option 
+              value="v"
+              @if (request('filter') == 'v')
+                selected
+              @endif
+            >
+              Awaiting Verification
+            </option>
+            <option 
+              value="a"
+              @if (request('filter') == 'a')
+                selected
+              @endif
+            >
+              Active
+            </option>
           </select>
           <form 
             class="search"
@@ -27,6 +48,11 @@
             <div class="search__group">
               <i class="fa-solid fa-magnifying-glass"></i>
               <input type="text" name="query" placeholder="Search...">
+              <input 
+                type="hidden" 
+                name="filter"
+                value="{{ request('filter') ?? '' }}"
+              >
             </div>
             <i class="fa-solid fa-xmark search__exit"></i>
           </form>
@@ -119,6 +145,13 @@
       axios.delete(
         route('student-accounts.destroy', id)
       ).then(() => window.location.reload());
+    }
+
+    function filter(value) {
+      const urlParams = new URLSearchParams(window.location.search)?.get('query') ?? '';
+      window.location.href = `
+        /student-accounts/search?query=${urlParams}&filter=${value}
+      `;
     }
   </script>
   <!-- JS Link -->
