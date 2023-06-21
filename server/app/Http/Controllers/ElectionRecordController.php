@@ -195,17 +195,35 @@ class ElectionRecordController extends Controller
             $validated = $request->validate([
                 'query' => [
                     'string',
-                    'required',
+                    'nullable',
+                ],
+                'filter' => [
+                    Rule::in(['c', 'r', 'f']),
+                    'nullable',
                 ],
             ]);
-            $query = $validated['query'];
+
+            $query = $validated['query'] ?? null;
+            $filter = $validated['filter'] ?? null;
+
+            $builder = ElectionRecord::query();
+
+            if (isset($query)) {
+                $builder->where('name', 'LIKE', "%$query%");
+            } 
+            if (isset($filter)) {
+                $builder->where('status', '=', $filter);
+            }
+
+            $result = $builder->paginate(10);
+
             return view(
                 'frontend.election-manager.index',
                 [
-                    'elections' =>
-                    ElectionRecord::query()
-                        ->where('name', 'LIKE', "%$query%")
-                        ->paginate(10),
+                    'elections' => $result,
+                    // ElectionRecord::query()
+                    //     ->where('name', 'LIKE', "%$query%")
+                    //     ->paginate(10),
                 ],
             );
         } catch (\Exception $e) {

@@ -25,16 +25,49 @@
               </a>
             </div>
           @endunless
-          <select class="filter" name="status">
-            <option value="0">Select Status</option>
-            <option value="1">Archived</option>
-            <option value="2">Final</option>
-            <option value="2">Cancelled</option>
+          <select class="filter" name="filter" onchange="filter(this.value)">
+            <option 
+              value=""
+              @if (!request('filter'))
+                selected
+              @endif
+            >
+              Select Status
+            </option>
+            <option 
+              value="r"
+              @if (request('filter') == 'r')
+                selected
+              @endif
+            >
+              Archived
+            </option>
+            <option 
+              value="f"
+              @if (request('filter') == 'f')
+                selected
+              @endif
+            >
+              Final
+            </option>
+            <option 
+              @if (request('filter') == 'c')
+                selected
+              @endif
+              value="c"
+            >
+              Cancelled
+            </option>
           </select>
           <form class="search" action="{{ route('election.search') }}">
             <div class="search__group">
               <i class="fa-solid fa-magnifying-glass"></i>
               <input type="text" name="query" placeholder="Search...">
+              <input 
+                type="hidden" 
+                name="filter"
+                value="{{ request('filter') ?? '' }}"
+              >
             </div>
             <i class="fa-solid fa-xmark search__exit"></i>
           </form>
@@ -98,6 +131,13 @@
   <script>
     function electionManager(id) {
       window.location.href = route('election.candidates', id);
+    }
+
+    function filter(value) {
+      const urlParams = new URLSearchParams(window.location.search)?.get('query') ?? '';
+      window.location.href = `
+        /election/search?query=${urlParams}&filter=${value}
+      `;
     }
   </script>
 
