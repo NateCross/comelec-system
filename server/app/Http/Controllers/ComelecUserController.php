@@ -62,7 +62,7 @@ class ComelecUserController extends Controller
 
         ComelecUser::create($validated);
 
-        return redirect()->back();
+        return redirect()->route('account.admin.index');
     }
 
     /**
@@ -197,7 +197,7 @@ class ComelecUserController extends Controller
                 's' => 'election',
                 'a' => 'election',
                 'c' => 'candidates',
-                'm' => 'students-accounts',
+                'm' => 'student-accounts',
                 'p' => 'access-code',
             ][$comelecUser->role]);
         } catch (\Exception $e) {

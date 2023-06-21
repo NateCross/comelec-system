@@ -40,10 +40,31 @@
               <span class="name">Export CSV</span>
             </button>
           </div>
-          <select class="filter" name="status">
-            <option value="0">Select Status</option>
-            <option value="1">Not Enrolled</option>
-            <option value="2">Enrolled</option>
+          <select class="filter" name="filter" onchange="filter(this.value)">
+            <option 
+              value=""
+              @if (!request('filter'))
+                selected
+              @endif
+            >
+              Select Status
+            </option>
+            <option 
+              value="0"
+              @if (request('filter') == '0')
+                selected
+              @endif
+            >
+              Not Enrolled
+            </option>
+            <option 
+              value="1"
+              @if (request('filter') == '1')
+                selected
+              @endif
+            >
+              Enrolled
+            </option>
           </select>
           <form 
             class="search"
@@ -52,6 +73,11 @@
             <div class="search__group">
               <i class="fa-solid fa-magnifying-glass"></i>
               <input type="text" name="query" placeholder="Search...">
+              <input 
+                type="hidden" 
+                name="filter"
+                value="{{ request('filter') ?? '' }}"
+              >
             </div>
             <i class="fa-solid fa-xmark search__exit"></i>
           </form>
@@ -145,6 +171,13 @@
         document.body.removeChild(link);
         URL.revokeObjectURL(href);
       });
+    }
+
+    function filter(value) {
+      const urlParams = new URLSearchParams(window.location.search)?.get('query') ?? '';
+      window.location.href = `
+        /master-list/search?query=${urlParams}&filter=${value}
+      `;
     }
   </script>
 

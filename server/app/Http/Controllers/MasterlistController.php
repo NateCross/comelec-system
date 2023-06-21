@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Spatie\SimpleExcel\SimpleExcelReader;
 use Spatie\SimpleExcel\SimpleExcelWriter;
 
+use function PHPUnit\Framework\isEmpty;
+
 class MasterlistController extends Controller
 {
     public function index() {
@@ -80,17 +82,32 @@ class MasterlistController extends Controller
                 'string',
                 'nullable',
             ],
+            'filter' => [
+                'boolean',
+                'nullable',
+            ],
         ]);
-        $query = $validated['query'];
-        if (!$query) 
-            return redirect()->route('master-list.index');
+        $query = $validated['query'] ?? null;
+        $filter = $validated['filter'] ?? null;
+
+        $students = Student::query();
+
+        if (isset($query)) {
+            $students->where('full_name', 'LIKE', "%$query%");
+        } 
+        if (isset($filter)) {
+            $filter = (boolean) $filter;
+            $students->where('is_enrolled', '=', $filter);
+        }
+
+        $result = $students
+            ->whereKeyNot('0000')
+            ->paginate(10);
+
         return view(
             'frontend.master-list.index',
             [
-                'students' =>
-                Student::query()
-                    ->where('full_name', 'LIKE', "%$query%")
-                    ->paginate(10),
+                'students' => $result,
             ],
         );
     }

@@ -32,12 +32,12 @@
             <a href="{{ route('election.index') }}">Election Manager</a>
           </li>
         @endif
-        @if (in_array($role, ['s', 'a']))
+        {{-- @if (in_array($role, ['s', 'a']))
           <li id="see-more-btn">
             <span class="name">See More</span>
             <i class="fa-solid fa-angle-up" id="see-more-angle"></i>
           </li>
-        @endif
+        @endif --}}
         @if (in_array($role, ['s', 'a', 'c']))
           <li>
             <a href="{{ route('announcements.index') }}">Announcement Editor</a>
