@@ -6,52 +6,67 @@
       COMELEC
     </div>
     {{-- <a href="{{ route('master-list.index') }}" class="logo">COMELEC</a> --}}
-    @if ($role === 'p')
       <ul class="nav">
-        <li>
-          <a href="{{ route('access-code.index') }}">Access Code Generator</a>
-        </li>
+        @if (in_array($role, ['p']))
+          <li>
+            <a href="{{ route('access-code.index') }}">Access Code Generator</a>
+          </li>
+        @endif
+        @if (in_array($role, ['s', 'a', 'm', 'c']))
+          <li>
+            <a href="{{ route('master-list.index') }}">Student Master List</a>
+          </li>
+        @endif
+        @if (in_array($role, ['s', 'a', 'm']))
+          <li>
+            <a href="{{ route('student-accounts.index') }}">Students Accounts</a>
+          </li>
+        @endif
+        @if (in_array($role, ['s', 'a', 'c']))
+          <li>
+            <a href="{{ route('candidates.index') }}">Candidates List</a>
+          </li>
+        @endif
+        @if (in_array($role, ['s', 'a', 'c']))
+          <li>
+            <a href="{{ route('election.index') }}">Election Manager</a>
+          </li>
+        @endif
+        @if (in_array($role, ['s', 'a']))
+          <li id="see-more-btn">
+            <span class="name">See More</span>
+            <i class="fa-solid fa-angle-up" id="see-more-angle"></i>
+          </li>
+        @endif
+        @if (in_array($role, ['s', 'a', 'c']))
+          <li>
+            <a href="{{ route('announcements.index') }}">Announcement Editor</a>
+          </li>
+        @endif
+        @if (in_array($role, ['s', 'a', 'c']))
+          <li>
+            <a href="{{ route('message-editor.index') }}">Message Editor</a>
+          </li>
+        @endif
+        @if (in_array($role, ['s', 'a']))
+          <li>
+            <a href="{{ route('positions.index') }}">Positions List</a>
+          </li>
+        @endif
       </ul>
-    @else
-      <ul class="nav">
-        <li>
-          <a href="{{ route('master-list.index') }}">Student Master List</a>
-        </li>
-        <li>
-          <a href="{{ route('student-accounts.index') }}">Students Accounts</a>
-        </li>
-        <li>
-          <a href="{{ route('candidates.index') }}">Candidates List</a>
-        </li>
-        <li>
-          <a href="{{ route('election.index') }}">Election Manager</a>
-        </li>
-        <li id="see-more-btn">
-          <span class="name">See More</span>
-          <i class="fa-solid fa-angle-up" id="see-more-angle"></i>
-        </li>
-        <li>
-          <a href="{{ route('announcements.index') }}">Announcement Editor</a>
-        </li>
-        <li>
-          <a href="{{ route('message-editor.index') }}">Message Editor</a>
-        </li>
-        <li>
-          <a href="{{ route('positions.index') }}">Positions List</a>
-        </li>
-      </ul>
-      <ul class="menu see-more">
-        <li>
-          <a href="{{ route('announcements.index') }}">Announcement Editor</a>
-        </li>
-        <li>
-          <a href="{{ route('message-editor.index') }}">Message Editor</a>
-        </li>
-        <li>
-          <a href="{{ route('positions.index') }}">Positions List</a>
-        </li>
-      </ul>
-    @endif
+      @if (in_array($role, ['s', 'a']))
+        <ul class="menu see-more">
+          <li>
+            <a href="{{ route('announcements.index') }}">Announcement Editor</a>
+          </li>
+          <li>
+            <a href="{{ route('message-editor.index') }}">Message Editor</a>
+          </li>
+          <li>
+            <a href="{{ route('positions.index') }}">Positions List</a>
+          </li>
+        </ul>
+      @endif
   </div>
   <div class="header__right" id="user-btn">
     <div class="header__separator"></div>
