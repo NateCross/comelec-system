@@ -53,20 +53,12 @@
             <a href="{{ route('positions.index') }}">Positions List</a>
           </li>
         @endif
+        @if (in_array($role, ['s', 'a']))
+          <li>
+            <a href="{{ route('networks.index') }}">Networks List</a>
+          </li>
+        @endif
       </ul>
-      @if (in_array($role, ['s', 'a']))
-        <ul class="menu see-more">
-          <li>
-            <a href="{{ route('announcements.index') }}">Announcement Editor</a>
-          </li>
-          <li>
-            <a href="{{ route('message-editor.index') }}">Message Editor</a>
-          </li>
-          <li>
-            <a href="{{ route('positions.index') }}">Positions List</a>
-          </li>
-        </ul>
-      @endif
   </div>
   <div class="header__right" id="user-btn">
     <div class="header__separator"></div>

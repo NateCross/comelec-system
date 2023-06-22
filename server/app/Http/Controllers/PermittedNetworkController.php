@@ -12,7 +12,15 @@ class PermittedNetworkController extends Controller
      */
     public function index()
     {
-        //
+        return view(
+            'frontend.permitted-networks.index',
+            [
+                'networks' =>
+                    PermittedNetwork::query()
+                        ->latest()
+                        ->paginate(10),
+            ],
+        );
     }
 
     /**
@@ -20,7 +28,9 @@ class PermittedNetworkController extends Controller
      */
     public function create()
     {
-        //
+        return view (
+            'frontend.permitted-networks.create',
+        );
     }
 
     /**
@@ -37,7 +47,7 @@ class PermittedNetworkController extends Controller
 
         PermittedNetwork::create($validated);
 
-        return redirect()->route('network.index');
+        return redirect()->route('networks.index');
     }
 
     /**
@@ -53,7 +63,12 @@ class PermittedNetworkController extends Controller
      */
     public function edit(PermittedNetwork $permittedNetwork)
     {
-        //
+        return view(
+            'frontend.permitted-networks.edit',
+            [
+                'network' => $permittedNetwork,
+            ],
+        );
     }
 
     /**
@@ -69,7 +84,7 @@ class PermittedNetworkController extends Controller
 
         $permittedNetwork->updateOrFail($validated);
 
-        return redirect()->route('network.index');
+        return redirect()->route('networks.index');
     }
 
     /**
@@ -82,5 +97,31 @@ class PermittedNetworkController extends Controller
         return response()->json([
             'message' => 'Network successfully deleted',
         ]);
+    }
+
+    public function search(Request $request) {
+        $validated = $request->validate([
+            'query' => [
+                'string',
+                'nullable',
+            ],
+        ]);
+
+        $query = $validated['query'] ?? null;
+
+        if (!isset($query))
+            return redirect()->route('networks.index');
+
+        $builder = PermittedNetwork::query();
+        $builder->where('name', 'LIKE', "%$query%");
+        $builder->latest();
+        $result = $builder->paginate(10);
+        
+        return view(
+            'frontend.permitted-networks.index',
+            [
+                'networks' => $result,
+            ],
+        );
     }
 }

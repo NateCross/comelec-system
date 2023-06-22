@@ -6,6 +6,7 @@ use App\Http\Controllers\ComelecUserController;
 use App\Http\Controllers\DefaultMessageController;
 use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
+use App\Http\Controllers\PermittedNetworkController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\RecordCandidateController;
 use App\Http\Controllers\RecordStudentController;
@@ -205,5 +206,18 @@ Route::middleware('auth:comelec_user')->group(function () {
                 ->name('account.admin.edit');
             Route::match(['PUT', 'PATCH'], '{comelec_user}', 'update')
                 ->name('account.admin.update');
+        });
+
+    Route::middleware('roles:s,a')
+        ->resource(
+            'networks',
+            PermittedNetworkController::class
+        )->parameter('networks', 'permitted_network')->except(['show']);
+    Route::middleware('roles:s,a')
+        ->controller(PermittedNetworkController::class)
+        ->prefix('networks')
+        ->group(function () {
+            Route::get('search', 'search')
+                ->name('networks.search');
         });
 });
