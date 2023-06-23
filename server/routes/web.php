@@ -204,6 +204,8 @@ Route::middleware('auth:comelec_user')->group(function () {
                 ->name('account.admin.store');
             Route::get('{comelec_user}/edit', 'edit')
                 ->name('account.admin.edit');
+            Route::get('search', 'search')
+                ->name('account.admin.search');
             Route::match(['PUT', 'PATCH'], '{comelec_user}', 'update')
                 ->name('account.admin.update');
         });

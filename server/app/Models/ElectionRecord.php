@@ -36,7 +36,7 @@ class ElectionRecord extends Model
             'student_id',
             null,
             'student_id',
-        )->withPivot(['id', 'vote_timestamp', 'ac_view_timestamp', 'is_invalid'])->wherePivot('is_invalid', false);
+        )->withPivot(['id', 'vote_timestamp', 'ac_view_timestamp', 'is_invalid'])->wherePivot('is_invalid', false)->orderBy('vote_timestamp', 'desc')->orderBy('ac_view_timestamp', 'desc');
     }
 
     public function candidates() {
@@ -45,6 +45,6 @@ class ElectionRecord extends Model
             'record_candidates',
             'election_id',
             'candidate_id',
-        )->withPivot(['id', 'num_of_votes', 'is_elected', 'reason']);
+        )->withPivot(['id', 'num_of_votes', 'is_elected', 'reason'])->orderBy('id', 'desc');
     }
 }

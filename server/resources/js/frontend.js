@@ -19,18 +19,18 @@ const userMenu = document.querySelector('.user');
 const seeMoreMenu = document.querySelector('.see-more');
 
 // Exit Toggle
-modalExitButton.addEventListener('click', () => {
+modalExitButton?.addEventListener('click', () => {
  modal.classList.remove('active');
 });
 
 // Pop up
-userButton.addEventListener('click', () => {
+userButton?.addEventListener('click', () => {
  userMenu.classList.toggle('active');
  userAngleUp.classList.toggle('fa-angle-down');
  userAngleUp.classList.toggle('fa-angle-up');
 });
 
-seeMoreButton.addEventListener('click', () => {
+seeMoreButton?.addEventListener('click', () => {
  seeMoreMenu.classList.toggle('active');
  seeMoreAngleUp.classList.toggle('fa-angle-down');
  seeMoreAngleUp.classList.toggle('fa-angle-up');

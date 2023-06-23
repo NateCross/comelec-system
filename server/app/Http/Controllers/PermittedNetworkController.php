@@ -115,7 +115,11 @@ class PermittedNetworkController extends Controller
         $builder = PermittedNetwork::query();
         $builder->where('name', 'LIKE', "%$query%");
         $builder->latest();
-        $result = $builder->paginate(10);
+        $result = $builder
+            ->paginate(10)
+            ->appends([
+                'query' => $query,
+            ]);
         
         return view(
             'frontend.permitted-networks.index',

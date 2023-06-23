@@ -224,7 +224,34 @@ class ComelecUserController extends Controller
                 'users' =>
                 ComelecUser::query()
                     ->with('student')
+                    ->latest()
                     ->paginate(10),
+            ],
+        );
+    }
+
+    public function search(Request $request) {
+        $validated = $request->validate([
+            'query' => [
+                'string',
+                'nullable',
+            ],
+        ]);
+        $query = $validated['query'];
+        if (!$query) 
+            return redirect()->route('account.admin.index');
+        return view(
+            'frontend.accounts-admin.index',
+            [
+                'users' =>
+                ComelecUser::query()
+                    ->with('student')
+                    ->where('username', 'LIKE', "%$query%")
+                    ->latest()
+                    ->paginate(10)
+                    ->appends([
+                        'query' => $query,
+                    ]),
             ],
         );
     }

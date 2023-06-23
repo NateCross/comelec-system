@@ -20,6 +20,7 @@ class StudentAccountController extends Controller
             [
                 'accounts' =>
                 StudentAccount::query()
+                    ->latest()
                     ->paginate(10),
             ]
         );
@@ -270,7 +271,13 @@ class StudentAccountController extends Controller
             $builder->where('status', '=', $filter);
         }
 
-        $result = $builder->paginate(10);
+        $result = $builder
+            ->latest()
+            ->paginate(10)
+            ->appends([
+                'query' => $query,
+                'filter' => $filter,
+            ]);
 
         return view(
             'frontend.student-accounts.index',

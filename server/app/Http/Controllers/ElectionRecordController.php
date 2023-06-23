@@ -215,15 +215,18 @@ class ElectionRecordController extends Controller
                 $builder->where('status', '=', $filter);
             }
 
-            $result = $builder->paginate(10);
+            $result = $builder
+                ->orderBy('start_time', 'desc')
+                ->paginate(10)
+                ->appends([
+                    'query' => $query,
+                    'filter' => $filter,
+                ]);
 
             return view(
                 'frontend.election-manager.index',
                 [
                     'elections' => $result,
-                    // ElectionRecord::query()
-                    //     ->where('name', 'LIKE', "%$query%")
-                    //     ->paginate(10),
                 ],
             );
         } catch (\Exception $e) {

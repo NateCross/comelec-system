@@ -108,24 +108,8 @@
         </table>
       </div>
     </div>
-    <div class="pagination">
-      {{-- {{ $elections->links() }} --}}
 
-      {{-- <a href="#" class="group">
-        <i class="fa-solid fa-angle-left"></i>
-        <span class="name">PREVIOUS</span>
-      </a>
-      <a href="#">1</a>
-      <a href="#">2</a>
-      <a href="#">3</a>
-      <span class="ellipsis">...</span>
-      <a href="#">101</a>
-      <a href="#" class="group">
-        <span class="name">NEXT</span>
-        <i class="fa-solid fa-angle-right"></i>
-      </a> --}}
-
-    </div>
+    {{ $elections?->links() }}
   </div>
 
   <script>

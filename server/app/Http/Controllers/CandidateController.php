@@ -22,6 +22,7 @@ class CandidateController extends Controller
                     ->whereNot('is_archived', true)
                     ->with('student')
                     ->with('position')
+                    ->latest()
                     ->paginate(10),
             ]
         );
@@ -233,7 +234,8 @@ class CandidateController extends Controller
                     ->with('student')
                     ->with('position')
                     ->with('records')
-                    ->get(),
+                    ->latest()
+                    ->paginate(10),
             ],
         );
     }
@@ -257,7 +259,11 @@ class CandidateController extends Controller
                     ->with('position')
                     ->whereRelation('student', 'full_name', 'LIKE', "%$query%")
                     ->where('is_archived', false)
-                    ->get(),
+                    ->latest()
+                    ->paginate(10)
+                    ->appends([
+                        'query' => $query,
+                    ]),
             ],
         );
     }
@@ -282,7 +288,11 @@ class CandidateController extends Controller
                     ->with('records')
                     ->whereRelation('student', 'full_name', 'LIKE', "%$query%")
                     ->where('is_archived', true)
-                    ->get(),
+                    ->latest()
+                    ->paginate(10)
+                    ->appends([
+                        'query' => $query,
+                    ]),
             ],
         );
     }

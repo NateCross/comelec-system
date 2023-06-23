@@ -16,6 +16,7 @@ class MasterlistController extends Controller
         return view('frontend.master-list.index', [
             'students' => Student::query()
                 ->whereKeyNot('0000')
+                ->latest()
                 ->paginate(10),
         ]);
     }
@@ -102,7 +103,12 @@ class MasterlistController extends Controller
 
         $result = $students
             ->whereKeyNot('0000')
-            ->paginate(10);
+            ->latest()
+            ->paginate(10)
+            ->appends([
+                'query' => $query,
+                'filter' => $filter,
+            ]);
 
         return view(
             'frontend.master-list.index',

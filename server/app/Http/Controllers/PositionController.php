@@ -15,12 +15,13 @@ class PositionController extends Controller
      */
     public function index()
     {
-        // return Position::with('candidates')->get();
         return view(
             'frontend.positions-list.index',
             [
                 'positions' =>
-                Position::query()->paginate(10),
+                Position::query()
+                    ->latest()
+                    ->paginate(10),
             ],
         );
     }
@@ -170,7 +171,10 @@ class PositionController extends Controller
                 'positions' =>
                 Position::query()
                     ->where('position_name', 'LIKE', "%$query%")
-                    ->paginate(10),
+                    ->paginate(10)
+                    ->appends([
+                        'query' => $query,
+                    ]),
             ],
         );
     }
