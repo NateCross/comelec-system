@@ -9,7 +9,7 @@
     <div class="page__header">
       <div class="group">
         <span class="group__title">Edit Candidate</span>
-        <a href="candidates-list.php">
+        <a href="{{ route('candidates.index') }}">
           <button class="primary bold">
             <i class="fa-solid fa-arrow-left-long"></i>
             Go Back
@@ -49,7 +49,6 @@
                       @if ($position->id === $candidate->position_id)
                         selected
                       @endif
-                      {{-- selected="{{ $position->id === $candidate->position_id ? 1 : 0 }}" --}}
                     >
                       {{ $position->position_name }}
                     </option>

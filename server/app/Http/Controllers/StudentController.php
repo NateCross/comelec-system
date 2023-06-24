@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Masterlist;
 use App\Models\Student;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -51,7 +52,13 @@ class StudentController extends Controller
             ],
         ]);
 
-        Student::create($validated);
+        try {
+            Student::create($validated);
+        } catch (QueryException $e) {
+            return back()->withErrors([
+                'validation' => 'Student ID already exists'
+            ]);
+        }
 
         return redirect()->route('master-list.index');
     }
@@ -100,7 +107,13 @@ class StudentController extends Controller
                 ],
             ]);
 
-            $student->updateOrFail($validated);
+            try {
+                $student->updateOrFail($validated);
+            } catch (\Exception $e) {
+                return back()->withErrors([
+                    'validation' => 'Student ID already exists'
+                ]);
+            }
 
             return redirect()->route('master-list.index');
     }

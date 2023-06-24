@@ -5,7 +5,11 @@
 @section('content')
 
   <div class="container short">
-    {{-- @include('layouts.components.messages.info.info'); --}}
+    @error('validation')
+      @include('layouts.components.messages.error.error', [
+        'message' => $message,
+      ]);
+    @enderror
     <div class="page__header">
       <div class="group">
         <span class="group__title">Edit Account</span>
@@ -47,7 +51,7 @@
               <div class="field short">
                 <label for="user_role">User Role</label>
                 <select name="role" id="user_role">
-                  <option value="0">Select Role</option>
+                  <option value="">Select Role</option>
                   <option value="s" @selected($user->role === 's')>Super Admin</option>
                   <option value="a" @selected($user->role === 'a')>Admin</option>
                   <option value="m" @selected($user->role === 'm')>Student Accounts Manager</option>

@@ -6,6 +6,11 @@
 
   <div class="container short">
     {{-- @include('layouts.components.messages.info.info'); --}}
+    @error('validation')
+      @include('layouts.components.messages.error.error', [
+        'message' => $message,
+      ]);
+    @enderror
     <div class="page__header">
       <div class="group">
         <span class="group__title">Add Candidate</span>
@@ -29,13 +34,9 @@
           <span class="title">BASIC INFORMATION</span>
           <div class="fields">
             <div class="group">
-              <div class="field">
+              <div class="field full">
                 <label for="student_id">Student ID</label>
                 <input id="student_id" type="text"  name="student_id" required autocomplete="student_id" autofocus>
-              </div>
-              <div class="field readonly">
-                <label for="name">Name</label>
-                <input id="name" type="text" name="name" required autocomplete="name" readonly>
               </div>
             </div>
             <div class="group">

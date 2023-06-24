@@ -5,7 +5,6 @@
 @section('content')
 
   <div class="container">
-    {{-- @include('layouts.components.messages.info.info'); --}}
     <div class="page__header">
       <div class="group">
         <span class="group__title">Student Accounts List</span>
