@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Masterlist;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
@@ -51,6 +52,9 @@ class StudentController extends Controller
             ],
         ]);
 
+        // Set is_enrolled to true if not provided in the request
+        $validated['is_enrolled'] = isset($validated['is_enrolled']) ? $validated['is_enrolled'] : true;
+
         Student::create($validated);
 
         return redirect()->route('master-list.index');
@@ -95,10 +99,14 @@ class StudentController extends Controller
                     'nullable',
                 ],
                 'is_enrolled' => [
-                    'boolean',
-                    'nullable',
+                    Rule::in('on')
                 ],
             ]);
+
+            if (isset($validated['is_enrolled']))
+                $validated['is_enrolled'] = true;
+            else
+                $validated['is_enrolled'] = false;
 
             $student->updateOrFail($validated);
 

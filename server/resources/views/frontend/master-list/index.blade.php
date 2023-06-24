@@ -10,7 +10,7 @@
       <div class="group">
         <span class="group__title">Student Master List</span>
       </div>
-      <span class="description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
+      <span class="description">This is the list of all students enrolled in the University. All students interacting with the system must be in this list.</span>
     </div>
     <div class="content">
       <div class="content__row">
@@ -88,7 +88,7 @@
               <th class="col1">Name</th>
               <th class="col2">ID</th>
               <th class="col3">College</th>
-              <th class="col4">Role</th>
+              <th class="col4">Status</th>
               <th class="col5">Actions</th>
             </tr>
           </thead>

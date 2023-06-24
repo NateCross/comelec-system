@@ -38,28 +38,49 @@ class MasterlistController extends Controller
         }
     }
 
-    public function upload(Request $request) {
+    public function upload(Request $request)
+    {
         try {
-            if (!$request->hasFile('sheet')) 
+            if (!$request->hasFile('sheet')) {
                 return;
-            
+            }
+
             $path = $request->file('sheet')->getPathname();
 
-            $rows = SimpleExcelReader::create($path, 'csv')
-                ->getRows();
+            $rows = SimpleExcelReader::create($path, 'csv')->getRows();
 
-            $values = $rows->map(fn ($item, $key) => ([
-                'student_id' => $item['student_id'],
-                'full_name' => $item['full_name'],
-                'college' => $item['college'],
-                'is_enrolled' => true,
-            ]))->toArray();
+            $values = $rows->map(function ($item, $key) {
+                return [
+                    'student_id' => $item['student_id'],
+                    'full_name' => $item['full_name'],
+                    'college' => $item['college'],
+                    'is_enrolled' => true,
+                ];
+            })->toArray();
+
+            $existingStudentIds = array_column($values, 'student_id');
+
+            // Retrieve existing student records that are not present in $values
+            $existingStudents = Student::whereNotIn('student_id', $existingStudentIds)->get();
+
+            $existingStudentsValues = $existingStudents->map(function ($student) {
+                return [
+                    'student_id' => $student->student_id,
+                    'full_name' => $student->full_name,
+                    'college' => $student->college,
+                    'is_enrolled' => false,
+                ];
+            })->toArray();
+
+            $mergedValues = array_merge($values, $existingStudentsValues);
+
 
             Student::upsert(
-                $values, 
+                $mergedValues,
                 ['student_id'],
-                ['full_name', 'college', 'is_enrolled'],
+                ['full_name', 'college', 'is_enrolled']
             );
+
             return response()->json([
                 'message' => 'Success',
             ]);
@@ -69,6 +90,7 @@ class MasterlistController extends Controller
             ]);
         }
     }
+
 
     public function testMasterlist(Student $student) {
         $student = Masterlist::replaceStudentDataFromMasterlist(

@@ -16,7 +16,7 @@
           </button>
         </a>
       </div>
-      <span class="description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
+      <span class="description">Edit a student information. Set the student to be enrolled or unenrolled.</span>
     </div>
     <div class="content">
       <div class="content__row">
@@ -41,6 +41,20 @@
               <div class="field input">
                 <label for="college">College</label>
                 <input id="college" type="text" name="college" required autocomplete="college" value="{{ $student->college }}">
+              </div>
+            </div>
+            <div class="group">
+              <div class="field input">
+                <label for="status">Enrolled</label>
+                <input 
+                  id="status" 
+                  type="checkbox" 
+                  name="is_enrolled" 
+                  autocomplete="enrolled"
+                  @if ($student->is_enrolled)
+                    checked
+                  @endif
+                >
               </div>
             </div>
           </div>
