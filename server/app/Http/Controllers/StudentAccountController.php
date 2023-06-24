@@ -64,12 +64,15 @@ class StudentAccountController extends Controller
                     'required',
                 ],
                 'status' => [
-                    Rule::in(['a', 'i', 'v']),
-                    'required',
+                    Rule::in(['a', 'i', 'v'])
                 ],
             ]);
 
             $validated['password'] = Hash::make($validated['password']);
+
+            // Set is_enrolled to true if not provided in the request
+            $validated['status'] = isset($validated['status']) ? $validated['status'] : 'v';
+
 
             $studentAccount = StudentAccount::create($validated);
 

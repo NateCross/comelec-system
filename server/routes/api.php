@@ -46,13 +46,13 @@ Route::middleware(['auth'])->get('/user/info', function (Request $request) {
 
 // Route::resource('student', StudentController::class);
 
-// Route::resource('auth/student', StudentAccountController::class);
-// Route::controller(StudentAccountController::class)
-//     ->prefix('auth/student')
-//     ->group(function () {
-//         Route::post('login', 'login');
-//         Route::post('logout', 'logout');
-//     });
+Route::resource('auth/student', StudentAccountController::class);
+Route::controller(StudentAccountController::class)
+    ->prefix('auth/student')
+    ->group(function () {
+        Route::post('login', 'login');
+        Route::post('logout', 'logout');
+    });
 
 // Route::resource('auth/comelec', ComelecUserController::class);
 // Route::controller(ComelecUserController::class)

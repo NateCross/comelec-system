@@ -10,7 +10,7 @@
       <div class="group">
         <span class="group__title">Student Accounts List</span>
       </div>
-      <span class="description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
+      <span class="description">Oversee and manage the mobile accounts of the students.</span>
     </div>
     <div class="content">
       <div class="content__row">
