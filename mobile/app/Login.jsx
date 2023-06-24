@@ -1,7 +1,7 @@
-import { View } from 'react-native'
-import { TextInput, Surface, Text, Button } from 'react-native-paper'
+import { View, TouchableOpacity } from 'react-native'
+import { TextInput, Text } from 'react-native-paper'
 import React from 'react'
-import { useRouter } from 'expo-router'
+import { useRouter, Stack } from 'expo-router'
 
 import { API_URL } from 'react-native-dotenv'
 
@@ -10,6 +10,7 @@ import { Checkbox } from 'react-native-paper';
 import { useSanctum } from 'react-sanctum';
 import axios from 'axios'
 import { deviceName } from 'expo-device'
+import styles from './Form.style'
 
 export default function Login() {
   const { control, handleSubmit, formState: { errors } } = useForm({
@@ -46,7 +47,7 @@ export default function Login() {
         {
           headers: {
             'Authorization': `Bearer ${token}`,
-          },
+          },  
         }
       )
 
@@ -59,19 +60,29 @@ export default function Login() {
   }
 
   return (
-    <View>
-      <Surface>
-        <View>
-          <Text variant='headlineLarge'>Login</Text>
-        </View>
-        <View>
+    <View style={styles.container}>
+      {/* <Stack.Screen
+        style={styles.menu}
+        options={{
+          headerShown: false,
+        }}
+      /> */}
+      <View style={styles.header}>
+        <Text style={styles.title}>Login</Text>
+        <Text style={styles.description}>Welcome back, log in to vote!</Text>
+      </View>
+      <View style={styles.fields}>
+        <View style={styles.field}>
+          <Text style={styles.name}>Student ID</Text>
           <Controller
+            style={styles.inputBox}
             control={control}
             rules={{
-              required: true,
+            required: true,
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
+                style={styles.input}
                 placeholder='Email'
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -81,14 +92,19 @@ export default function Login() {
             name='email'
           />
           {errors.email && <Text>Email is required</Text>}
+        </View>
 
+        <View style={styles.field}>
+          <Text style={styles.name}>Password</Text>
           <Controller
+            style={styles.inputBox}
             control={control}
             rules={{
               required: true,
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
+                style={styles.input}
                 placeholder='Password'
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -99,32 +115,17 @@ export default function Login() {
             name='password'
           />
           {errors.password && <Text>Password is required</Text>}
-
-          <Controller
-            control={control}
-            rules={{
-              required: false,
-            }}
-            render={({ field: { onChange, value } }) => (
-              <View>
-                <Text>Remember Me</Text>
-                <Checkbox
-                  onPress={() => {onChange(!value)}}
-                  status={value ? 'checked' : 'unchecked'}
-                />
-              </View>
-            )}
-            name='remember'
-          />
-
-          <Button
-            icon='arrow-right-bottom'
-            onPress={handleSubmit(onSubmit)}
-          >
-            Submit
-          </Button>
         </View>
-      </Surface>
-    </View>
+      </View>
+      <View style={styles.actions}>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
+          <Text style={styles.actionText}>Login</Text>
+        </TouchableOpacity>
+        <View style={styles.redirect}>
+          <Text style={styles.redirectText}>Already have an account?</Text>
+          <Text styles={styles.link}>Register</Text>
+        </View>
+      </View>
+  </View>
   )
 }
