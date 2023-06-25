@@ -11,7 +11,7 @@ const styles = StyleSheet.create ({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 18,
+    paddingHorizontal: 16,
     paddingVertical: 20,
     borderBottomColor: COLORS.grey,
     borderBottomWidth: 1,
@@ -75,108 +75,28 @@ const styles = StyleSheet.create ({
   rightTitle: {
     color: COLORS.grey,
   },
-  image: {
-    marginLeft: 10,
-    maxWidth: 250,
-    maxHeight: 200,
-    alignSelf: "center",
-  },
-  accessDetails: {
-    marginTop: 10,
+  pageDetails: {
+    alignItems: "center",
+    textAlign: "center",
   },
   title: {
-    marginTop: 10,
-    textAlign: "center",
+    marginTop: 20,
     fontSize: 20,
     fontWeight: "bold",
     color: COLORS.primary,
   },
-  description: {
-    marginTop: 10,
-    fontSize: 16,
-    textAlign: "center",
-  },
-  accessCode: {
-    marginTop: 30,
-    alignItems: "center",
-  },
-  name: {
-    textAlign: "center",
-    fontSize: 16,
-    fontWeight: "bold",
-    color: COLORS.primary,
-  },
-  codes: {
-    marginTop: 20,
-    flexDirection: "row",
-  },
-  code: {
-    marginHorizontal: 2,
-    minHeight: 45,
-    minWidth: 45,
-    borderColor: COLORS.primary,
-    borderWidth: 1,
-  },
-  option: {
-    marginTop: 10,
-    alignItems: "center",
-  },
-  optionText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: COLORS.primary,
-  },
-  qrButton: {
-    marginTop: 10,
-    alignItems: "center",
-    alignSelf: "center",
-  },
-  buttonWrapper: {
-    borderColor: COLORS.primary,
-    borderWidth: 1,
-    paddingHorizontal: 16,
+  qrWrapper: {
     paddingVertical: 10,
-    borderRadius: 2,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-  },
-  qrImage: {
-    maxWidth: 20,
-    maxHeight: 20,
-    marginRight: 15,
-  },
-  qrText: {
-    fontWeight: "bold",
-    color: COLORS.primary,
-  },
-  noCode: {
-    marginTop: 20,
-  },
-  default: {
-    textAlign: "center",
-    fontSize: 16,
-  },
-  group: {
-    flexDirection: "row",
-    alignSelf: "center",
-  },
-  highlight: {
-    marginLeft: 5,
-    fontSize: 16,
-    textAlign: "center",
-    color: COLORS.primary,
-    fontWeight: "bold",
-  },
-  primaryButton: {
-    marginTop: 15,
-    backgroundColor: COLORS.primary,
-    borderColor: COLORS.primary,
-    borderWidth: 1,
+    paddingHorizontal: 20,
     minWidth: "100%",
-    alignItems: "center",
-    paddingVertical: 15,
-    borderRadius: 5,
+    minHeight: 460,
+  },
+  instructions: {
+    marginTop: 20,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    color: COLORS.grey,
+    textAlign: "center",
   },
   secondaryButton: {
     marginTop: 10,
@@ -191,14 +111,8 @@ const styles = StyleSheet.create ({
     paddingVertical: 15,
     borderRadius: 5,
   },
-  accessText: {
-    color: COLORS.white,
-  },
   primaryText: {
     color: COLORS.primary,
-  },
-  redirect: {
-    minWidth: "100%",
   },
 });
 

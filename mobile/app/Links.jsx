@@ -15,8 +15,20 @@ export default function Links() {
         <Link style={styles.link} href="/Menu">
           Menu
         </Link>
+        <Link style={styles.link} href="/index">
+          Announcements
+        </Link>
         <Link style={styles.link} href="/Auth">
           Auth
+        </Link>
+        <Link style={styles.link} href="/Login">
+          Login
+        </Link>
+        <Link style={styles.link} href="/Register">
+          Register
+        </Link>
+        <Link style={styles.link} href="/ScanQR">
+          QR Page
         </Link>
         <Link style={styles.link} href="/ElectionEntry">
           Election Entry

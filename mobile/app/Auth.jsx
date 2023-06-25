@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, Image } from 'react-native';
 
 import { useSanctum } from 'react-sanctum';
 
-import { images } from './constants';
+import { images, icons } from './constants';
 
 import styles from './Auth.style';
 
@@ -14,8 +14,36 @@ export default function Auth() {
 
   return (
     <View style={styles.container}>
+      <Stack.Screen
+        style={styles.menu}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <View style={styles.navbar}>
+        <Link 
+          href="/index"
+          style={styles.appTitle}>
+          <Text style={styles.leftTitle}>Title/</Text>
+          <Text style={styles.titleRight}>Logo</Text>
+        </Link>
+        <View style={styles.groupLink}>
+          <Link href="/Links" style={styles.devToggle}>  
+            <Image
+              source={icons.menu}
+              style={styles.menuIcon}
+            />
+          </Link>
+          <Link href="/Menu" style={styles.menuButton}>  
+            <Image
+              source={icons.menu}
+              style={styles.menuIcon}
+            />
+          </Link>
+        </View>
+      </View>
       <View style={styles.main}>
-        <Text style={styles.header}>Title/Logo</Text>
+        <Text style={styles.header}>SG COMELEC</Text>
         <View style={styles.centerContent}>
           <Image 
             source={images.comelec}
@@ -23,12 +51,16 @@ export default function Auth() {
           />
           <Text style={styles.description}>Log in or Register to Vote!</Text>
           <View style={styles.group}>
-            <TouchableOpacity style={styles.primaryButton}>
-              <Link style={styles.textLight} href='/Register'>Register</Link>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.secondaryButton}>
-              <Link style={styles.textDark} href='/Login'>Login</Link>
-            </TouchableOpacity>
+            <Link style={styles.primaryButton} href="/Register">
+              <TouchableOpacity>
+                <Text style={styles.textLight}>Register</Text>
+              </TouchableOpacity>
+            </Link>
+            <Link style={styles.secondaryButton} href="/Login">
+              <TouchableOpacity>
+                <Text style={styles.textDark}>Login</Text>
+              </TouchableOpacity>
+            </Link>
           </View>
         </View>
         <Text style={styles.centerText}>Etiam placerat ullamcorper ultricies. Aenean id feugiat quam. Nam eros orci, imperdiet vel porta maximus.</Text>

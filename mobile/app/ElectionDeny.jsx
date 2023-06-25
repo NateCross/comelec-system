@@ -18,21 +18,24 @@ export default function noAccess() {
         <Link 
           href="/index"
           style={styles.appTitle}>
-          <Text style={styles.leftTitle}>Title/</Text>
-          <Text style={styles.titleRight}>Logo</Text>
+          <Text style={styles.leftTitle}>SG Comelec</Text>
         </Link>
         <View style={styles.groupLink}>
-          <Link href="/Links" style={styles.devToggle}>  
-            <Image
-              source={icons.menu}
-              style={styles.menuIcon}
-            />
+          <Link href="/Links" style={styles.devToggle}>
+            <View style={styles.wrapper}>
+              <Image
+                source={icons.link}
+                style={styles.devIcon}
+              />
+            </View>
           </Link>
-          <Link href="/Menu" style={styles.menuButton}>  
-            <Image
-              source={icons.menu}
-              style={styles.menuIcon}
-            />
+          <Link href="/Menu" style={styles.menuButton}>
+            <View style={styles.wrapper}>
+              <Image
+                source={icons.menu}
+                style={styles.menuIcon}
+              />
+            </View>
           </Link>
         </View>
       </View>
@@ -44,9 +47,11 @@ export default function noAccess() {
           />
           <Text style={styles.message}>[ Custom Error Message ]</Text>
         </View>
-        <TouchableOpacity style={styles.secondaryButton}>
-          <Link href="/index">Return to Announcement</Link>
-        </TouchableOpacity>
+        <Link style={styles.secondaryButton} href="">
+          <TouchableOpacity>
+            <Text style={styles.primaryText}>Return to Announcement</Text>
+          </TouchableOpacity>
+        </Link>
       </View>
     </View>
   );

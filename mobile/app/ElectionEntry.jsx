@@ -17,21 +17,24 @@ export default function electionEntry() {
         <Link 
           href="/index"
           style={styles.appTitle}>
-          <Text style={styles.leftTitle}>Title/</Text>
-          <Text style={styles.titleRight}>Logo</Text>
+          <Text style={styles.leftTitle}>SG Comelec</Text>
         </Link>
         <View style={styles.groupLink}>
-          <Link href="/Links" style={styles.devToggle}>  
-            <Image
-              source={icons.menu}
-              style={styles.menuIcon}
-            />
+          <Link href="/Links" style={styles.devToggle}>
+            <View style={styles.wrapper}>
+              <Image
+                source={icons.link}
+                style={styles.devIcon}
+              />
+            </View>
           </Link>
-          <Link href="/Menu" style={styles.menuButton}>  
-            <Image
-              source={icons.menu}
-              style={styles.menuIcon}
-            />
+          <Link href="/Menu" style={styles.menuButton}>
+            <View style={styles.wrapper}>
+              <Image
+                source={icons.menu}
+                style={styles.menuIcon}
+              />
+            </View>
           </Link>
         </View>
       </View>
@@ -55,22 +58,36 @@ export default function electionEntry() {
               <View style={styles.code}></View>
               <View style={styles.code}></View>
             </View>
-            <View style={styles.noCode}>
-              <Text style={styles.default}>Don't have a code?</Text>
-              <View style={styles.group}>
-                <Text style={styles.default}>Approach a</Text>
-                <Text style={styles.highlight}>Poll Worker</Text>
-              </View>
+            <View style={styles.option}>
+              <Text style={styles.optionText}>or</Text>
             </View>
           </View>
+          <Link style={styles.qrButton} href="/ScanQR">
+            <View style={styles.buttonWrapper}>
+              <Image
+                source={icons.qr}
+                style={styles.qrImage}
+              />
+              <Text style={styles.qrText}>QR Scan</Text>
+            </View>
+          </Link>
         </View>
         <View style={styles.actions}>
+          <View style={styles.noCode}>
+            <Text style={styles.default}>Don't have a code?</Text>
+            <View style={styles.group}>
+              <Text style={styles.default}>Approach a</Text>
+              <Text style={styles.highlight}>Poll Worker</Text>
+            </View>
+          </View>
           <TouchableOpacity style={styles.primaryButton}>
-            <Link href="./index" style={styles.lightText}>Enter Access Code</Link>
+            <Link href="" style={styles.accessText}>Enter Access Code</Link>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.secondaryButton}>
-            <Link href="/index">Return to Announcement</Link>
-          </TouchableOpacity>
+          <Link style={styles.secondaryButton} href="">
+            <TouchableOpacity>
+              <Text style={styles.primaryText}>Return to Announcement</Text>
+            </TouchableOpacity>
+          </Link>
         </View>
       </View>
     </View>
