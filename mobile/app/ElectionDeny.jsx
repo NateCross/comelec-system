@@ -16,7 +16,7 @@ export default function noAccess() {
       />
       <View style={styles.navbar}>
         <Link 
-          href="/index"
+          href=""
           style={styles.appTitle}>
           <Text style={styles.leftTitle}>SG Comelec</Text>
         </Link>

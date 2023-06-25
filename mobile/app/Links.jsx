@@ -15,7 +15,7 @@ export default function Links() {
         <Link style={styles.link} href="/Menu">
           Menu
         </Link>
-        <Link style={styles.link} href="/index">
+        <Link style={styles.link} href="">
           Announcements
         </Link>
         <Link style={styles.link} href="/Auth">

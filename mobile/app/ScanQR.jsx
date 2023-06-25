@@ -42,7 +42,7 @@ export default function ScanQR() {
       />
       <View style={styles.navbar}>
         <Link 
-          href="/index"
+          href=""
           style={styles.appTitle}>
           <Text style={styles.leftTitle}>SG Comelec</Text>
         </Link>
@@ -81,7 +81,7 @@ export default function ScanQR() {
           </View>
         </View>
         {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} style={styles.scanAgain}/>}
-        <Link style={styles.secondaryButton} href="/index">
+        <Link style={styles.secondaryButton} href="ElectionEntry">
           <TouchableOpacity>
             <Text style={styles.primaryText}>Return to Election Page</Text>
           </TouchableOpacity>

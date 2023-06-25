@@ -19,7 +19,7 @@ export default function Menu() {
       />
       <View style={styles.navbar}>
         <Link 
-          href="/index"
+          href=""
           style={styles.appTitle}>
           <Text style={styles.leftTitle}>SG Comelec</Text>
         </Link>
@@ -44,7 +44,7 @@ export default function Menu() {
       </View>
       <View style={styles.main}>
         <View style={styles.nav}>
-          <Link href="/index" style={styles.link}>
+          <Link href="" style={styles.link}>
             <View style={styles.left}>
               <Image 
                 source={icons.horn}
