@@ -16,7 +16,7 @@
           </button>
         </a>
       </div>
-      <span class="description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
+      <span class="description">Create an active election. Set the start date and end date of an election to set its election period.</span>
     </div>
     <div class="content">
       <div class="content__row">

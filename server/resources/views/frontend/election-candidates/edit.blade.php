@@ -9,14 +9,14 @@
     <div class="page__header">
       <div class="group">
         <span class="group__title">Override Candidate Result</span>
-        <a href="election-candidates.php">
+        <a href="{{ route('election.index') }}">
           <button class="primary bold">
             <i class="fa-solid fa-arrow-left-long"></i>
             Go Back
           </button>
         </a>
       </div>
-      <span class="description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
+      <span class="description">Change the result for this candidate. Give a reason for overriding the results.</span>
     </div>
     <div class="content">
       <div class="content__row">

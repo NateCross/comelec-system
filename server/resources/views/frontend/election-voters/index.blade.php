@@ -9,7 +9,7 @@
     <div class="page__header">
       <div class="group">
         <span class="group__title">Election Manager</span>
-        <span class="group__description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
+        <span class="group__description">Manage the voters of this election record. Invalidate the vote of voters that do not meet the rules of election. Finalize, archive, or cancel this record.</span>
       </div>
       <div class="tab">
         <a href="{{ route('election.candidates', $election->id) }}">
