@@ -10,7 +10,7 @@
       <div class="group">
         <span class="group__title">Positions List</span>
       </div>
-      <span class="description">Officer positions of the Student Government</span>
+      <span class="description">Edit the officer positions of the Student Government.</span>
     </div>
     <div class="content">
       <div class="content__row">

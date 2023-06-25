@@ -16,7 +16,7 @@
           </button>
         </a>
       </div>
-      <span class="description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
+      <span class="description">Modify an existing COMELEC account.</span>
     </div>
     <div class="content">
       <div class="content__row">

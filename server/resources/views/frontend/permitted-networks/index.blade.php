@@ -10,7 +10,7 @@
       <div class="group">
         <span class="group__title">Network List</span>
       </div>
-      <span class="description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
+      <span class="description">Edit the list of networks students are allowed to connect to be able to vote.</span>
     </div>
     <div class="content">
       <div class="content__row">

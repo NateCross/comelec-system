@@ -10,7 +10,7 @@
       <div class="group">
         <span class="group__title">Message Editor</span>
       </div>
-      <span class="description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
+      <span class="description">Edit the default messages on components in the mobile application.</span>
     </div>
     <div class="content">
       <form 

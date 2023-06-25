@@ -12,10 +12,11 @@
       <div class="group">
         @if ($isAdmin)
           <span class="group__title">Administrator's Account</span>
+          <span class="group__description">Edit your profile and other COMELEC accounts.</span>
         @else
           <span class="group__title">My Account</span>
+          <span class="group__description">Edit your profile.</span>
         @endif
-        <span class="group__description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
       </div>
       <div class="tab">
         <a href="{{ route('account.profile') }}">

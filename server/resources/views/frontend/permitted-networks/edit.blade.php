@@ -16,7 +16,7 @@
           </button>
         </a>
       </div>
-      <span class="description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
+      <span class="description">Change the name of the network that students can connect to to vote.</span>
     </div>
     <div class="content">
       <div class="content__row">

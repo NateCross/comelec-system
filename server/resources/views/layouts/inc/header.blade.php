@@ -3,7 +3,7 @@
 <div class="header">
   <div class="header__left">
     <div class="logo">
-      COMELEC
+      <img src="{{ asset('images/comelec_logo.png') }}" style="width: 2em">
     </div>
     {{-- <a href="{{ route('master-list.index') }}" class="logo">COMELEC</a> --}}
       <ul class="nav">

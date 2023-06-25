@@ -9,7 +9,7 @@
     <div class="page__header">
       <div class="group">
         <span class="group__title">Administrator's Account</span>
-        <span class="group__description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
+        <span class="group__description">Create and manage other COMELEC accounts.  </span>
       </div>
       <div class="tab">
         <a href="{{ route('account.profile') }}">

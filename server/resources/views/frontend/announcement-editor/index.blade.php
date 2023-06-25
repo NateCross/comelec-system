@@ -10,7 +10,7 @@
             <div class="group">
                 <span class="group__title">Announcement Editor</span>
             </div>
-            <span class="description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
+            <span class="description">Edit the announcement page in the mobile application. Enter your desired announcement on the embedded article field.</span>
         </div>
         <div class="content">
             <div class="content__row">
