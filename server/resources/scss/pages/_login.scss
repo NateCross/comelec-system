@@ -7,6 +7,7 @@
   background-color: var(--body-color);
 
   .logo {
+    margin-bottom: 1rem;
 
     span {
     font-size: 1.7rem;
@@ -16,9 +17,20 @@
 
     span:first-child {
     color: var(--black-color);
+    display: block;
     }
   }
 
+  .logo-pic {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    text-align: center;
+
+    img {
+      width: 5rem;
+    }
+  }
   .inquiry {
     align-self: center;
     display: flex;

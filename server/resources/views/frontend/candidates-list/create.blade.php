@@ -16,7 +16,7 @@
           </button>
         </a>
       </div>
-      <span class="description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
+      <span class="description">Add a candidate by student ID. Set the position and party name of the candidate.</span>
     </div>
     <div class="content">
       <div class="content__row">

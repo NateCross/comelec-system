@@ -9,7 +9,7 @@
       <div class="group">
         <span class="group__title">Candidates List</span>
       </div>
-      <span class="description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
+      <span class="description">Current candidates that students can vote for. The candidates can be edited before creating an election record.</span>
     </div>
     <div class="content">
       <div class="content__row">

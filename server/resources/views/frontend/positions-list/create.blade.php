@@ -16,7 +16,7 @@
           </button>
         </a>
       </div>
-      <span class="description">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet...</span>
+      <span class="description">Add a position. Set what college the position applies to and the number of winning candidates for that position.</span>
     </div>
     <div class="content">
       <div class="content__row">

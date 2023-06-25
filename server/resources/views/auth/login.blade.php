@@ -14,8 +14,11 @@
 <body>
     <div class="login">
         <div class="logo">
-            <span>Title</span>
-            <span>/Logo</span>
+            <span>NORSU SG COMELEC</span>
+            <span>GUIHILNGAN CAMPUS</span>
+        </div>
+        <div class="logo-pic">
+            <img src="{{ asset('images/comelec_logo.png') }}">
         </div>
         @error('username')
             @include('layouts.components.messages.short.short')
@@ -24,8 +27,6 @@
             @csrf
             <div class="login-details">
                 <span class="title">Sign in</span>
-                <span class="description">Integer id ultricies risus. Donesuscipit neque lorem, eu aliquam nunc
-                    pellentesque.</span>
             </div>
             <div class="fields">
                 <div class="field full">
