@@ -10,9 +10,11 @@ const userAngleUp = document.querySelector('#user-angle');
 
 // Exit Buttons
 const modalExitButton = document.querySelector('#modal-exit-btn');
+const messageExitButton = document.querySelector('#exit-message');
 
 // Modals
 const modal = document.querySelector('.modal');
+const message = document.querySelector('.message');
 
 // Menus
 const userMenu = document.querySelector('.user');
@@ -34,4 +36,8 @@ seeMoreButton?.addEventListener('click', () => {
  seeMoreMenu.classList.toggle('active');
  seeMoreAngleUp.classList.toggle('fa-angle-down');
  seeMoreAngleUp.classList.toggle('fa-angle-up');
+});
+
+messageExitButton?.addEventListener('click', () => {
+  message?.remove();
 });

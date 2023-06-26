@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Masterlist;
 use App\Models\Student;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -55,7 +56,13 @@ class StudentController extends Controller
         // Set is_enrolled to true if not provided in the request
         $validated['is_enrolled'] = isset($validated['is_enrolled']) ? $validated['is_enrolled'] : true;
 
-        Student::create($validated);
+        try {
+            Student::create($validated);
+        } catch (QueryException $e) {
+            return back()->withErrors([
+                'validation' => 'Student ID already exists'
+            ]);
+        }
 
         return redirect()->route('master-list.index');
     }
@@ -108,7 +115,13 @@ class StudentController extends Controller
             else
                 $validated['is_enrolled'] = false;
 
-            $student->updateOrFail($validated);
+            try {
+                $student->updateOrFail($validated);
+            } catch (\Exception $e) {
+                return back()->withErrors([
+                    'validation' => 'Student ID already exists'
+                ]);
+            }
 
             return redirect()->route('master-list.index');
     }

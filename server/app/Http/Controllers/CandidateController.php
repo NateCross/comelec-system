@@ -47,40 +47,45 @@ class CandidateController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'student_id' => [
-                'max:20',
-                'string',
-                'exists:students,student_id',
-                'required',
-            ],
-            'position_id' => [
-                'integer',
-                'exists:positions,id',
-                'required',
-            ],
-            'party_name' => [
-                'max:50',
-                'string',
-                'nullable',
-            ],
-            'image' => [
-                'file',
-            ],
-            'is_archived' => [
-                'boolean',
-            ],
-        ]);
+        try {
+            $validated = $request->validate([
+                'student_id' => [
+                    'max:20',
+                    'string',
+                    'exists:students,student_id',
+                    'required',
+                ],
+                'position_id' => [
+                    'integer',
+                    'exists:positions,id',
+                    'required',
+                ],
+                'party_name' => [
+                    'max:50',
+                    'string',
+                    'nullable',
+                ],
+                'image' => [
+                    'file',
+                ],
+                'is_archived' => [
+                    'boolean',
+                ],
+            ]);
 
-        if (isset($validated['image'])) {
-            $image = $validated['image'];
-            $path = $image->store('public/candidates');
-            $path = substr($path, strpos($path, '/') + 1);
-            $validated['image_url'] = $path;
-            unset($validated['image']);
+            if (isset($validated['image'])) {
+                $image = $validated['image'];
+                $path = $image->store('public/candidates');
+                $path = substr($path, strpos($path, '/') + 1);
+                $validated['image_url'] = $path;
+                unset($validated['image']);
+            }
+            Candidate::create($validated);
+        } catch (\Exception $e) {
+            return back()->withErrors([
+                'validation' => $e->getMessage(),
+            ]);
         }
-
-        Candidate::create($validated);
 
         return redirect()->route('candidates.index');
     }

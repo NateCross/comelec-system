@@ -9,7 +9,7 @@
     <div class="page__header">
       <div class="group">
         <span class="group__title">Override Candidate Result</span>
-        <a href="{{ route('election.index') }}">
+        <a href="{{ route('election.candidates', $record_candidate->election_id) }}">
           <button class="primary bold">
             <i class="fa-solid fa-arrow-left-long"></i>
             Go Back

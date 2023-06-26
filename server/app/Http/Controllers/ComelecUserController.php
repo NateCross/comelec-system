@@ -97,59 +97,70 @@ class ComelecUserController extends Controller
      */
     public function update(Request $request, ComelecUser $comelecUser)
     {
-        $validated = $request->validate([
-            'student_id' => [
-                'max:20',
-                'string',
-                'exists:students,student_id',
-            ],
-            'username' => [
-                'max:50',
-                'string',
-            ],
-            'name' => [
-                'max:100',
-                'string',
-            ],
-            'password' => [
-                'max:60',
-                'string',
-                'nullable',
-            ],
-            'password_confirm' => [
-                'max:60',
-                'string',
-            ],
-            'role' => [
-                Rule::in(['s', 'a', 'c', 'm', 'p']),
-            ],
-        ]);
+        try {
+            $validated = $request->validate([
+                'student_id' => [
+                    'max:20',
+                    'string',
+                    'exists:students,student_id',
+                ],
+                'username' => [
+                    'max:50',
+                    'string',
+                ],
+                'name' => [
+                    'max:100',
+                    'string',
+                ],
+                'password' => [
+                    'max:60',
+                    'string',
+                    'nullable',
+                ],
+                'password_confirm' => [
+                    'max:60',
+                    'string',
+                ],
+                'role' => [
+                    Rule::in(['s', 'a', 'c', 'm', 'p']),
+                    'nullable',
+                ],
+            ]);
 
-        if (isset($validated['password'])) {
-            if (!isset($validated['password_confirm']))
-                return back()->withErrors([
-                    'password' => 'Password not confirmed'
-                ]);
-            if ($validated['password'] !== $validated['password_confirm'])
-                return back()->withErrors([
-                    'confirm' => 'Passwords do not match'
-                ]);
-            
-            unset($validated['password_confirm']);
-            $validated['password'] = 
-                Hash::make($validated['password']);
-        } else {
-            unset($validated['password']);
-        }
+            $validated = array_filter($validated, function ($var) {
+                return $var !== null;
+            });
 
-        if (isset($comelecUser['id'])) {
-            // Handles updating other users
-            $comelecUser->update($validated);
-            return redirect()->route('account.admin.index');
-        } else {
-            // Handles self-update from profile
-            $request->user()->update($validated);
-            return redirect()->back();
+            if (isset($validated['password'])) {
+                if (!isset($validated['password_confirm']))
+                    return back()->withErrors([
+                        'password' => 'Password not confirmed'
+                    ]);
+                if ($validated['password'] !== $validated['password_confirm'])
+                    return back()->withErrors([
+                        'confirm' => 'Passwords do not match'
+                    ]);
+                
+                unset($validated['password_confirm']);
+                $validated['password'] = 
+                    Hash::make($validated['password']);
+            } else {
+                unset($validated['password']);
+            }
+
+            if (isset($comelecUser['id'])) {
+                // Handles updating other users
+                $comelecUser->update($validated);
+                return redirect()->route('account.admin.index');
+            } else {
+                // Handles self-update from profile
+                $request->user()->update($validated);
+                return redirect()->back();
+            }
+        } catch (\Exception $e) {
+            return back()->withErrors([
+                'validation' => $e->getMessage(),
+            ]);
         }
     }
 
