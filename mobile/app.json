@@ -21,16 +21,26 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.norsu.comelec"
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
     "scheme": "myapp",
-    "expo-barcode-scanner":
-    {
-      "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
+    "plugins": [
+      [
+        "expo-barcode-scanner",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "0c87f25f-b7cc-4e74-bfba-ba1a827f9db7"
+      }
     }
   }
 }
