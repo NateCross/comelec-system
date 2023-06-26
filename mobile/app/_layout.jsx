@@ -1,6 +1,7 @@
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Text, HeaderButton, NavigationContainer } from 'react-native'
 import React from 'react'
-import { Stack } from 'expo-router'
+import { Stack, Screen } from 'expo-router'
+import { MaterialIcons } from '@expo/vector-icons'
 import axios from 'axios'
 
 import { API_URL } from 'react-native-dotenv'
@@ -33,14 +34,33 @@ const sanctumConfig = {
 // Set default for axios to allow auth support
 axios.defaults.withCredentials = true;
 
-export default function _layout(props) {
+const MaterialHeaderButton = (props) => (
+  <HeaderButton
+    {...props}
+    IconComponent={MaterialIcons}
+    iconSize={23}
+    color="white"
+  />
+);
+
+export default function _index() {
   return (
     <PaperProvider theme={theme}>
       <Sanctum config={sanctumConfig}>
-        <Stack />
+        <Stack>
+          <Screen
+            options={{
+              headerTitle: 'Title/Logo',
+              headerRight: () => (
+                <View>
+                  <Text>Test</Text>
+                </View>
+              ),
+              headerShown: false,
+            }}
+          />
+        </Stack>
       </Sanctum>
     </PaperProvider>
-  )
+  );
 }
-
-const styles = StyleSheet.create({})
