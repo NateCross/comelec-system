@@ -29,14 +29,6 @@
       "bundler": "metro"
     },
     "scheme": "myapp",
-    "plugins": [
-      [
-        "expo-barcode-scanner",
-        {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
-        }
-      ]
-    ],
     "extra": {
       "eas": {
         "projectId": "0c87f25f-b7cc-4e74-bfba-ba1a827f9db7"
