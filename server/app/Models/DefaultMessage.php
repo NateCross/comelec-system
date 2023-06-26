@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class DefaultMessage extends Model
+{
+    use HasFactory;
+
+    public $primaryKey = 'key';
+
+    protected $fillable = [
+        'key',
+        'value',
+    ];
+
+    protected $casts = [
+        'key' => 'string',
+        'value' => 'string',
+    ];
+}

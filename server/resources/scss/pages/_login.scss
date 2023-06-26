@@ -1,0 +1,51 @@
+.login {
+  padding: 3em 3%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  background-color: var(--body-color);
+
+  .logo {
+    margin-bottom: 1rem; 
+
+    span {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--grey-color);
+    }
+
+    span:first-child {
+    color: var(--black-color);
+    display: block;
+    }
+  }
+
+  .logo-pic {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    text-align: center;
+
+    img {
+      width: 5em;
+    }
+  }
+
+  .inquiry {
+    align-self: center;
+    display: flex;
+    gap: 0.3em;
+    text-align: center;
+
+    a {
+      color: var(--primary-color);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+}

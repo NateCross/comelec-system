@@ -1,0 +1,348 @@
+.page {
+  display: grid;
+  align-items: center;
+  background-color: var(--body-color);
+
+  &__header {
+    // padding: min(100% - 1em, 1em);
+  }
+
+  &__content {
+    padding: 1.5em 0;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+  }
+}
+
+.container {
+  padding: 4.5em 10em;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--body-color);
+  min-width: 100vw;
+  min-height: 100vh;
+
+  .page__header {
+    background-color: var(--bg-color);
+    padding: 1em 1.2em;
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    .group {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.2em;
+
+      &__title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        flex: 60%;
+        color: var(--primary-color);
+      }
+
+      &__description {
+        flex: 40%;
+        text-align: right;
+        color: var(--black-color);
+      }
+
+    }
+
+    .description {
+      color: var(--black-color);
+    }
+
+    .tab {
+      display: flex;
+      gap: 1em;
+
+      .selector {
+        position: relative;
+        color: var(--black-color);
+      }
+
+      .selector::after {
+        position: absolute;
+        content: "";
+        bottom: -1em;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background-color: var(--grey-color);
+      }
+
+      .selector.active::after {
+        background-color: var(--black-color);
+      }
+    }
+
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .page__header.wide {
+    margin-bottom: 0.5em;
+  }
+
+  .content {
+
+    &__row {
+      position: relative;
+      margin: 1em 0;
+      padding: 1em 1em;
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 2px;
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+
+      .page__actions {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        transform: translateY(150%);
+      }
+
+      .actions {
+        display: flex;
+        align-items: center;
+        padding: 0.2em;
+        gap: 0.5em;
+
+        .title {
+          font-size: 1.3rem;
+          font-weight: 700;
+          color: var(--primary-color);
+        }
+
+        &__btn {
+          display: flex;
+          gap: 0.5em;
+        }
+
+        a {
+          text-decoration: none;
+        }
+      }
+
+      select.filter {
+        padding: 0.6em;
+
+      }
+
+      .actions.spaced {
+        justify-content: space-between;
+      }
+
+      table {
+        border-collapse: collapse;
+        border-radius: 2px;
+        width: 100%;
+
+        th,
+        td {
+          padding: 1em 1em;
+          text-align: left;
+          color: var(--black-color);
+        }
+
+        th.col6 {
+          text-align: center;
+        }
+
+        tbody {
+          tr {
+            border: 1px solid var(--border-color);
+            background-color: var(--body-color);
+
+
+            td {}
+
+            td.col5 {
+              display: flex;
+              gap: 0.5em;
+            }
+
+            td.flex-end {
+              justify-content: flex-end;
+            }
+
+          }
+
+        }
+
+        tbody.wide {
+
+          tr {
+
+            td {
+              padding: 1em;
+            }
+          }
+        }
+
+      }
+    }
+
+    .settings {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+
+      .title {
+        color: var(--primary-color);
+        font-weight: 700;
+      }
+
+      .group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .name {
+          font-weight: 700;
+          color: var(--primary-color);
+        }
+      }
+    }
+
+    &__row.short {
+      margin: 0.5em 0;
+    }
+
+    &__row.darken {
+      background-color: var(--bg-color);
+    }
+  }
+
+  .content.group {
+    display: flex;
+    gap: 1em;
+
+    .content__row {
+      flex: 80%;
+    }
+
+    .content__details {
+      margin: 1em 0;
+      padding: 1em 1em 0;
+      flex: 20%;
+      border: 1px solid var(--border-color);
+      display: flex;
+      background-color: var(--bg-color);
+      flex-direction: column;
+      gap: 1em;
+      max-height: 50em;
+
+      .header-details {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 1em;
+        border-bottom: 1px solid var(--grey-color);
+
+        .group {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5em;
+
+          .title {
+            color: var(--primary-color);
+            font-weight: 700;
+          }
+
+          .set {
+            color: var(--grey-color);
+          }
+        }
+      }
+
+      .election-details {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8em;
+        padding-bottom: 1em;
+        border-bottom: 1px solid var(--grey-color);
+
+        .title {
+          color: var(--primary-color);
+          font-weight: 700;
+        }
+
+        .group {
+          display: flex;
+          flex-direction: column;
+          gap: 0.2em;
+
+          .name {
+            font-weight: 700;
+            color: var(--grey-color);
+          }
+
+          .value {
+            color: var(--black-color);
+          }
+        }
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+        margin-bottom: 1em;
+      }
+    }
+  }
+
+  .page__actions {
+    display: flex;
+    justify-content: right;
+    padding: 0 1em;
+  }
+}
+
+.container.short {
+  padding: 4.5em 18em;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+@media(min-width: 1700px) {
+  .container.short {
+    padding: 4.5em 30em;
+  }
+}
+
+
+.container.wide {
+  padding: 4.5em 8em;
+}
+
+.container.code {
+  padding: 5% 12em 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100vw;
+  min-height: 100vh;
+
+  .bottom {
+    display: flex;
+    gap: 2em;
+
+    form {
+      background-color: var(--bg-color);
+      flex: 50%;
+    }
+
+    .card {
+      background-color: var(--bg-color);
+      flex: 50%;
+    }
+  }
+}

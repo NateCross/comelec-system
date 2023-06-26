@@ -1,0 +1,35 @@
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .pagination {
+    display: flex;
+    gap: 1em;
+    align-self: center;
+    align-items: center;
+    color: var(--black-color);
+
+    li {
+      list-style-type: none;
+    }
+
+    a {
+      padding: 0.5em 0.8em;
+      border: 1px solid var(--black-color);
+      border-radius: 2px;
+      color: var(--black-color);
+      text-decoration: none;
+      background-color: var(--bg-color);
+    }
+
+    a.group {
+      display: flex;
+      gap: 1em;
+    }
+
+    a:hover {
+      background-color: var(--hover-color);
+    }
+  }
+}
