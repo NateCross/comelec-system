@@ -2,7 +2,7 @@
 
 This system has the following tech stack:
 
-- React as frontend (web)
+- Laravel as frontend (web)
 - React Native as frontend (mobile)
 - Laravel as backend
 
