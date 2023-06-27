@@ -16,15 +16,6 @@ React and React Native interface with Laravel through APIs. The endpoints are to
 
 **As such, the entries `SESSION_DOMAIN` and `SANCTUM_STATEFUL_DOMAINS` in `server/.env` must point to the IP address or domain name of the client.**
 
-### Client
-
-The client portion is handled in Laravel with [Vite](https://vitejs.dev/guide/), but it is likely not going to be relevant unless something goes terribly wrong.
-
-- Go to the `server/` folder
-- Run `npm i -D`
-- Setup the server as below.
-- After running `php artisan serve`, go to the link indicated by Laravel.
-
 ### Server
 
 - Copy and edit the `.env.example` file to `.env`
@@ -33,6 +24,7 @@ The client portion is handled in Laravel with [Vite](https://vitejs.dev/guide/),
 - `php artisan key:generate`
 - Make sure to have a mysql connection. If you are using a virtualhost, run a mysql server
 - `php artisan migrate`
+- `npm run dev` or `npm run build`
 - `php artisan serve`
 - The database name is **"comelec\_database"**
 
