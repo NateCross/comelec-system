@@ -18,16 +18,18 @@ export default function index() {
 
   // Run on first load
   useEffect(() => {
-    axios.get(
-      `${API_URL}/api/announcement`,
-    ).then((response) => {
-      setAnnouncement(
-        response
-        ?.data
-        ?.announcement
-        ?.text
-      );
-    });
+    axios
+      .get(`${API_URL}/api/announcement`)
+      .then((response) => {
+        setAnnouncement(
+          response
+            ?.data
+            ?.announcement
+            ?.text
+        )
+      }).catch(() => {
+        setAnnouncement('Failed to retrieve announcement.');
+      });
   }, []);
 
   return (
