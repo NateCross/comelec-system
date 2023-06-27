@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -27,6 +28,17 @@ use App\Http\Controllers\StudentController;
 // Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::middleware(['auth'])->get('/user/info', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('api')->group(function () {
+    Route::get(
+        'announcement',
+        [AnnouncementController::class, 'apiAnnouncement'],
+    )->name('api.announcement');
+    // Route::resource(
+    //     'announcement',
+    //     AnnouncementController::class,
+    // )->only(['']);
 });
 
 // Route::controller(AuthController::class)
