@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
@@ -15,11 +15,15 @@
     "@react-navigation/stack": "^6.3.17",
     "axios": "^1.4.0",
     "expo": "~48.0.18",
+    "expo-barcode-scanner": "~12.3.2",
     "expo-constants": "~14.2.1",
+    "expo-dev-client": "~2.2.1",
     "expo-device": "~5.2.1",
     "expo-linking": "~4.0.1",
     "expo-router": "^1.5.3",
+    "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
+    "metro-config": "^0.76.7",
     "react": "18.2.0",
     "react-hook-form": "^7.44.3",
     "react-native": "0.71.8",
@@ -29,9 +33,7 @@
     "react-native-screens": "~3.20.0",
     "react-native-web": "~0.18.10",
     "react-navigation-header-buttons": "^11.0.0",
-    "react-sanctum": "^3.0.0",
-    "expo-barcode-scanner": "~12.3.2",
-    "expo-dev-client": "~2.2.1"
+    "react-sanctum": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
