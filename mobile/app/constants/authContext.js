@@ -50,8 +50,13 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  async function refreshUser() {
+    setUser(null);
+    setUser(await getUser());
+  }
+
   return (
-    <Provider value={{auth, setAuth, user}}>
+    <Provider value={{auth, setAuth, user, refreshUser}}>
       {children}
     </Provider>
   )

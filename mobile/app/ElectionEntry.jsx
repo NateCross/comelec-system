@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
-import { Link, Stack } from "expo-router";
+import { Link, Stack, useLocalSearchParams } from "expo-router";
 import { Text, View, TouchableOpacity, Image } from "react-native";
 import { images, icons } from "./constants";
 import { useAuth } from "./constants/useAuth";
 import { API_URL } from 'react-native-dotenv';
-
 import styles from "./ElectionEntry.style";
 import formStyles from "./Form.style";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput } from "react-native-paper";
+import { useRouter } from "expo-router";
 
 export default function electionEntry() {
   const { user } = useAuth();
+  const router = useRouter();
+  const params = useLocalSearchParams();
+
   const [activeElection, setActiveElection]
     = useState({
       name: 'Loading...',
@@ -22,10 +25,10 @@ export default function electionEntry() {
   const { control, handleSubmit, formState: { errors } } =
     useForm({
       defaultValues: {
-        access_code: '',
+        access_code: params?.code || '',
       }
     });
-
+  
   // Run on first load
   useEffect(() => {
     axios.get(
@@ -48,7 +51,12 @@ export default function electionEntry() {
           election_id: activeElection?.id,
         },
       );
-      console.log(response?.data);
+      router.push({
+        pathname: 'Voting',
+        // params: {
+        //   id: activeElection?.id,
+        // },
+      })
     } catch (exception) {
       setError(exception?.response?.data?.error);
     }

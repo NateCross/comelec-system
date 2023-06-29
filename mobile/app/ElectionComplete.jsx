@@ -2,10 +2,24 @@ import { Link, Stack } from "expo-router";
 import { Text, View, TouchableOpacity, Image } from "react-native";
 
 import { icons } from "./constants";
-
+import { API_URL } from 'react-native-dotenv';
 import styles from "./ElectionComplete.style";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function ElectionComplete() {
+  const [message, setMessage] = useState(
+    'Loading...',
+  );
+
+  useEffect(() => {
+    axios.get(
+      `${API_URL}/api/message/end_of_voting`,
+    ).then((response) => {
+      setMessage(response?.data);
+    });
+  }, []);
+
   return(
     <View style={styles.container}>
       <Stack.Screen
@@ -45,9 +59,9 @@ export default function ElectionComplete() {
             source={icons.check}
             style={styles.image}
           />
-          <Text style={styles.message}>Thank you for voting with us!</Text>
+          <Text style={styles.message}>{message}</Text>
         </View>
-        <Link style={styles.secondaryButton} href="">
+        <Link style={styles.secondaryButton} href="/">
           <TouchableOpacity>
             <Text style={styles.primaryText}>Return to Announcement</Text>
           </TouchableOpacity>

@@ -16,6 +16,8 @@ export default function index() {
   );
   const { user, auth } = useAuth();
 
+  console.log(auth);
+
   // Run on first load
   useEffect(() => {
     axios

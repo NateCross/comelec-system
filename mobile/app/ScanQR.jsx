@@ -1,4 +1,4 @@
-import { Link, Stack } from "expo-router";
+import { Link, Stack, useRouter } from "expo-router";
 import { Text, View, TouchableOpacity, Image, Button, StyleSheet } from "react-native";
 import { images, icons } from "./constants";
 import React, { useState, useEffect } from 'react';
@@ -10,6 +10,7 @@ import styles from "./ScanQR.style";
 export default function ScanQR() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -22,7 +23,18 @@ export default function ScanQR() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    if (type !== 'qr') {
+      // setScanned(false);
+      return;
+    }
+    router.replace({
+      pathname: 'ElectionEntry',
+      params: {
+        code: data,
+      },
+    });
+    // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+
   };
 
   if (hasPermission === null) {

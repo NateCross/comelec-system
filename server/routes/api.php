@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ComelecUserController;
+use App\Http\Controllers\DefaultMessageController;
 use App\Http\Controllers\ElectionRecordController;
 use App\Http\Controllers\MasterlistController;
 use App\Http\Controllers\PositionController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\RecordCandidateController;
 use App\Http\Controllers\RecordStudentController;
 use App\Http\Controllers\StudentAccountController;
 use App\Http\Controllers\StudentController;
+use App\Models\DefaultMessage;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +43,9 @@ Route::prefix('api')->group(function () {
         )->prefix('election')
         ->group(function () {
             Route::post('code', 'apiHandleAccessCode');
+            Route::post('vote', 'apiVote');
+            Route::post('process', 'processVoteCode');
+            Route::post('count', 'countVotes');
         });
     });
 
@@ -51,6 +56,7 @@ Route::prefix('api')->group(function () {
         Route::post('/', 'store');
         Route::post('login', 'login');
         Route::post('logout', 'logout');
+        Route::post('register', 'store');
     });
 
     Route::controller(
@@ -60,10 +66,24 @@ Route::prefix('api')->group(function () {
         Route::get('/', 'apiGetActiveElection');
     });
 
+    Route::controller(
+        StudentController::class
+    )->prefix('student')
+    ->group(function () {
+        Route::get('{student}/candidates', 'apiGetCandidates');
+    });
+
     Route::get(
         'announcement',
         [AnnouncementController::class, 'apiAnnouncement'],
     )->name('api.announcement');
+
+    Route::get(
+        'message/{default_message}',
+        [DefaultMessageController::class, function(DefaultMessage $defaultMessage) {
+            return $defaultMessage->value;
+        }],
+    );
     // Route::resource(
     //     'announcement',
     //     AnnouncementController::class,

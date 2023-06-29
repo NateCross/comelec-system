@@ -10,7 +10,7 @@ import { AuthContext } from "./authContext";
  * user: Function to get the current user based on the auth token.
  */
 export function useAuth() {
-  const { auth, setAuth, user } = useContext(AuthContext);
+  const { auth, setAuth, user, refreshUser } = useContext(AuthContext);
 
-  return { auth, setAuth, user };
+  return { auth, setAuth, user, refreshUser };
 }

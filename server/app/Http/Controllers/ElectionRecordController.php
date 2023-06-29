@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ElectionHelper;
 use App\Helpers\RecordStudentHelper;
 use App\Models\Candidate;
 use App\Models\ElectionRecord;
 use App\Models\RecordCandidate;
 use App\Models\RecordStudent;
 use App\Models\Student;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -343,15 +345,7 @@ class ElectionRecordController extends Controller
     }
 
     public function apiGetActiveElection() {
-        try {
-            $election = ElectionRecord::query()
-                ->where('status', 'a')
-                ->latest()
-                ->first();
-            return $election;
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
+        return ElectionHelper::getActiveElection();
     }
 
     public function apiHandleAccessCode(Request $request) {
@@ -388,6 +382,50 @@ class ElectionRecordController extends Controller
             return $recordStudent;
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+            return response([
+                'error' => $e->getMessage(),
+            ], 403);
         }
+    }
+
+    public function apiVote(Request $request) {
+        try {
+            $user = $request->user();
+            $student = $user->student;
+            $activeElection = ElectionHelper::getActiveElection();
+
+            $validated = $request->validate([
+                'vote_code' => [
+                    'string',
+                    'required',
+                ],
+            ]);
+
+            $voteCode = $validated['vote_code'];
+
+            $recordStudent = RecordStudent::query()
+                ->where('election_id', $activeElection->id)
+                ->where('student_id', $student->student_id);
+
+            $decimalVoteCode = bindec($voteCode);
+            
+            $recordStudent->update([
+                'vote_code' => $decimalVoteCode,
+                'vote_timestamp' => Carbon::now(),
+            ]);
+        } catch (\Exception $e) {
+            return response([
+                'error' => $e->getMessage(),
+            ], 403);
+        }
+    }
+
+    public function processVoteCode() {
+        return ElectionHelper::decToBinVoteCode(5);
+    }
+
+    public function countVotes() {
+        $activeElection = ElectionHelper::getActiveElection();
+        return ElectionHelper::countVotes($activeElection);
     }
 }

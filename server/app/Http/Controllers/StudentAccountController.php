@@ -68,6 +68,15 @@ class StudentAccountController extends Controller
                 ],
             ]);
 
+            if (
+                StudentAccount::query()
+                    ->where('student_id', $validated['student_id'])
+                    ->first()
+            )
+                return response([
+                    'error' => 'Account with this ID already exists.',
+                ], 403);
+
             $validated['password'] = Hash::make($validated['password']);
 
             // Set is_enrolled to true if not provided in the request
@@ -85,7 +94,7 @@ class StudentAccountController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
-            ]);
+            ], 403);
         }
     }
 
