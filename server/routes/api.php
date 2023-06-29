@@ -35,6 +35,13 @@ Route::prefix('api')->group(function () {
         Route::get('account/info', function (Request $request) {
             return $request->user();
         });
+
+        Route::controller(
+            ElectionRecordController::class
+        )->prefix('election')
+        ->group(function () {
+            Route::post('code', 'apiHandleAccessCode');
+        });
     });
 
     Route::controller(
@@ -44,6 +51,13 @@ Route::prefix('api')->group(function () {
         Route::post('/', 'store');
         Route::post('login', 'login');
         Route::post('logout', 'logout');
+    });
+
+    Route::controller(
+        ElectionRecordController::class
+    )->prefix('election')
+    ->group(function () {
+        Route::get('/', 'apiGetActiveElection');
     });
 
     Route::get(

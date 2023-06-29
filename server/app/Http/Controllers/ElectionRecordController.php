@@ -6,9 +6,12 @@ use App\Helpers\RecordStudentHelper;
 use App\Models\Candidate;
 use App\Models\ElectionRecord;
 use App\Models\RecordCandidate;
+use App\Models\RecordStudent;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class ElectionRecordController extends Controller
@@ -337,5 +340,54 @@ class ElectionRecordController extends Controller
                 'election' => $results,
             ],
         );
+    }
+
+    public function apiGetActiveElection() {
+        try {
+            $election = ElectionRecord::query()
+                ->where('status', 'a')
+                ->latest()
+                ->first();
+            return $election;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function apiHandleAccessCode(Request $request) {
+        try {
+            $user = $request->user();
+
+            $validated = $request->validate([
+                'access_code' => [
+                    'required',
+                    'string',
+                    'max:6',
+                ],
+                'election_id' => [
+                    'required',
+                    'exists:election_records,id',
+                ],
+            ]);
+
+            $accessCode = $validated['access_code'];
+            $electionId = $validated['election_id'];
+
+            $recordStudent = RecordStudent::query()
+                ->where('student_id', $user?->student_id)
+                ->where('election_id', $electionId)
+                ->where('access_code', $accessCode)
+                ->first();
+
+            if (!isset($recordStudent)) {
+                return response([
+                    'error' => 'Incorrect access code.',
+                ], 403);
+            }
+
+            return $recordStudent;
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
     }
 }
