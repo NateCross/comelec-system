@@ -31,6 +31,21 @@ Route::middleware(['auth'])->get('/user/info', function (Request $request) {
 });
 
 Route::prefix('api')->group(function () {
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::get('account/info', function (Request $request) {
+            return $request->user();
+        });
+    });
+
+    Route::controller(
+        StudentAccountController::class
+    )->prefix('account')
+    ->group(function () {
+        Route::post('/', 'store');
+        Route::post('login', 'login');
+        Route::post('logout', 'logout');
+    });
+
     Route::get(
         'announcement',
         [AnnouncementController::class, 'apiAnnouncement'],

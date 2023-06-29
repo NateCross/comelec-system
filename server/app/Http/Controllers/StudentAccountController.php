@@ -73,7 +73,6 @@ class StudentAccountController extends Controller
             // Set is_enrolled to true if not provided in the request
             $validated['status'] = isset($validated['status']) ? $validated['status'] : 'v';
 
-
             $studentAccount = StudentAccount::create($validated);
 
             $token = $studentAccount->createToken('ApiToken')

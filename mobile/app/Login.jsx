@@ -1,12 +1,12 @@
 import { View, TouchableOpacity, Image } from 'react-native'
-import { TextInput, Text } from 'react-native-paper'
+import { TextInput, Text, Button } from 'react-native-paper'
 import React from 'react'
 import { useRouter, Stack, Link } from 'expo-router'
 
 import { API_URL } from 'react-native-dotenv'
 
 import { useForm, Controller } from 'react-hook-form'
-import { useSanctum } from 'react-sanctum';
+import { useAuth } from './constants/useAuth'
 import axios from 'axios'
 import { deviceName } from 'expo-device'
 
@@ -17,12 +17,13 @@ import styles from './Form.style'
 export default function Login() {
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
-      email: '',
+      student_id: '',
       password: '',
       remember: false,
     }
   });
-  const { setUser } = useSanctum();
+  const { setAuth, auth, user } = useAuth();
+  // const { setUser } = useSanctum();
   const router = useRouter();
 
   /**
@@ -40,20 +41,28 @@ export default function Login() {
   async function onSubmit(data) {
     try {
       const { data: token } = await axios.post(
-        `${API_URL}/auth/token`,
+        `${API_URL}/api/account/login`,
         { ...data, device_name: deviceName },
       );
 
-      const { data: user } = await axios.get(
-        `${API_URL}/user`,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },  
-        }
-      )
+      setAuth(`${token?.token_type} ${token?.access_token}`);
 
-      setUser(user, true);
+      // console.log(auth);
+
+      // const student = await user();
+
+      // console.log(student);
+
+      // const { data: user } = await axios.get(
+      //   `${API_URL}/api/account/info`,
+      //   {
+      //     headers: {
+      //       'Authorization': `Bearer ${token?.access_token}`,
+      //     },  
+      //   }
+      // )
+
+      // setUser(token?.user, true);
 
       router.replace("/");
     } catch (exception) {
@@ -94,20 +103,20 @@ export default function Login() {
               style={styles.inputBox}
               control={control}
               rules={{
-              required: true,
+                required: true,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
                   style={styles.input}
-                  placeholder='Email'
+                  placeholder='Student ID'
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
                 />
               )}
-              name='email'
+              name='student_id'
             />
-            {errors.email && <Text>Email is required</Text>}
+            {errors.student_id && <Text>Student ID is required</Text>}
           </View>
 
           <View style={styles.field}>

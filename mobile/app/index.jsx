@@ -3,7 +3,7 @@ import { Link, Stack } from "expo-router";
 import { Text, View, Image } from "react-native";
 
 import { API_URL } from "react-native-dotenv";
-import { useSanctum } from "react-sanctum";
+import { useAuth } from "./constants/useAuth";
 
 import { icons } from "./constants";
 
@@ -12,9 +12,9 @@ import axios from "axios";
 
 export default function index() {
   const [announcement, setAnnouncement] = useState(
-    'No announcement.'
+    'Loading announcement...'
   );
-  const { authenticated, user } = useSanctum();
+  const { user, auth } = useAuth();
 
   // Run on first load
   useEffect(() => {

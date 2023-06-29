@@ -10,7 +10,8 @@ import {
   PaperProvider,
   MD3LightTheme as DefaultTheme,
 } from 'react-native-paper'
-import { Sanctum } from 'react-sanctum'
+// import { Sanctum } from 'react-sanctum'
+import { AuthProvider } from './constants/authContext'
 
 // Define theme to be used throughout the app here
 const theme = {
@@ -26,9 +27,9 @@ const theme = {
 const sanctumConfig = {
   apiUrl: API_URL,
   csrfCookieRoute: 'sanctum/csrf-cookie',
-  signInRoute: "auth/login",
-  signOutRoute: "auth/logout",
-  userObjectRoute: "user",
+  signInRoute: "api/account/login",
+  signOutRoute: "api/account/logout",
+  userObjectRoute: "api/account/info",
 };
 
 // Set default for axios to allow auth support
@@ -45,8 +46,8 @@ const MaterialHeaderButton = (props) => (
 
 export default function _index() {
   return (
+      <AuthProvider>
     <PaperProvider theme={theme}>
-      <Sanctum config={sanctumConfig}>
         <Stack>
           <Screen
             options={{
@@ -60,7 +61,7 @@ export default function _index() {
             }}
           />
         </Stack>
-      </Sanctum>
     </PaperProvider>
+    </AuthProvider>
   );
 }

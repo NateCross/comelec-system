@@ -5,7 +5,13 @@ import { icons } from './constants';
 
 import styles from './Voting.style';
 
+import { useAuth } from './constants/useAuth';
+
 export default function Voting() {
+  const { user } = useAuth();
+
+  console.log(user);
+
   return(
     <View style={styles.container}>
       <Stack.Screen

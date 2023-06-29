@@ -1,11 +1,15 @@
 import { Link, Stack } from "expo-router";
 import { Text, View, TouchableOpacity, Image } from "react-native";
 import { images, icons } from "./constants";
+import { useAuth } from "./constants/useAuth";
 
 import styles from "./ElectionEntry.style";
 
 export default function electionEntry() {
-  return(
+  const { user } = useAuth();
+  console.log(user);
+
+  return (
     <View style={styles.container}>
       <Stack.Screen
         style={styles.menu}
@@ -39,6 +43,11 @@ export default function electionEntry() {
         </View>
       </View>
       <View style={styles.main}>
+        {user && <>
+          <Text>
+            Hi, {user?.full_name}
+          </Text>
+        </>}
         <View style={styles.accessDetails}>
           <Image
             source={images.election}
