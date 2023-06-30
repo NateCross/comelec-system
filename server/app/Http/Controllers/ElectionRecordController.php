@@ -443,4 +443,13 @@ class ElectionRecordController extends Controller
         $activeElection = ElectionHelper::getActiveElection();
         return ElectionHelper::countVotes($activeElection);
     }
+
+    public function apiGetResults() {
+        $activeElection = ElectionHelper::getActiveElection();
+
+        return [
+            'election' => $activeElection,
+            'total_votes' => $activeElection->candidates->sum('pivot.num_of_votes'),
+        ];
+    }
 }

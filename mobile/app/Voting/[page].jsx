@@ -54,35 +54,7 @@ export default function Voting() {
       } else {
         setVotedCandidates(voted);
       }
-        // console.log(value);
-        // if (!value) {
-        // } else {
-        // }
-  
     })();
-      // console.log(result?.data);
-      // setElection(result?.data);
-
-      // readDataJson('voted-candidates').then((value) => {
-      //   console.log(value);
-      //   if (!value) {
-      //     const candidateVotes = {}
-      //     result?.data?.candidates?.forEach((value) => (
-      //       candidateVotes[value?.id] = false
-      //     ));
-      //     setVotedCandidates(candidateVotes);
-      //   } else {
-      //     setVotedCandidates(value)
-          // const votedCount = value.reduce((accumulator, current) => (
-          //   current && accumulator + 1
-          // ), 0)
-          // console.log(votedCount);
-      //   }
-      // });
-
-      // }).catch((error) => {
-      //   console.log(error);
-      // });
   }, []);
 
   useEffect(() => {

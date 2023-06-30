@@ -2,10 +2,69 @@ import { Link, Stack } from "expo-router";
 import { Text, StyleSheet, View, TouchableOpacity, Image } from "react-native";
 
 import { icons } from "./constants";
+import { API_URL } from 'react-native-dotenv';
 
 import styles from "./Results.style";
+import { useAuth } from "./constants/useAuth";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function results() {
+  const { auth, user } = useAuth();
+
+  const [election, setElection] = useState(null);
+  const [candidates, setCandidates] = useState(null);
+  const [positions, setPositions] = useState(null);
+  const [currentPosition, setCurrentPosition] = useState(null);
+  const [candidatePosition, setCandidatePosition] = useState(null);
+  const [numOfVotes, setNumOfVotes] = useState(null);
+
+  // Run on first load
+  useEffect(() => {
+    axios.get(
+      `${API_URL}/api/election/results`,
+    ).then((value) => {
+      setElection(value?.data);
+      setCandidates(value?.data?.election?.candidates);
+    });
+  }, [])
+
+  // Get positions from candidates
+  useEffect(() => {
+    if (!candidates) return;
+    
+    console.log(candidates);
+    const positions = [...new Map(candidates?.map((value) => (
+      [value.position.id, value.position]
+    ))).values()]
+
+    const positionsSorted = positions.sort((a, b) => (
+      b.id - a.id
+    ));
+
+    setPositions(positionsSorted);
+
+    const index = 0;
+    const positionId = positions[index]?.id;
+
+    setCurrentPosition(positions[index]);
+
+    const filtered = candidates?.filter((value) => (
+      value?.position_id === positionId
+    ));
+    setCandidatePosition(filtered);
+
+    const totalVotesInPage = filtered.reduce((accumulator, current) => (
+      accumulator + current?.pivot?.num_of_votes
+    ), 0);
+    setNumOfVotes(totalVotesInPage);
+  }, [candidates]);
+
+  console.log(election);
+  console.log(candidates);
+  console.log(positions);
+  console.log(candidatePosition);
+
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -45,7 +104,11 @@ export default function results() {
           <View style={styles.cards}>
             <View style={styles.card}>
               <View style={styles.group}>
-                <Text style={styles.value}>4999</Text>
+                <Text style={styles.value}>
+                  {numOfVotes && 
+                    numOfVotes
+                  }
+                </Text>
                 <Image source={icons.voting} style={styles.votingIcon} />
               </View>
               <View style={styles.bottom}>
@@ -54,7 +117,14 @@ export default function results() {
             </View>
             <View style={styles.card}>
               <View style={styles.group}>
-                <Text style={styles.value}>Final</Text>
+                <Text style={styles.value}>
+                  {election &&
+                    {
+                      'a': 'Active',
+                      'f': 'Final',
+                    }[election?.election?.status]
+                  }
+                </Text>
                 <Image source={icons.bookmark} style={styles.markIcon} />
               </View>
               <View style={styles.bottom}>
@@ -63,104 +133,48 @@ export default function results() {
             </View>
           </View>
           <View style={styles.position}>
-            <Text style={styles.posName}>Position</Text>
-            <Text style={styles.posValue}>/President</Text>
+            <Text style={styles.posName}>
+              Position
+            </Text>
+            <Text style={styles.posValue}>
+              {currentPosition && currentPosition?.position_name}
+            </Text>
           </View>
         </View>
         <View style={styles.candidates}>
           <View>
             <Text style={styles.candidateTitle}>Candidates</Text>
           </View>
-          <View style={styles.candidate}>
-            <View style={styles.left}>
-              <Image
-                // source={}
-                style={styles.candidateImg}
-              />
-              <View>
-                <Text style={styles.candidateName}>John Doe</Text>
-                <Text style={styles.partyName}>Party People</Text>
+          {candidatePosition?.map((value) => (
+            <View style={styles.candidate}>
+              <View style={styles.left}>
+                <Image
+                  // source={}
+                  style={styles.candidateImg}
+                />
+                <View>
+                  <Text style={styles.candidateName}>
+                    {value?.student?.full_name}
+                  </Text>
+                  <Text style={styles.partyName}>
+                    {value?.party_name || "Independent"}
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.right}>
+                <Text style={styles.count}>
+                  {value?.pivot?.num_of_votes}
+                </Text>
+                <View style={styles.percentage}>
+                  <Text style={styles.percentageText}>
+                    {
+                      value?.pivot?.num_of_votes
+                    }
+                  </Text>
+                </View>
               </View>
             </View>
-            <View style={styles.right}>
-              <Text style={styles.count}>999 Votes</Text>
-              <View style={styles.percentage}>
-                <Text style={styles.percentageText}>25%</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.candidate}>
-            <View style={styles.left}>
-              <Image
-                // source={}
-                style={styles.candidateImg}
-              />
-              <View>
-                <Text style={styles.candidateName}>John Doe</Text>
-                <Text style={styles.partyName}>Party People</Text>
-              </View>
-            </View>
-            <View style={styles.right}>
-              <Text style={styles.count}>999 Votes</Text>
-              <View style={styles.percentage}>
-                <Text style={styles.percentageText}>25%</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.candidate}>
-            <View style={styles.left}>
-              <Image
-                // source={}
-                style={styles.candidateImg}
-              />
-              <View>
-                <Text style={styles.candidateName}>John Doe</Text>
-                <Text style={styles.partyName}>Party People</Text>
-              </View>
-            </View>
-            <View style={styles.right}>
-              <Text style={styles.count}>999 Votes</Text>
-              <View style={styles.percentage}>
-                <Text style={styles.percentageText}>25%</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.candidate}>
-            <View style={styles.left}>
-              <Image
-                // source={}
-                style={styles.candidateImg}
-              />
-              <View>
-                <Text style={styles.candidateName}>John Doe</Text>
-                <Text style={styles.partyName}>Party People</Text>
-              </View>
-            </View>
-            <View style={styles.right}>
-              <Text style={styles.count}>999 Votes</Text>
-              <View style={styles.percentage}>
-                <Text style={styles.percentageText}>25%</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.candidate}>
-            <View style={styles.left}>
-              <Image
-                // source={}
-                style={styles.candidateImg}
-              />
-              <View>
-                <Text style={styles.candidateName}>John Doe</Text>
-                <Text style={styles.partyName}>Party People</Text>
-              </View>
-            </View>
-            <View style={styles.right}>
-              <Text style={styles.count}>999 Votes</Text>
-              <View style={styles.percentage}>
-                <Text style={styles.percentageText}>25%</Text>
-              </View>
-            </View>
-          </View>
+          ))}
         </View>
         <View style={styles.candidateNav}>
           <View style={styles.active}></View>

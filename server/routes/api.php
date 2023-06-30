@@ -68,6 +68,7 @@ Route::prefix('api')->group(function () {
     )->prefix('election')
     ->group(function () {
         Route::get('/', 'apiGetActiveElection');
+        Route::get('results', 'apiGetResults');
     });
 
     Route::controller(

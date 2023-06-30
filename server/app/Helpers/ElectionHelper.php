@@ -16,6 +16,7 @@ class ElectionHelper
                 ->where('status', 'a')
                 ->with('candidates')
                 ->with('candidates.position')
+                ->with('candidates.student')
                 ->latest()
                 ->first();
             return $election;
