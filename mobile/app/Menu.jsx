@@ -22,7 +22,7 @@ export default function Menu() {
   );
 
   useEffect(() => {
-    auth ? setMessage(`Hello, ${user?.full_name}`)
+    auth ? setMessage(`Hello, ${user?.full_name}!`)
       : setMessage('Register or Log in to vote.');
     auth ? setUserIsLoggedIn(true) : setUserIsLoggedIn(false);
   }, [user]);
@@ -163,6 +163,13 @@ export default function Menu() {
           <Text style={styles.message}>
             {message}
           </Text>
+          {user?.id && (
+            <Text style={styles.message}>
+              {{
+                'v': 'Account is awaiting verification.'
+              }[user?.status]}
+            </Text>
+          )}
         </View>
       </View>
     </View>

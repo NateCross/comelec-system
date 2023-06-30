@@ -36,6 +36,10 @@ export default function electionEntry() {
     ).then((result) => {
       console.log(result?.data);
       setActiveElection(result?.data)
+
+      if (!result?.data?.id) {
+        router.replace('/ElectionDeny');
+      }
     }).catch((error) => {
       console.log(error);
     });
@@ -96,11 +100,6 @@ export default function electionEntry() {
         </View>
       </View>
       <View style={styles.main}>
-        {user && <>
-          <Text>
-            Hi, {user?.full_name}
-          </Text>
-        </>}
         <View style={styles.accessDetails}>
           <Image
             source={images.election}
