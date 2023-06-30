@@ -14,6 +14,8 @@ class ElectionHelper
         try {
             $election = ElectionRecord::query()
                 ->where('status', 'a')
+                ->with('candidates')
+                ->with('candidates.position')
                 ->latest()
                 ->first();
             return $election;
@@ -47,6 +49,11 @@ class ElectionHelper
         $binaryVoteCodeLength = strlen($binaryVoteCode);
 
         if ($candidateLength > $binaryVoteCodeLength) {
+            // Appends extra zeroes to the start to ensure that
+            // the vote code in binary is always the
+            // same length. Without this, a vote code of
+            // '1' will simply result in '1' and not
+            // '0001', thus causing an error
             $binaryVoteCode =
             sprintf("%0" . $candidateLength . "d", $binaryVoteCode);
         } else if ($candidateLength < $binaryVoteCodeLength) {
@@ -56,11 +63,14 @@ class ElectionHelper
         return $binaryVoteCode;
     }
 
+    /**
+     * Adds a vote to each candidate
+     */
     public static function processBinVoteCode(
         string $binaryVoteCode,
-        ElectionRecord $election,
+        $candidates,
     ) {
-        $candidates = $election->candidates;
+        // $candidates = $election->candidates;
         $voteDigits = str_split($binaryVoteCode);
         foreach ($candidates as $key => $candidate) {
             if ($voteDigits[$key] === '1') {
@@ -70,16 +80,22 @@ class ElectionHelper
         }
     }
 
+    /**
+     * Function called in API to count all the votes.
+     * Performed after election is finished and is in
+     * canvassing period
+     */
     public static function countVotes(
         ElectionRecord $election,
     ) {
         $students = $election->validStudents;
+        $candidates = $election->candidates;
         foreach ($students as $student) {
             if (isset($student->pivot->vote_code)) {
                 $binaryVoteCode = self::decToBinVoteCode($student->pivot->vote_code);
                 self::processBinVoteCode(
                     $binaryVoteCode,
-                    $election,
+                    $candidates,
                 );
             }
         }
@@ -93,6 +109,7 @@ class ElectionHelper
         if (!isset($recordStudent->vote_code)) {
             return null;
         }
+
         $binaryVoteCode = self::decToBinVoteCode(
             $recordStudent->vote_code
         );
@@ -106,7 +123,6 @@ class ElectionHelper
             }
         }
     }
-
 
     // public static function processVote(
     //     Student $student,

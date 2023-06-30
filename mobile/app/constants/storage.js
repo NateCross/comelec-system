@@ -13,6 +13,18 @@ export async function storeData(key, value) {
   }
 }
 
+export async function storeDataJson(key, value) {
+  try {
+    const jsonValue = JSON.stringify(value);
+    // console.log(jsonValue);
+    await AsyncStorage.setItem(key, jsonValue);
+    // console.log(await readDataJson(key));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 export async function readData(key) {
   try {
     const value = await AsyncStorage.getItem(key);
@@ -24,7 +36,8 @@ export async function readData(key) {
 
 export async function readDataJson(key) {
   try {
-    const jsonValue = await AsyncStorage.getItem('my-key');
+    const jsonValue = await AsyncStorage.getItem(key);
+    // console.log(jsonValue);
     return jsonValue != null ? JSON.parse(jsonValue) : null;
   } catch (e) {
     return null

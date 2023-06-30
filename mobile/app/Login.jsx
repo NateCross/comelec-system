@@ -1,6 +1,6 @@
 import { View, TouchableOpacity, Image } from 'react-native'
 import { TextInput, Text, Button } from 'react-native-paper'
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter, Stack, Link } from 'expo-router'
 
 import { API_URL } from 'react-native-dotenv'
@@ -23,8 +23,8 @@ export default function Login() {
     }
   });
   const { setAuth, auth, user } = useAuth();
-  // const { setUser } = useSanctum();
   const router = useRouter();
+  const [error, setError] = useState(null);
 
   /**
    * Submits login form to the API.
@@ -39,6 +39,7 @@ export default function Login() {
    * @param {*} data Form data
    */
   async function onSubmit(data) {
+    setError(null);
     try {
       const { data: token } = await axios.post(
         `${API_URL}/api/account/login`,
@@ -66,7 +67,7 @@ export default function Login() {
 
       router.replace("/");
     } catch (exception) {
-      console.log(exception);
+      setError(exception?.response?.data?.error);
     }
   }
 
@@ -97,6 +98,11 @@ export default function Login() {
           <Text style={styles.description}>Welcome back, log in to vote!</Text>
         </View>
         <View style={styles.fields}>
+          {error && <View>
+            <Text>
+              {error}
+            </Text>
+          </View>}
           <View style={styles.field}>
             <Text style={styles.name}>Student ID</Text>
             <Controller

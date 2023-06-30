@@ -394,14 +394,29 @@ class ElectionRecordController extends Controller
             $student = $user->student;
             $activeElection = ElectionHelper::getActiveElection();
 
-            $validated = $request->validate([
-                'vote_code' => [
-                    'string',
-                    'required',
-                ],
-            ]);
+            $votes = $request->votes;
 
-            $voteCode = $validated['vote_code'];
+            $voteCode = "";
+            foreach ($activeElection->candidates as $candidate) {
+                if ($votes[$candidate->id]) {
+                    $voteCode = $voteCode . "1";
+                } else {
+                    $voteCode = $voteCode . "0";
+                }
+            }
+            // return $voteCode;
+            // $activeElection->candidates->each(function ($item, $key) {
+            // });
+            // return $votes[7];
+
+            // $validated = $request->validate([
+            //     'vote_code' => [
+            //         'string',
+            //         'required',
+            //     ],
+            // ]);
+
+            // $voteCode = $validated['vote_code'];
 
             $recordStudent = RecordStudent::query()
                 ->where('election_id', $activeElection->id)

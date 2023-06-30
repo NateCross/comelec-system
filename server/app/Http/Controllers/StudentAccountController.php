@@ -209,7 +209,7 @@ class StudentAccountController extends Controller
             if (!Auth::guard('student_account')->attempt($validated)) {
                 return response()->json([
                     'error' => 'Invalid login details. Register if you have not created your account yet. If you forgot your password or any other issue, contact COMELEC.'
-                ], 401);
+                ], 403);
             }
 
             $studentAccount = StudentAccount::where(
@@ -228,7 +228,7 @@ class StudentAccountController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
-            ]);
+            ], 403);
         }
     }
 

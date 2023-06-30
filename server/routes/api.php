@@ -24,7 +24,7 @@ use App\Models\DefaultMessage;
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "api" middleware group. Make something great!
-|
+r
 */
 
 // Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -37,6 +37,10 @@ Route::prefix('api')->group(function () {
         Route::get('account/info', function (Request $request) {
             return $request->user();
         });
+        Route::post('account/logout', [
+            StudentAccountController::class,
+            'logout'
+        ]);
 
         Route::controller(
             ElectionRecordController::class
@@ -55,7 +59,7 @@ Route::prefix('api')->group(function () {
     ->group(function () {
         Route::post('/', 'store');
         Route::post('login', 'login');
-        Route::post('logout', 'logout');
+        // Route::post('logout', 'logout');
         Route::post('register', 'store');
     });
 
