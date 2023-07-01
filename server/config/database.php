@@ -1,4 +1,5 @@
 <?php
+$DATABASE_URL=parse_url('mysql://d6oex07yksqah9k4:rij4tzxvb2at4k2p@acw2033ndw0at1t7.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/cgh19v1q92rknj9d');
 
 use Illuminate\Support\Str;
 

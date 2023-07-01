@@ -11,7 +11,7 @@
     <title>@yield('title')</title>
 
     <!-- Styles -->
-    @vite('resources/scss/styles.scss')
+    @include('vite_build')
 
     <!-- Scripts -->
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>

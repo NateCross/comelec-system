@@ -1,0 +1,20 @@
+{
+  "resources/assets/images/mobile_encryption.svg": {
+    "file": "assets/mobile_encryption-fd315b64.svg",
+    "src": "resources/assets/images/mobile_encryption.svg"
+  },
+  "resources/assets/images/throw_away.svg": {
+    "file": "assets/throw_away-2485ac74.svg",
+    "src": "resources/assets/images/throw_away.svg"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-810239a0.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/scss/styles.scss": {
+    "file": "assets/styles-eb086a2c.css",
+    "isEntry": true,
+    "src": "resources/scss/styles.scss"
+  }
+}

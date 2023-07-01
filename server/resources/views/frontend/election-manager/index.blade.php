@@ -10,7 +10,7 @@
       <div class="group">
         <span class="group__title">Election Records List</span>
       </div>
-      <span class="description">Records of active and past elections. Create an active election record to start an election period.Access an active election to manage it.</span>
+      <span class="description">Records of active and past elections. Create an active election record to start an election period. Access an active election to manage it.</span>
     </div>
     <div class="content">
       <div class="content__row">

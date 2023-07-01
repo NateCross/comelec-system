@@ -10,7 +10,7 @@
       <div class="group">
         <span class="group__title">Positions List</span>
       </div>
-      <span class="description">Edit the officer positions of the Student Government.</span>
+      <span class="description">Edit the officer positions of the Student Government. The order of which the positions will display for voting and results will be from top to bottom.</span>
     </div>
     <div class="content">
       <div class="content__row">
