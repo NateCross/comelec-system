@@ -68,11 +68,19 @@ class StudentAccountController extends Controller
                 ],
             ]);
 
+            if (
+                StudentAccount::query()
+                    ->where('student_id', $validated['student_id'])
+                    ->first()
+            )
+                return response([
+                    'error' => 'Account with this ID already exists.',
+                ], 403);
+
             $validated['password'] = Hash::make($validated['password']);
 
             // Set is_enrolled to true if not provided in the request
             $validated['status'] = isset($validated['status']) ? $validated['status'] : 'v';
-
 
             $studentAccount = StudentAccount::create($validated);
 
@@ -86,7 +94,7 @@ class StudentAccountController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
-            ]);
+            ], 403);
         }
     }
 
@@ -201,7 +209,7 @@ class StudentAccountController extends Controller
             if (!Auth::guard('student_account')->attempt($validated)) {
                 return response()->json([
                     'error' => 'Invalid login details. Register if you have not created your account yet. If you forgot your password or any other issue, contact COMELEC.'
-                ], 401);
+                ], 403);
             }
 
             $studentAccount = StudentAccount::where(
@@ -220,7 +228,7 @@ class StudentAccountController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
-            ]);
+            ], 403);
         }
     }
 

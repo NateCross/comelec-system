@@ -1,7 +1,7 @@
 import { Link, Stack } from 'expo-router';
 import { Text, View, TouchableOpacity, Image } from 'react-native';
 
-import { useSanctum } from 'react-sanctum';
+// import { useSanctum } from 'react-sanctum';
 
 import { images, icons } from './constants';
 
@@ -10,7 +10,7 @@ import styles from './Auth.style';
 // fetch(`${API_URL}/items`).then((items) => items.json()).then((items) => console.log(items));
 
 export default function Auth() {
-  const { authenticated, user } = useSanctum();
+  // const { authenticated, user } = useSanctum();
 
   return (
     <View style={styles.container}>

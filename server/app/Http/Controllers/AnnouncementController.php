@@ -42,7 +42,7 @@ class AnnouncementController extends Controller
      */
     public function show(Announcement $announcement)
     {
-        //
+        
     }
 
     /**
@@ -76,5 +76,14 @@ class AnnouncementController extends Controller
     public function destroy(Announcement $announcement)
     {
         //
+    }
+
+    public function apiAnnouncement() {
+        return response([
+            'announcement' =>
+                Announcement::query()
+                    ->whereKey(1)
+                    ->first(),
+        ]);
     }
 }

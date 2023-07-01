@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ElectionHelper;
 use App\Helpers\Masterlist;
+use App\Models\Candidate;
 use App\Models\Student;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -144,4 +146,22 @@ class StudentController extends Controller
         }
     }
 
+    public function apiGetCandidates(Student $student) {
+        try {
+            $activeElection = 
+                ElectionHelper::getActiveElection();
+            if (!isset($activeElection)) return;
+
+            $candidates = ElectionHelper::getCandidates(
+                $activeElection,
+                $student,
+            );
+
+            return $candidates;
+        } catch (\Exception $e) {
+            return response([
+                'error' => $e->getMessage(),
+            ], 403);
+        }
+    }
 }

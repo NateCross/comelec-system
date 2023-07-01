@@ -1,7 +1,7 @@
 import { View, TouchableOpacity, Image } from 'react-native'
 import { TextInput, Text } from 'react-native-paper'
-import { Link, Stack } from 'expo-router'
-import React from 'react'
+import { Link, Stack, useRouter } from 'expo-router'
+import React, { useState } from 'react'
 
 import { icons } from './constants'
 
@@ -12,25 +12,39 @@ import { API_URL } from 'react-native-dotenv'
 import axios from 'axios';
 
 import styles from './Form.style'
+import { useAuth } from './constants/useAuth'
 
 
 export default function Register() {
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
+      student_id: '',
       email: '',
-      name: '',
+      full_name: '',
       password: '',
     }
   });
+  const [error, setError] = useState(null);
+  const { setAuth } = useAuth();
+  const router = useRouter();
 
   async function onSubmit(data) {
+    setError(null);
     try {
-      await axios.post(
-        `${API_URL}/auth/register`,
-        data,
+      const response = await axios.post(
+        `${API_URL}/api/account/register`,
+        {
+          ...data,
+        },
       );
+      console.log(response);
+
+      setAuth(`${response?.data?.token_type} ${response?.data?.access_token}`);
+
+      router.replace("/");
     } catch (exception) {
       console.log(exception);
+      setError(exception?.response?.data?.error);
     }
   }
 
@@ -61,6 +75,11 @@ export default function Register() {
           <Text style={styles.description}>Please fill in the form to use this app.</Text>
         </View>
         <View style={styles.fields}>
+          {error && <View>
+            <Text>
+              {error}
+            </Text>
+          </View>}
           <View style={styles.field}>
             <Text style={styles.name}>Student ID*</Text>
             <Controller
@@ -73,6 +92,28 @@ export default function Register() {
                 <TextInput
                   style={styles.input}
                   placeholder='e.g., 123456789'
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+              name='student_id'
+            />
+            {errors.student_id && <Text>Student ID is required</Text>}
+          </View>
+
+          <View style={styles.field}>
+            <Text style={styles.name}>Email Address*</Text>
+            <Controller
+              style={styles.inputBox}
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  style={styles.input}
+                  placeholder='e.g., john.doe@gmail.com'
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
@@ -100,9 +141,9 @@ export default function Register() {
                   value={value}
                 />
               )}
-              name='name'
+              name='full_name'
             />
-            {errors.name && <Text>Name is required</Text>}
+            {errors.full_name && <Text>Name is required</Text>}
           </View>
 
           <View style={styles.field}>

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\DefaultMessage;
 use Illuminate\Http\Request;
-use Mavinoo\Batch\Batch;
 
 class DefaultMessageController extends Controller
 {
