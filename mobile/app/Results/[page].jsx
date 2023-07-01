@@ -1,11 +1,11 @@
-import { Link, Stack } from "expo-router";
+import { Link, Stack, useSearchParams } from "expo-router";
 import { Text, StyleSheet, View, TouchableOpacity, Image } from "react-native";
 
-import { icons } from "./constants";
+import { icons } from "../constants";
 import { API_URL } from 'react-native-dotenv';
 
 import styles from "./Results.style";
-import { useAuth } from "./constants/useAuth";
+import { useAuth } from "../constants/useAuth";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -18,6 +18,8 @@ export default function results() {
   const [currentPosition, setCurrentPosition] = useState(null);
   const [candidatePosition, setCandidatePosition] = useState(null);
   const [numOfVotes, setNumOfVotes] = useState(null);
+
+  const { page } = useSearchParams();
 
   // Run on first load
   useEffect(() => {
@@ -44,7 +46,7 @@ export default function results() {
 
     setPositions(positionsSorted);
 
-    const index = 0;
+    const index = page - 1;
     const positionId = positions[index]?.id;
 
     setCurrentPosition(positions[index]);
@@ -169,7 +171,8 @@ export default function results() {
                   <Text style={styles.percentageText}>
                     {
                       value?.pivot?.num_of_votes
-                    }
+                      / numOfVotes * 100 || 0
+                    }%
                   </Text>
                 </View>
               </View>
@@ -177,9 +180,18 @@ export default function results() {
           ))}
         </View>
         <View style={styles.candidateNav}>
-          <View style={styles.active}></View>
-          <View style={styles.inactive}></View>
-          <View style={styles.inactive}></View>
+          {positions && positions?.map((_, index) => (
+            index === page - 1 ?
+              <Link 
+                style={styles.active}
+                href={`/Results/${index + 1}`}
+              ></Link>
+            :
+              <Link 
+                style={styles.inactive}
+                href={`/Results/${index + 1}`}
+              ></Link>
+          ))}
         </View>
       </View>
     </View>

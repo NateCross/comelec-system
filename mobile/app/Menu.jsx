@@ -122,7 +122,14 @@ export default function Menu() {
                 style={styles.link}
                 onPress={logout}
               >
-                <View style={styles.left}>
+                <View 
+                  style={{
+                    ...styles.left,
+                    flexGrow: 0,
+                    flexShrink: 1,
+                    flexBasis: 'auto',
+                  }}
+                >
                   <Image 
                     source={icons.user}
                     style={styles.leftIcon}
