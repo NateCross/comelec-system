@@ -49,7 +49,7 @@ Route::prefix('api')->group(function () {
             Route::post('code', 'apiHandleAccessCode');
             Route::post('vote', 'apiVote');
             Route::post('process', 'processVoteCode');
-            Route::post('count', 'countVotes');
+            Route::post('count', 'declareWinners');
         });
     });
 

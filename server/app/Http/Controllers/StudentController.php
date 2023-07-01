@@ -150,6 +150,7 @@ class StudentController extends Controller
         try {
             $activeElection = 
                 ElectionHelper::getActiveElection();
+            if (!isset($activeElection)) return;
 
             $candidates = ElectionHelper::getCandidates(
                 $activeElection,

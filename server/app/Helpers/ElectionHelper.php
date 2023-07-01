@@ -14,6 +14,7 @@ class ElectionHelper
         try {
             $election = ElectionRecord::query()
                 ->where('status', 'a')
+                ->orWhere('status', 'f')
                 ->with('candidates')
                 ->with('candidates.position')
                 ->with('candidates.student')
@@ -21,7 +22,7 @@ class ElectionHelper
                 ->first();
             return $election;
         } catch (\Exception $e) {
-            return $e->getMessage();
+            return null;
         }
     }
 
@@ -73,6 +74,7 @@ class ElectionHelper
     ) {
         // $candidates = $election->candidates;
         $voteDigits = str_split($binaryVoteCode);
+        Log::info($voteDigits);
         foreach ($candidates as $key => $candidate) {
             if ($voteDigits[$key] === '1') {
                 $candidate->pivot->num_of_votes += 1;

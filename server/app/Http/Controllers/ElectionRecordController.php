@@ -78,6 +78,15 @@ class ElectionRecordController extends Controller
                 'Archived' => 'r',
             ][$validated['status']];
 
+            if (ElectionHelper::getActiveElection()) {
+                return back()->withErrors([
+                    'validation' => 'There is already an active or finalized election. Please archive or cancel it first.',
+                ]);
+                // return response([
+                //     'validation' => 'There is already an active or final election. Please archive or cancel it first.',
+                // ], 403);
+            }
+
             $electionRecord = ElectionRecord::create($validated);
             $electionId = $electionRecord->id;
 
@@ -110,8 +119,8 @@ class ElectionRecordController extends Controller
 
             return redirect()->intended('election');
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
+            return back()->withErrors([
+                'validation' => $e->getMessage(),
             ]);
         }
     }
@@ -164,6 +173,10 @@ class ElectionRecordController extends Controller
                     'date',
                 ],
             ]);
+
+            if ($validated['status'] === 'f') {
+                self::countVotes();
+            }
 
             $electionRecord->update($validated);
 
@@ -393,6 +406,7 @@ class ElectionRecordController extends Controller
             $user = $request->user();
             $student = $user->student;
             $activeElection = ElectionHelper::getActiveElection();
+            if (!isset($activeElection)) return;
 
             $votes = $request->votes;
 
@@ -441,11 +455,36 @@ class ElectionRecordController extends Controller
 
     public function countVotes() {
         $activeElection = ElectionHelper::getActiveElection();
-        return ElectionHelper::countVotes($activeElection);
+        if (!isset($activeElection)) return;
+        $students = ElectionHelper::countVotes($activeElection);
+        self::declareWinners();
+    }
+
+    public function declareWinners() {
+        $activeElection = ElectionHelper::getActiveElection();
+        $candidatesByPosition = [];
+        foreach ($activeElection->candidates as $candidate) {
+            if (!isset($candidatesByPosition[$candidate->position->id]))
+            $candidatesByPosition[$candidate->position->id] = [];
+
+            array_push($candidatesByPosition[$candidate->position->id], $candidate);
+        }
+        $candidatesSorted = collect($candidatesByPosition)->map(function ($value) {
+            return collect($value)->sortByDesc('pivot.num_of_votes')->values();
+        });
+        $candidatesSorted->each(function ($value) {
+            for ($i = 0; $i < $value->first()->position->num_of_elects; $i++) {
+                if (!isset($value[$i])) return;
+                $value[$i]->pivot->is_elected = true;
+                $value[$i]->pivot->save();
+            }
+        });
+        return $candidatesSorted;
     }
 
     public function apiGetResults() {
         $activeElection = ElectionHelper::getActiveElection();
+        if (!isset($activeElection)) return;
 
         return [
             'election' => $activeElection,

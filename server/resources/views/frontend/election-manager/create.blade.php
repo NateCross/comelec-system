@@ -6,6 +6,11 @@
 
   <div class="container short">
     {{-- @include('layouts.components.messages.info.info'); --}}
+    @error('validation')
+      @include('layouts.components.messages.error.error', [
+        'message' => $message,
+      ]);
+    @enderror
     <div class="page__header">
       <div class="group">
         <span class="group__title">Create Election Record</span>
