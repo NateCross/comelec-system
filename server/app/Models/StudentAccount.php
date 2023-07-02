@@ -28,4 +28,12 @@ class StudentAccount extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public function student() {
+        return $this->belongsTo(
+            Student::class,
+            'student_id',
+            'student_id',
+        );
+    }
 }

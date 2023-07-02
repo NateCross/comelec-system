@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ElectionHelper;
 use App\Helpers\RecordStudentHelper;
 use App\Models\Candidate;
 use App\Models\ElectionRecord;
 use App\Models\RecordCandidate;
+use App\Models\RecordStudent;
 use App\Models\Student;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class ElectionRecordController extends Controller
@@ -73,6 +78,15 @@ class ElectionRecordController extends Controller
                 'Archived' => 'r',
             ][$validated['status']];
 
+            if (ElectionHelper::getActiveElection()) {
+                return back()->withErrors([
+                    'validation' => 'There is already an active or finalized election. Please archive or cancel it first.',
+                ]);
+                // return response([
+                //     'validation' => 'There is already an active or final election. Please archive or cancel it first.',
+                // ], 403);
+            }
+
             $electionRecord = ElectionRecord::create($validated);
             $electionId = $electionRecord->id;
 
@@ -105,8 +119,8 @@ class ElectionRecordController extends Controller
 
             return redirect()->intended('election');
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
+            return back()->withErrors([
+                'validation' => $e->getMessage(),
             ]);
         }
     }
@@ -159,6 +173,10 @@ class ElectionRecordController extends Controller
                     'date',
                 ],
             ]);
+
+            if ($validated['status'] === 'f') {
+                self::countVotes();
+            }
 
             $electionRecord->update($validated);
 
@@ -337,5 +355,140 @@ class ElectionRecordController extends Controller
                 'election' => $results,
             ],
         );
+    }
+
+    public function apiGetActiveElection() {
+        return ElectionHelper::getActiveElection();
+    }
+
+    public function apiHandleAccessCode(Request $request) {
+        try {
+            $user = $request->user();
+
+            $validated = $request->validate([
+                'access_code' => [
+                    'required',
+                    'string',
+                    'max:6',
+                ],
+                'election_id' => [
+                    'required',
+                    'exists:election_records,id',
+                ],
+            ]);
+
+            $accessCode = $validated['access_code'];
+            $electionId = $validated['election_id'];
+
+            $recordStudent = RecordStudent::query()
+                ->where('student_id', $user?->student_id)
+                ->where('election_id', $electionId)
+                ->where('access_code', $accessCode)
+                ->first();
+
+            if (!isset($recordStudent)) {
+                return response([
+                    'error' => 'Incorrect access code.',
+                ], 403);
+            }
+
+            return $recordStudent;
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response([
+                'error' => $e->getMessage(),
+            ], 403);
+        }
+    }
+
+    public function apiVote(Request $request) {
+        try {
+            $user = $request->user();
+            $student = $user->student;
+            $activeElection = ElectionHelper::getActiveElection();
+            if (!isset($activeElection)) return;
+
+            $votes = $request->votes;
+
+            $voteCode = "";
+            foreach ($activeElection->candidates as $candidate) {
+                if ($votes[$candidate->id]) {
+                    $voteCode = $voteCode . "1";
+                } else {
+                    $voteCode = $voteCode . "0";
+                }
+            }
+            // return $voteCode;
+            // $activeElection->candidates->each(function ($item, $key) {
+            // });
+            // return $votes[7];
+
+            // $validated = $request->validate([
+            //     'vote_code' => [
+            //         'string',
+            //         'required',
+            //     ],
+            // ]);
+
+            // $voteCode = $validated['vote_code'];
+
+            $recordStudent = RecordStudent::query()
+                ->where('election_id', $activeElection->id)
+                ->where('student_id', $student->student_id);
+
+            $decimalVoteCode = bindec($voteCode);
+            
+            $recordStudent->update([
+                'vote_code' => $decimalVoteCode,
+                'vote_timestamp' => Carbon::now(),
+            ]);
+        } catch (\Exception $e) {
+            return response([
+                'error' => $e->getMessage(),
+            ], 403);
+        }
+    }
+
+    public function processVoteCode() {
+        return ElectionHelper::decToBinVoteCode(5);
+    }
+
+    public function countVotes() {
+        $activeElection = ElectionHelper::getActiveElection();
+        if (!isset($activeElection)) return;
+        $students = ElectionHelper::countVotes($activeElection);
+        self::declareWinners();
+    }
+
+    public function declareWinners() {
+        $activeElection = ElectionHelper::getActiveElection();
+        $candidatesByPosition = [];
+        foreach ($activeElection->candidates as $candidate) {
+            if (!isset($candidatesByPosition[$candidate->position->id]))
+            $candidatesByPosition[$candidate->position->id] = [];
+
+            array_push($candidatesByPosition[$candidate->position->id], $candidate);
+        }
+        $candidatesSorted = collect($candidatesByPosition)->map(function ($value) {
+            return collect($value)->sortByDesc('pivot.num_of_votes')->values();
+        });
+        $candidatesSorted->each(function ($value) {
+            for ($i = 0; $i < $value->first()->position->num_of_elects; $i++) {
+                if (!isset($value[$i])) return;
+                $value[$i]->pivot->is_elected = true;
+                $value[$i]->pivot->save();
+            }
+        });
+        return $candidatesSorted;
+    }
+
+    public function apiGetResults() {
+        $activeElection = ElectionHelper::getActiveElection();
+        if (!isset($activeElection)) return;
+
+        return [
+            'election' => $activeElection,
+            'total_votes' => $activeElection->candidates->sum('pivot.num_of_votes'),
+        ];
     }
 }

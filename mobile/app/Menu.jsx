@@ -1,5 +1,6 @@
-import { Link, Stack } from 'expo-router'
-import { Text, View, Image, } from 'react-native'
+import { Link, Stack, useRouter } from 'expo-router'
+import { Text, View, Image, TouchableOpacity } from 'react-native'
+import { useAuth } from './constants/useAuth';
 
 import { API_URL } from 'react-native-dotenv';
 import { useSanctum } from 'react-sanctum';
@@ -7,8 +8,34 @@ import { useSanctum } from 'react-sanctum';
 import { icons } from './constants';
 
 import styles from './Menu.style'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function Menu() {
+  const router = useRouter();
+  const { auth, setAuth, user } = useAuth();
+  const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
+  console.log(auth);
+  console.log(user);
+  const [message, setMessage] = useState(
+    'Register or Log in to vote.',
+  );
+
+  useEffect(() => {
+    auth ? setMessage(`Hello, ${user?.full_name}!`)
+      : setMessage('Register or Log in to vote.');
+    auth ? setUserIsLoggedIn(true) : setUserIsLoggedIn(false);
+  }, [user]);
+
+  function logout() {
+    axios.post(
+      `${API_URL}/api/account/logout`
+    ).then(() => { 
+      setAuth(null);
+      router.replace('/')
+    });
+  }
+
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -89,24 +116,67 @@ export default function Menu() {
               />
             </View>
           </Link>
-            <Link href="/Auth" style={styles.link}>
-            <View style={styles.left}>
-              <Image 
-                source={icons.user}
-                style={styles.leftIcon}
-              />
-              <Text style={styles.name}>Login/Register</Text>
-            </View>
-            <View style={styles.right}>
-              <Image
-                source={icons.arrowRight}
-                style={styles.rightIcon}
-              />
-            </View>
-          </Link>
+          {
+            userIsLoggedIn ?
+              <TouchableOpacity
+                style={styles.link}
+                onPress={logout}
+              >
+                <View 
+                  style={{
+                    ...styles.left,
+                    flexGrow: 0,
+                    flexShrink: 1,
+                    flexBasis: 'auto',
+                  }}
+                >
+                  <Image 
+                    source={icons.user}
+                    style={styles.leftIcon}
+                  />
+                  <Text style={styles.name}>
+                    Logout
+                  </Text>
+                </View>
+                <View style={styles.right}>
+                  <Image
+                    source={icons.arrowRight}
+                    style={styles.rightIcon}
+                  />
+                </View>
+              </TouchableOpacity>
+            : 
+              <Link 
+                href={'/Auth'}
+                style={styles.link}
+              >
+                <View style={styles.left}>
+                  <Image 
+                    source={icons.user}
+                    style={styles.leftIcon}
+                  />
+                  <Text style={styles.name}>
+                    Register/Login
+                  </Text>
+                </View>
+                <View style={styles.right}>
+                  <Image
+                    source={icons.arrowRight}
+                    style={styles.rightIcon}
+                  />
+                </View>
+              </Link>
+          }
           <Text style={styles.message}>
-            Register or Log in to vote.
+            {message}
           </Text>
+          {user?.id && (
+            <Text style={styles.message}>
+              {{
+                'v': 'Account is awaiting verification.'
+              }[user?.status]}
+            </Text>
+          )}
         </View>
       </View>
     </View>

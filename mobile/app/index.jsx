@@ -1,15 +1,38 @@
+import React, { useEffect, useState } from "react";
 import { Link, Stack } from "expo-router";
 import { Text, View, Image } from "react-native";
 
 import { API_URL } from "react-native-dotenv";
-import { useSanctum } from "react-sanctum";
+import { useAuth } from "./constants/useAuth";
 
 import { icons } from "./constants";
 
 import styles from "./index.style";
+import axios from "axios";
 
 export default function index() {
-  const { authenticated, user } = useSanctum();
+  const [announcement, setAnnouncement] = useState(
+    'Loading announcement...'
+  );
+  const { user, auth } = useAuth();
+
+  console.log(auth);
+
+  // Run on first load
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/api/announcement`)
+      .then((response) => {
+        setAnnouncement(
+          response
+            ?.data
+            ?.announcement
+            ?.text
+        )
+      }).catch(() => {
+        setAnnouncement('Failed to retrieve announcement.');
+      });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -57,19 +80,7 @@ export default function index() {
         </View>
         <View style={styles.article}>
           <Text style={styles.articleText}>
-            Donec in neque sed lorem facilisis rhoncus. Morbi egestas diam sed
-            massa vulputate, a malesuada eros lobortis. Vestibulum sed malesuada
-            Vestibulum urna ante, tempor non ligula nec, vestibulum congue ligula.
-            Donec venenatis leo vestibulum aliquam suscipit. Donec auctor sapien
-            et nisl pellentesque iaculis. Mauris porta in turpis et malesuada.
-            Maecenas tempus, lacus nec bibendum rhoncus, lacus lectus ornare ante,
-            ac elementum ligula odio id lorem. Cras at finibus massa, sed bibendum
-            est. Aliquam a nisi eu eros tempus pharetra. Donec nisi lectus,
-            vestibulum in elit blandit, varius commodo lorem. Integer sollicitudin
-            fringilla fringilla. Sed at magna hendrerit turpis egestas rhoncus ut
-            at lectus. Vestibulum tincidunt ultrices mauris, vel euismod magna
-            porta ut. Pellentesque at dolor porttitor, consectetur nisl et,
-            accumsan mauris.
+            {announcement}
           </Text>
         </View>
       </View>

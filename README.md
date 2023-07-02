@@ -49,6 +49,15 @@ Source files are located in the `app/` folder. [Expo Router](https://expo.github
 - Run `npm run start` or `npm run android` to develop
   - Note: You may want to connect your android device first. Try with the QR Code, IP address, or directly connecting through USB and doing `npm run android`.
 
+#### Build for Mobile
+
+- `cd` to `mobile/`
+- `eas build --profile preview --platform android`
+
+##### In case build doesn't work
+
+- Remove `package-lock.json`
+
 #### In case Expo Go doesn't connect
 
 Try connecting through tunnel instead of LAN. **Note: It may be slower to connect, so it is not recommended to use**. [See this StackOverflow question](https://stackoverflow.com/questions/66766591/expo-error-starting-tunnel-failed-to-install-expo-ngrok2-4-3-globally)
