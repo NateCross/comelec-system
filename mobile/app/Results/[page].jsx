@@ -5,12 +5,14 @@ import { icons } from "../constants";
 import { API_URL } from 'react-native-dotenv';
 
 import styles from "./Results.style";
+import votingStyles from '../Voting/Voting.style';
+
 import { useAuth } from "../constants/useAuth";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function results() {
-  const { auth, user } = useAuth();
+  // const { auth, user } = useAuth();
 
   const [election, setElection] = useState(null);
   const [candidates, setCandidates] = useState(null);
@@ -178,6 +180,41 @@ export default function results() {
               </View>
             </View>
           ))}
+        </View>
+        <View style={{
+          ...votingStyles.actions,
+          justifyContent: 'center',
+        }}>
+          {Number(page) - 1 >= 1 &&
+            <Link 
+              style={{
+                ...votingStyles.button,
+                marginRight: 'auto',
+              }}
+              href={`/Results/${Number(page) - 1}`}
+            >
+              <Text style={votingStyles.name}>Previous</Text>
+              <Image 
+                source={icons.arrowLeft}
+                style={votingStyles.image}
+              />
+            </Link>
+          }
+          {Number(page) + 1 <= positions?.length &&
+            <Link 
+              style={{
+                ...votingStyles.button,
+                marginLeft: 'auto',
+              }}
+              href={`/Results/${Number(page) + 1}`}
+            >
+              <Text style={votingStyles.name}>Next</Text>
+              <Image 
+                source={icons.arrowRight}
+                style={votingStyles.image}
+              />
+            </Link>
+          }
         </View>
         <View style={styles.candidateNav}>
           {positions && positions?.map((_, index) => (
