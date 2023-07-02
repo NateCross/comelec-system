@@ -150,7 +150,10 @@ export default function results() {
             <Text style={styles.candidateTitle}>Candidates</Text>
           </View>
           {candidatePosition?.map((value) => (
-            <View style={styles.candidate}>
+            <View 
+              style={styles.candidate}
+              key={value?.student?.student_id}
+            >
               <View style={styles.left}>
                 <Image
                   // source={}
@@ -222,11 +225,13 @@ export default function results() {
               <Link 
                 style={styles.active}
                 href={`/Results/${index + 1}`}
+                key={index + 1}
               ></Link>
             :
               <Link 
                 style={styles.inactive}
                 href={`/Results/${index + 1}`}
+                key={index + 1}
               ></Link>
           ))}
         </View>
