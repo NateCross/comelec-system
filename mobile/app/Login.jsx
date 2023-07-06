@@ -3,7 +3,7 @@ import { TextInput, Text, Button } from 'react-native-paper'
 import React, { useState } from 'react'
 import { useRouter, Stack, Link } from 'expo-router'
 
-import { API_URL } from 'react-native-dotenv'
+const API_URL = process.env.API_URL;
 
 import { useForm, Controller } from 'react-hook-form'
 import { useAuth } from './constants/useAuth'

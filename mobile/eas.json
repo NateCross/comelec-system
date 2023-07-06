@@ -8,7 +8,10 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "API_URL": "https://comelec-server-87a3d138fc60.herokuapp.com"
+      }
     },
     "production": {}
   },

@@ -6,6 +6,7 @@ import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { images, icons } from './constants';
 
 import styles from './Auth.style';
+import Header from './constants/Header';
 
 // fetch(`${API_URL}/items`).then((items) => items.json()).then((items) => console.log(items));
 
@@ -14,36 +15,14 @@ export default function Auth() {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen
-        style={styles.menu}
-        options={{
-          headerShown: false,
+      <Header />
+      <View 
+        style={{
+          ...styles.main,
+          justifyContent: 'center',
         }}
-      />
-      <View style={styles.navbar}>
-        <Link 
-          href="/index"
-          style={styles.appTitle}>
-          <Text style={styles.leftTitle}>Title/</Text>
-          <Text style={styles.titleRight}>Logo</Text>
-        </Link>
-        <View style={styles.groupLink}>
-          <Link href="/Links" style={styles.devToggle}>  
-            <Image
-              source={icons.menu}
-              style={styles.menuIcon}
-            />
-          </Link>
-          <Link href="/Menu" style={styles.menuButton}>  
-            <Image
-              source={icons.menu}
-              style={styles.menuIcon}
-            />
-          </Link>
-        </View>
-      </View>
-      <View style={styles.main}>
-        <Text style={styles.header}>SG COMELEC</Text>
+      >
+        <Text style={styles.header}>SG COMELEC GC</Text>
         <View style={styles.centerContent}>
           <Image 
             source={images.comelec}
@@ -63,8 +42,6 @@ export default function Auth() {
             </Link>
           </View>
         </View>
-        <Text style={styles.centerText}>Etiam placerat ullamcorper ultricies. Aenean id feugiat quam. Nam eros orci, imperdiet vel porta maximus.</Text>
-
         {/* { authenticated && 
           <Text variant='labelLarge'>Hi {user.name}</Text>
         } */}

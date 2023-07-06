@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { BarCodeScanner } from "expo-barcode-scanner";
 
 import styles from "./ScanQR.style";
+import Header from "./constants/Header";
 
 export default function ScanQR() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -22,8 +23,11 @@ export default function ScanQR() {
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
+    const ValidQrType = 256;
+    console.log(type);
+    console.log(data);
     setScanned(true);
-    if (type !== 'qr') {
+    if (type !== ValidQrType) {
       // setScanned(false);
       return;
     }
@@ -46,37 +50,7 @@ export default function ScanQR() {
   
   return(
     <View style={styles.container}>
-      <Stack.Screen
-        style={styles.menu}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <View style={styles.navbar}>
-        <Link 
-          href=""
-          style={styles.appTitle}>
-          <Text style={styles.leftTitle}>SG Comelec</Text>
-        </Link>
-        <View style={styles.groupLink}>
-          <Link href="/Links" style={styles.devToggle}>
-            <View style={styles.wrapper}>
-              <Image
-                source={icons.link}
-                style={styles.devIcon}
-              />
-            </View>
-          </Link>
-          <Link href="/Menu" style={styles.menuButton}>
-            <View style={styles.wrapper}>
-              <Image
-                source={icons.menu}
-                style={styles.menuIcon}
-              />
-            </View>
-          </Link>
-        </View>
-      </View>
+      <Header />
       <View style={styles.main}>
         <View style={styles.pageDetails}>
           <Text style={styles.title}>Scan QR Code</Text>

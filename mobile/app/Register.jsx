@@ -7,7 +7,7 @@ import { icons } from './constants'
 
 import { useForm, Controller } from 'react-hook-form'
 
-import { API_URL } from 'react-native-dotenv'
+const API_URL = process.env.API_URL;
 
 import axios from 'axios';
 

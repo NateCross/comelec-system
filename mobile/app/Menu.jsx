@@ -2,7 +2,7 @@ import { Link, Stack, useRouter } from 'expo-router'
 import { Text, View, Image, TouchableOpacity } from 'react-native'
 import { useAuth } from './constants/useAuth';
 
-import { API_URL } from 'react-native-dotenv';
+const API_URL = process.env.API_URL;;
 import { useSanctum } from 'react-sanctum';
 
 import { icons } from './constants';
@@ -10,6 +10,7 @@ import { icons } from './constants';
 import styles from './Menu.style'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Header from './constants/Header';
 
 export default function Menu() {
   const router = useRouter();
@@ -22,15 +23,15 @@ export default function Menu() {
   );
 
   useEffect(() => {
-    auth ? setMessage(`Hello, ${user?.full_name}!`)
+    (auth && user) ? setMessage(`Hello, ${user?.full_name}!`)
       : setMessage('Register or Log in to vote.');
-    auth ? setUserIsLoggedIn(true) : setUserIsLoggedIn(false);
+    (auth && user) ? setUserIsLoggedIn(true) : setUserIsLoggedIn(false);
   }, [user]);
 
   function logout() {
     axios.post(
       `${API_URL}/api/account/logout`
-    ).then(() => { 
+    ).finally(() => { 
       setAuth(null);
       router.replace('/')
     });
@@ -38,37 +39,7 @@ export default function Menu() {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen
-        style={styles.menu}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <View style={styles.navbar}>
-        <Link 
-          href=""
-          style={styles.appTitle}>
-          <Text style={styles.leftTitle}>SG Comelec</Text>
-        </Link>
-        <View style={styles.groupLink}>
-          <Link href="/Links" style={styles.devToggle}>
-            <View style={styles.wrapper}>
-              <Image
-                source={icons.link}
-                style={styles.devIcon}
-              />
-            </View>
-          </Link>
-          <Link href="" style={styles.menuButton}>
-            <View style={styles.wrapper}>
-              <Image
-                source={icons.menu}
-                style={styles.menuIcon}
-              />
-            </View>
-          </Link>
-        </View>
-      </View>
+      <Header />
       <View style={styles.main}>
         <View style={styles.nav}>
           <Link href="" style={styles.link}>

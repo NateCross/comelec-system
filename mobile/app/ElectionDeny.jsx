@@ -6,7 +6,8 @@ import { images, icons } from "./constants";
 import styles from "./ElectionDeny.style";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { API_URL } from 'react-native-dotenv';
+import Header from "./constants/Header";
+const API_URL = process.env.API_URL;;
 
 export default function noAccess() {
   const [message, setMessage] = useState(
@@ -23,37 +24,7 @@ export default function noAccess() {
 
   return(
     <View style={styles.container}>
-      <Stack.Screen
-        style={styles.menu}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <View style={styles.navbar}>
-        <Link 
-          href=""
-          style={styles.appTitle}>
-          <Text style={styles.leftTitle}>SG Comelec</Text>
-        </Link>
-        <View style={styles.groupLink}>
-          <Link href="/Links" style={styles.devToggle}>
-            <View style={styles.wrapper}>
-              <Image
-                source={icons.link}
-                style={styles.devIcon}
-              />
-            </View>
-          </Link>
-          <Link href="/Menu" style={styles.menuButton}>
-            <View style={styles.wrapper}>
-              <Image
-                source={icons.menu}
-                style={styles.menuIcon}
-              />
-            </View>
-          </Link>
-        </View>
-      </View>
+      <Header />
       <View style={styles.main}>
         <View style={styles.accessDetails}>
           <Image

@@ -2,7 +2,7 @@
 import { createContext, useState, useEffect } from "react";
 import { storeData, readData } from './storage';
 import axios from "axios";
-import { API_URL } from 'react-native-dotenv';
+const API_URL = process.env.API_URL;;
 
 export const AuthContext = createContext();
 

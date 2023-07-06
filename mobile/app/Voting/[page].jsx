@@ -6,11 +6,12 @@ import { icons } from '../constants';
 
 import styles from './Voting.style';
 
-import { API_URL } from 'react-native-dotenv';
+const API_URL = process.env.API_URL;;
 import { useAuth } from '../constants/useAuth';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { readData, readDataJson, storeData, storeDataJson } from '../constants/storage';
+import Header from '../constants/Header';
 
 export default function Voting() {
   const { auth, user } = useAuth();
@@ -123,37 +124,7 @@ export default function Voting() {
 
   return(
     <View style={styles.container}>
-      <Stack.Screen
-        style={styles.menu}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <View style={styles.navbar}>
-        <Link 
-          href=""
-          style={styles.appTitle}>
-          <Text style={styles.leftTitle}>SG Comelec</Text>
-        </Link>
-        <View style={styles.groupLink}>
-          <Link href="/Links" style={styles.devToggle}>
-            <View style={styles.wrapper}>
-              <Image
-                source={icons.link}
-                style={styles.devIcon}
-              />
-            </View>
-          </Link>
-          <Link href="/Menu" style={styles.menuButton}>
-            <View style={styles.wrapper}>
-              <Image
-                source={icons.menu}
-                style={styles.menuIcon}
-              />
-            </View>
-          </Link>
-        </View>
-      </View>
+      <Header />
       <View style={styles.main}>
         <View style={styles.details}>
           <Text style={styles.electionTitle}>{election?.name}</Text>
@@ -249,7 +220,10 @@ export default function Voting() {
         <View style={styles.actions}>
           {Number(page) + 1 <= positions?.length ?
             <Link 
-              style={styles.button}
+              style={{
+                ...styles.button,
+                justifyContent: 'flex-end',
+              }}
               href={`/Voting/${Number(page) + 1}`}
             >
               <Text style={styles.name}>Next</Text>

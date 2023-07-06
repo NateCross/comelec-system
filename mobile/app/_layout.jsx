@@ -4,11 +4,11 @@ import { Stack, Screen } from 'expo-router'
 import { MaterialIcons } from '@expo/vector-icons'
 import axios from 'axios'
 
-import { API_URL } from 'react-native-dotenv'
+const API_URL = process.env.API_URL;
 
 import { 
   PaperProvider,
-  MD3LightTheme as DefaultTheme,
+  MD3LightTheme as DefaultTheme,ck
 } from 'react-native-paper'
 // import { Sanctum } from 'react-sanctum'
 import { AuthProvider } from './constants/authContext'

@@ -3,13 +3,14 @@ import { Link, Stack, useLocalSearchParams } from "expo-router";
 import { Text, View, TouchableOpacity, Image } from "react-native";
 import { images, icons } from "./constants";
 import { useAuth } from "./constants/useAuth";
-import { API_URL } from 'react-native-dotenv';
+const API_URL = process.env.API_URL;;
 import styles from "./ElectionEntry.style";
 import formStyles from "./Form.style";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { TextInput } from "react-native-paper";
 import { useRouter } from "expo-router";
+import Header from "./constants/Header";
 
 export default function electionEntry() {
   const { user } = useAuth();
@@ -68,37 +69,7 @@ export default function electionEntry() {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen
-        style={styles.menu}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <View style={styles.navbar}>
-        <Link 
-          href=""
-          style={styles.appTitle}>
-          <Text style={styles.leftTitle}>SG Comelec</Text>
-        </Link>
-        <View style={styles.groupLink}>
-          <Link href="/Links" style={styles.devToggle}>
-            <View style={styles.wrapper}>
-              <Image
-                source={icons.link}
-                style={styles.devIcon}
-              />
-            </View>
-          </Link>
-          <Link href="/Menu" style={styles.menuButton}>
-            <View style={styles.wrapper}>
-              <Image
-                source={icons.menu}
-                style={styles.menuIcon}
-              />
-            </View>
-          </Link>
-        </View>
-      </View>
+      <Header />
       <View style={styles.main}>
         <View style={styles.accessDetails}>
           <Image
