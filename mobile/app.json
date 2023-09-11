@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "mobile",
+    "name": "SG Comelec",
     "slug": "mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -30,10 +30,10 @@
     },
     "scheme": "myapp",
     "extra": {
+      "API_URL": "https://comelec-server-87a3d138fc60.herokuapp.com",
       "eas": {
         "projectId": "0c87f25f-b7cc-4e74-bfba-ba1a827f9db7"
-      },
-      "API_URL": "https://comelec-server-87a3d138fc60.herokuapp.com"
+      }
     }
   }
 }
