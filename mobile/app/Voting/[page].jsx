@@ -146,7 +146,6 @@ export default function Voting() {
               >
                 <View style={styles.left}>
                   <Image
-                    // source={}
                     style={styles.candidateImg}
                   />
                   <View>
@@ -199,18 +198,6 @@ export default function Voting() {
                   }
                   onPress={() => {
                     setAbstainIsChecked(!abstainIsChecked);
-                    // if (votedCandidates[value?.id]) {
-                    //   if (votedPageCount + 1 > currentPosition?.num_of_elects)
-                    //     return;
-                    //   setVotedPageCount(votedPageCount + 1);
-                    // } else {
-                    //   setVotedPageCount(votedPageCount - 1);
-                    // }
-
-                    // setVotedCandidates({
-                    //   ...votedCandidates,
-                    //   [value?.id]: !votedCandidates[value?.id]
-                    // })
                   }}
                 />
               </View>

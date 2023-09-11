@@ -10,7 +10,6 @@ import {
   PaperProvider,
   MD3LightTheme as DefaultTheme,ck
 } from 'react-native-paper'
-// import { Sanctum } from 'react-sanctum'
 import { AuthProvider } from './constants/authContext'
 
 // Define theme to be used throughout the app here

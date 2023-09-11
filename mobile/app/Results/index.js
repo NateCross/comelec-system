@@ -4,11 +4,6 @@ import { Redirect } from 'expo-router'
 
 export default function index() {
 
-  // const router = useRouter();
-  // useEffect(() => {
-  //   router.push('Voting/1');
-  // }, [])
-
   return (
     <Redirect href={'Results/1'}/>
   )

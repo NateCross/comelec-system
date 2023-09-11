@@ -58,9 +58,6 @@ export default function electionEntry() {
       );
       router.push({
         pathname: 'Voting',
-        // params: {
-        //   id: activeElection?.id,
-        // },
       })
     } catch (exception) {
       setError(exception?.response?.data?.error);

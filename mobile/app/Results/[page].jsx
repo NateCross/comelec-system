@@ -127,7 +127,6 @@ export default function results() {
             >
               <View style={styles.left}>
                 <Image
-                  // source={}
                   style={styles.candidateImg}
                 />
                 <View>

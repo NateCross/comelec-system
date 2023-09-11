@@ -14,12 +14,6 @@ return new class extends Migration
         Schema::create('election_records', function (Blueprint $table) {
             $table->id();
             $table->char('status', 1);
-            // $table->enum('status', [
-            //     'active',
-            //     'canceled',
-            //     'final',
-            //     'archived',
-            // ]);
             $table->string('name', 100);
             $table->string('description', 255)->nullable();
             $table->dateTime('start_time');

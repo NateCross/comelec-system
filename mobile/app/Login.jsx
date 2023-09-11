@@ -48,23 +48,6 @@ export default function Login() {
 
       setAuth(`${token?.token_type} ${token?.access_token}`);
 
-      // console.log(auth);
-
-      // const student = await user();
-
-      // console.log(student);
-
-      // const { data: user } = await axios.get(
-      //   `${API_URL}/api/account/info`,
-      //   {
-      //     headers: {
-      //       'Authorization': `Bearer ${token?.access_token}`,
-      //     },  
-      //   }
-      // )
-
-      // setUser(token?.user, true);
-
       router.replace("/");
     } catch (exception) {
       setError(exception?.response?.data?.error);

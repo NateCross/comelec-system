@@ -42,19 +42,6 @@
  }
 }
 
-// .menu::before {
-//  content: "";
-//  position: absolute;
-//  left: 75%;
-//  bottom: 100%;
-//  transform: translateX(-50%);
-//  border: 15px solid;
-//  border-top: 0px solid transparent;
-//  border-left: 16px solid transparent;
-//  border-right: 16px solid transparent;
-//  border-bottom: 16px solid var(--black-color);
-// }
-
 .user.active,
 .menu.active {
  right: 2%;

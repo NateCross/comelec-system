@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }) => {
     })();
   }, []);
 
-  // TODO: Optimize getting user
   useEffect(() => {
     (async () => {
       storeData('authToken', auth);
@@ -38,11 +37,6 @@ export const AuthProvider = ({ children }) => {
     try {
       const fetchedUser = await axios.get(
         `${API_URL}/api/account/info`,
-        // {
-        //   headers: {
-        //     'Authorization': auth,
-        //   }
-        // }
       );
       return fetchedUser?.data;
     } catch(e) {

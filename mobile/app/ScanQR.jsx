@@ -28,7 +28,6 @@ export default function ScanQR() {
     console.log(data);
     setScanned(true);
     if (type !== ValidQrType) {
-      // setScanned(false);
       return;
     }
     router.replace({
@@ -37,8 +36,6 @@ export default function ScanQR() {
         code: data,
       },
     });
-    // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-
   };
 
   if (hasPermission === null) {
